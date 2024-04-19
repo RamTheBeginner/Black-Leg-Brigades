@@ -12,7 +12,7 @@ const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isRegistering, setIsRegistering] = useState(false)
   const { userLoggedIn ,currentUser} = useAuth();
- 
+  console.log(currentUser);
   // Function to handle form submission
   const handleSignUp = async (e) => {
     e.preventDefault(); 
@@ -20,26 +20,17 @@ const SignUp = () => {
     if(!isRegistering) {
       
       let result = await doCreateUserWithEmailAndPassword(email, password)
-      console.log(result);
-      console.log(currentUser)
-      setTimeout(async () => {
-        
-        if(result){
-            const response = await axios.post('http://localhost:5000/api/user', {
-                email: email,
-                fullName: fullName,
-                token: result.user.uid,
-                phoneNumber: phoneNumber,
-            }, {
-                withCredentials: true,
-            });
-            console.log(response);
-           // window.location.href = '/dashboard1'; 
-        }
-        else{
-            setIsRegistering(false);
-        }
-    }, 1000);
+      if(result){
+        const response = await axios.post(`http://localhost:5000/api/user`, {
+          email: email,
+          fullName: fullName,
+          token:currentUser.accessToken,
+          phoneNumber:phoneNumber,
+      }, {
+          withCredentials: true,
+      });
+      window.location.href = '/dashboard'; 
+      }
   }
     console.log('Signing up with:', email, fullName, phoneNumber);
   };
