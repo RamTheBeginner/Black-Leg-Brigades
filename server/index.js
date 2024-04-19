@@ -3,6 +3,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 mongoose.connect("mongodb+srv://polisettys3:1z4yeRhZFOsaTyCV@black-leg-brigades.tulsbpi.mongodb.net/?retryWrites=true&w=majority&appName=Black-Leg-Brigades");
+const mongoose = require('mongoose');
+const bodyParser = require("body-parser");
+mongoose.connect("mongodb+srv://polisettys3:1z4yeRhZFOsaTyCV@black-leg-brigades.tulsbpi.mongodb.net/?retryWrites=true&w=majority&appName=Black-Leg-Brigades");
 const app = express();
 const port = 5000;
 

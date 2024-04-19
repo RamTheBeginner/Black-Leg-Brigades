@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'; // Assuming you are using React Router 
 import { useAuth } from '../contexts/auth'
 import { doCreateUserWithEmailAndPassword } from '../../src/config/auth'
 import axios from 'axios';
+import axios from 'axios';
 const SignUp = () => {
   // State variables to store user input
  
@@ -12,7 +13,7 @@ const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isRegistering, setIsRegistering] = useState(false)
   const { userLoggedIn ,currentUser} = useAuth();
- 
+  console.log(currentUser);
   // Function to handle form submission
   const handleSignUp = async (e) => {
     e.preventDefault(); 

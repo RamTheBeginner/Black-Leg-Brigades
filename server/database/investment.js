@@ -5,10 +5,9 @@ const cardSchema = new mongoose.Schema({
   token: {type: String , required: true},
   stockname: { type: String, required: true }, 
   purchase: { type: Number, required: true }, 
-  account:{type: mongoose.Schema.Types.ObjectId, ref : 'Card'},
   Target: { type: Number, required: true }
 });
 
-const Card = mongoose.model('investment', cardSchema);
+const Card = mongoose.model('Card', cardSchema);
 
 module.exports = Card;
