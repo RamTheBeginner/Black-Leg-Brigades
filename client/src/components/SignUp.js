@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you are using React Router for navigation
 import { useAuth } from '../contexts/auth'
 import { doCreateUserWithEmailAndPassword } from '../../src/config/auth'
+import axios from 'axios';
 const SignUp = () => {
   // State variables to store user input
  
@@ -10,8 +11,8 @@ const SignUp = () => {
   const [fullName, setFullName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isRegistering, setIsRegistering] = useState(false)
-  const { userLoggedIn } = useAuth();
-  console.log(userLoggedIn);
+  const { userLoggedIn ,currentUser} = useAuth();
+  console.log(currentUser);
   // Function to handle form submission
   const handleSignUp = async (e) => {
     e.preventDefault(); 
@@ -19,8 +20,17 @@ const SignUp = () => {
     if(!isRegistering) {
       setIsRegistering(true)
       let result = await doCreateUserWithEmailAndPassword(email, password)
-      if(result)
+      if(result){
+        const response = await axios.post(`http://localhost:5000/api/user`, {
+          email: email,
+          fullName: fullName,
+          token:currentUser.accessToken,
+          phoneNumber:phoneNumber,
+      }, {
+          withCredentials: true,
+      });
       window.location.href = '/dashboard'; 
+      }
   }
     console.log('Signing up with:', email, fullName, phoneNumber);
   };
