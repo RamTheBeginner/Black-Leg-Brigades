@@ -37,9 +37,9 @@ const Emi = ({accounts}) => {
     }, {
         withCredentials: true,
     });
-console.log(response);
+
     }
-    console.log(accounts[fromAccount].type)
+
     if(accounts[fromAccount].type === 'credit'){
      if(accounts[fromAccount].balance >= emiAmount){
       requests();

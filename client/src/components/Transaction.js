@@ -9,7 +9,7 @@ const Transaction = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [amount, setAmount] = useState("");
   const [source, setSource] = useState("");
-  const [deductedFrom, setDeductedFrom] = useState("");
+  const [deductedFrom, setDeductedFrom] = useState("wallet");
   const [category, setCategory] = useState("");
   const [accounts,setaccount] = useState([]);
 
@@ -40,13 +40,18 @@ const Transaction = () => {
     if(transactionType === 'credit'){
       type = 1;
     }
+    let fom = deductedFrom;
+    if(deductedFrom != 'wallet'){
+      fom =accounts[deductedFrom]._id
+    }
+
     const sendq = async () =>{
       const response = await axios.post('http://localhost:5000/api/transcaution/addtransation', {
         type:type,
         token:currentUser.uid,
         amount:amount,
         source:source,
-        deductedFrom:accounts[deductedFrom]._id,
+        deductedFrom:fom,
         category:category
 
 
@@ -66,12 +71,7 @@ const Transaction = () => {
    const response = await axios.get('http://localhost:5000/api/investment/carddata/'+currentUser.uid, {
            withCredentials: true,
        });
-       const response1 = await axios.get('http://localhost:5000/api/dashboard/userData/'+currentUser.uid, {
-           withCredentials: true,
-       });
-
-
-console.log(response1)
+       
       setaccount(response.data[0].account);
      }
      fetchdata();
