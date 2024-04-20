@@ -8,6 +8,7 @@ import DashBoard from './components/DashBoard';
 import Investment from './components/Investment';
 import { AuthProvider } from "./contexts/auth";
 import Analysis from './components/Analysis';
+import Transaction from './components/Transaction';
 function App() {
  
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/dashboard" element={<DashBoard />} />
           <Route exact path="/investment" element={<Investment />} />
           <Route exact path="/analysis" element={<Analysis />} />
+          <Route exact path="/transaction" element={<Transaction />} />
         </Routes>
     </Router>
     </AuthProvider>
