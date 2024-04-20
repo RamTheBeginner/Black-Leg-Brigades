@@ -171,7 +171,8 @@ console.log(chartData)
       {chartData && (
         <div>
           <h2>Chart</h2>
-          ( {chartType} === 'bar' &&(
+          {
+          ( chartType === 'bar' &&(
           <Bar
           data={{
             labels: chartData,
@@ -196,8 +197,9 @@ console.log(chartData)
             },
           }}
         />))
-
-        ( {chartType} === 'line' && (
+      }
+{
+        ( chartType=== 'line' && (
       <Line
        data={{
         labels: chartData,
@@ -231,6 +233,7 @@ console.log(chartData)
       
 
         ))
+      }
      {
         ( chartType === 'pie' && ((
           <Pie 
