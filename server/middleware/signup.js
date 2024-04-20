@@ -2,9 +2,9 @@ const express = require("express");
 const userdata = require('../database/userdata');
 const router = express.Router();
 router.post('/user',(req,res)=>{
-    console.log(req.body);
+  
     userdata.create({
-    
+    token:req.body.token,
     email:req.body.email,
     nickname:req.body.fullName,
     contactNumber:req.body.phoneNumber,
@@ -13,7 +13,14 @@ router.post('/user',(req,res)=>{
     netprofit:0,
 
 })
-res.status(200).send('user is added to data base successfully')
+.then((doc)=>{
+    console.log(doc);
+    res.status(200).json(doc)
+})
+.catch((error)=>{
+    res.status(404).json(error);
+})
+
 })
 
 module.exports = router;
