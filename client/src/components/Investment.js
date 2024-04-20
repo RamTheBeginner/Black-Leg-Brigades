@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import NavBar from "./NavBar";
-
+import { useAuth } from '../contexts/auth';
+import axios from 'axios';
 const Investment = () => {
   const [buyStocks, setBuyStocks] = useState([]);
   const [sellStocks, setSellStocks] = useState([]);
@@ -14,9 +15,23 @@ const Investment = () => {
   const [sellStockPrice, setSellStockPrice] = useState('');
   const [sellBankAccountName, setSellBankAccountName] = useState('');
   const [totalNetProfit, setTotalNetProfit] = useState(0);
+  const { userLoggedIn ,currentUser} = useAuth();
 
+  
+ useEffect( () => {
+  const fetchdata = async () =>{
+  const response = await axios.get(`http://localhost:5000/api/investment/carddata/?token=`+currentUser.accessToken, {
+          withCredentials: true,
+      });
+ console.log(response);
+    }
+    fetchdata();
+ }, [])
+ 
   const handleAddBuyStock = () => {
     const newStock = { name: buyStockName, price: parseFloat(buyStockPrice), numberOfStocks: parseInt(buyNumberOfStocks), bankAccount: buyBankAccountName };
+
+
     setBuyStocks([...buyStocks, newStock]);
     setBuyStockName('');
     setBuyStockPrice('');
@@ -61,9 +76,9 @@ const Investment = () => {
           <h3 className="text-xl font-semibold mb-2">Investment Summary</h3>
           <div className="flex justify-between">
             <div>
-              <p>Total Amount Invested: {calculateTotalInvested()}</p>
-              <p>Total Returns: {calculateTotalReturns()}</p>
-              <p>Net Profit: {calculateNetProfit()}</p>
+              <p>Total Amount Invested: {}</p>
+              <p>Total Returns: {}</p>
+              <p>Net Profit: {}</p>
             </div>
           </div>
         </div>

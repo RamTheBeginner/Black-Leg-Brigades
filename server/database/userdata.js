@@ -4,7 +4,10 @@ const userschema = new mongoose.Schema({
     email:String,
     nickname:String,
     contactNumber:Number,
-    walletamount:Number
+    walletamount:Number,
+    totalinvestment:Number,
+    netprofit:Number,
+    account:[{type: mongoose.Schema.Types.ObjectId, ref : 'Card'}]
 });
 const model = new mongoose.model("user_data",userschema);
 module.exports = model;
