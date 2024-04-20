@@ -22,7 +22,7 @@ const Investment = () => {
   
  useEffect( () => {
   const fetchdata = async () =>{
-  const response = await axios.get(`http://localhost:5000/api/investment/carddata/?token=`+currentUser.uid, {
+  const response = await axios.get(`http://localhost:5000/api/investment/carddata/`+currentUser.uid, {
           withCredentials: true,
       });
 
