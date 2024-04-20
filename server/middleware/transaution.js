@@ -6,9 +6,9 @@ const emidata = require('../database/emi');
 const transationdata = require('../database/transaction')
 const router = express.Router();
 const mongoose = require('mongoose')
-const ObjectId = mongoose.Types.ObjectId;
+
 router.post('/addtransation',(req,res)=>{
-console.log(req.body);
+
     const currentDate = new Date();
 
      const day = String(currentDate.getDate()).padStart(2, '0');
@@ -26,21 +26,6 @@ console.log(formattedDate); // Output: e.g., 20/04/2024
             account: req.body.deductedFrom, 
             date:formattedDate,
            
-            type:'debit'
-        })
-        .then(doc =>{
-            res.status(202).send(doc);
-        })
-        .catch((error)=>{
-            res.status(500).send(error)
-        })
-    }else{
-        transationdata.create({
-            token: req.body.token,
-            amount: req.body.amount, 
-            account: req.body.deductedFrom, 
-            date: formattedDate,
-            source:req.body.source,
             type:'cerdit'
         })
         .then(doc =>{
@@ -49,6 +34,41 @@ console.log(formattedDate); // Output: e.g., 20/04/2024
         .catch((error)=>{
             res.status(500).send(error)
         })
+      console.log(req.body.deductedFrom)
+        if(req.body.deductedFrom === 'wallet'){
+            console.log("hello")
+          userdata.updateMany({token:req.body.token},{$inc: { walletamount: req.body.amount } })
+          .then(doc=>{
+            console.log(doc);
+          })
+        }else{
+            carddata.findByIdAndUpdate(req.body.deductedFrom,{$inc: { balance: req.body.amount } })
+            
+        }
+    }else{
+        transationdata.create({
+            token: req.body.token,
+            amount: req.body.amount, 
+            account: req.body.deductedFrom, 
+            date: formattedDate,
+            source:req.body.source,
+            type:'debit'
+        })
+        .then(doc =>{
+            res.status(202).send(doc);
+        })
+        .catch((error)=>{
+            res.status(500).send(error)
+        })
+        console.log(req.body.deductedFrom)
+        if(req.body.deductedFrom === 'wallet'){
+            userdata.updateMany({token:req.body.token},{$inc: { walletamount: -1*req.body.amount } })
+          }else{
+        
+            carddata.findByIdAndUpdate(req.body.deductedFrom,{$inc: { balance: req.body.amount } })
+            
+        }
+
     }
 
 
