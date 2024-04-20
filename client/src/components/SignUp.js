@@ -34,7 +34,7 @@ const SignUp = () => {
                 withCredentials: true,
             });
             console.log(response);
-            window.location.href = '/dashboard'; 
+           window.location.href = '/dashboard'; 
         }
         else{
             setIsRegistering(false);
