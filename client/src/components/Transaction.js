@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import NavBar from "./NavBar";
 import AddAccountForm from "./AddAccountForm";
 import Emi from "./Emi";
-
+import axios from 'axios';
+import { useAuth } from '../contexts/auth'
 const Transaction = () => {
   const [transactionType, setTransactionType] = useState("credit");
   const [selectedOption, setSelectedOption] = useState("");
@@ -10,6 +11,7 @@ const Transaction = () => {
   const [source, setSource] = useState("");
   const [deductedFrom, setDeductedFrom] = useState("");
   const [category, setCategory] = useState("");
+  const [accounts,setaccount] = useState([]);
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
@@ -30,12 +32,53 @@ const Transaction = () => {
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
+  const { currentUser} = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let type = 0;
+    if(transactionType === 'credit'){
+      type = 1;
+    }
+    const sendq = async () =>{
+      const response = await axios.post('http://localhost:5000/api/transcaution/addtransation', {
+        type:type,
+        token:currentUser.uid,
+        amount:amount,
+        source:source,
+        deductedFrom:accounts[deductedFrom]._id,
+        category:category
+
+
+    }, {
+        withCredentials: true,
+    });
+    }
+    sendq();
     // Perform actions like submitting the transaction with the selected option and amount
   };
 
+
+  
+  
+  useEffect( () => {
+   const fetchdata = async () =>{
+   const response = await axios.get('http://localhost:5000/api/investment/carddata/'+currentUser.uid, {
+           withCredentials: true,
+       });
+       const response1 = await axios.get('http://localhost:5000/api/dashboard/userData/'+currentUser.uid, {
+           withCredentials: true,
+       });
+
+
+console.log(response1)
+      setaccount(response.data[0].account);
+     }
+     fetchdata();
+     
+  }, [])
+
+  
   return (
     <>
       <NavBar />
@@ -91,6 +134,29 @@ const Transaction = () => {
                 className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter source"
               />
+
+             <label
+                htmlFor="deductedFrom1"
+                className="block text-gray-700 font-bold mb-2"
+              >
+                Cerbited To:
+              </label>
+              <select
+                id="deductedFrom1"
+                value={deductedFrom}
+                onChange={handleDeductedFromChange}
+                className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value="">Select Source</option>
+                <option value="wallet">Wallet</option>
+                {accounts.map((account, index) => (
+                 account.type === 'debit' && (
+                 <option key={index} value={index}>{account.name}</option>
+                  )
+                ))}
+
+              </select>
+
             </div>
           )}
           {transactionType === "debit" && (
@@ -109,7 +175,9 @@ const Transaction = () => {
               >
                 <option value="">Select Source</option>
                 <option value="wallet">Wallet</option>
-                <option value="cards">Cards</option>
+                {accounts.map((account,index)=>(
+              <option key={index} value={index}>{account.name}</option>
+               ))}
               </select>
               <label
                 htmlFor="category"
@@ -139,7 +207,7 @@ const Transaction = () => {
         
       </div>
       <AddAccountForm />
-      <Emi />
+      <Emi accounts ={accounts}/>
       
     </>
   );

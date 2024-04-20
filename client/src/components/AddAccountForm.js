@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/auth';
 
 import axios from 'axios';
 const AddAccountForm = () => {
-  const [type, setType] = useState('');
+  const [type, setType] = useState('cerdit');
   const [holderName, setHolderName] = useState('');
   const [issuerName, setIssuerName] = useState('');
   const [balance, setBalance] = useState('');

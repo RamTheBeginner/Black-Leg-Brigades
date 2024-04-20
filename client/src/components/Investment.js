@@ -15,7 +15,9 @@ const Investment = () => {
   const [sellStockPrice, setSellStockPrice] = useState('');
   const [sellBankAccountName, setSellBankAccountName] = useState('');
   const [totalNetProfit, setTotalNetProfit] = useState(0);
-  const { userLoggedIn ,currentUser} = useAuth();
+
+
+  const { currentUser} = useAuth();
 
   
  useEffect( () => {
