@@ -28,7 +28,9 @@ const NavBar = () => {
       }`}
     >
       <div>
-        <span className="font-bold text-xl">YourFinance</span>
+        <Link to="/dashboard" className="font-bold text-xl">
+          YourFinance
+        </Link>
       </div>
       <div className="flex justify-between items-center">
         <div className="relative mx-2 sm:mx-4">

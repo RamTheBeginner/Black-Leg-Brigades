@@ -24,10 +24,11 @@ const DashBoard = () => {
     <>
       <NavBar />
       <div
-        className="bg-cover h-screen flex flex-col items-center"
+        className="bg-cover min-h-screen flex flex-col items-center"
         style={{
           backgroundImage: "url('/Coins.jpg')",
           backgroundSize: "cover",
+          
         }}
       >
         <div className="container mx-auto p-4 text-center">

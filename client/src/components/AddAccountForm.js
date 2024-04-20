@@ -28,7 +28,7 @@ const AddAccountForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div className="max-w-md mx-auto bg-white bg-opacity-50 shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl mb-4 font-semibold text-center">Add Account</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -44,7 +44,7 @@ const AddAccountForm = () => {
             onChange={handleTypeChange}
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
-            <option value="">Select Type</option>
+            <option value="" disabled hidden>Select Type</option>
             <option value="credit">Credit</option>
             <option value="debit">Debit</option>
           </select>
