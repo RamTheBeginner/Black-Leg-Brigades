@@ -10,6 +10,7 @@ import { AuthProvider } from "./contexts/auth";
 import Analysis from './components/Analysis';
 import Transaction from './components/Transaction';
 import Groups from './components/Groups';
+import Profile from './components/Profile';
 function App() {
  
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route exact path="/analysis" element={<Analysis />} />
           <Route exact path="/transaction" element={<Transaction />} />
           <Route exact path="/groups" element={<Groups />} />
+          <Route exact path="/profile" element={<Profile />} />
         </Routes>
     </Router>
     </AuthProvider>

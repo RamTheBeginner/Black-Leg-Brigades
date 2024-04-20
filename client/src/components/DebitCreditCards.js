@@ -40,7 +40,7 @@ const Card = ({cards}) => {
                                 </p>
                             </div>
                             <div class="">
-                                <p class="font-light text-xs text-xs">
+                                <p class="font-light">
                                     Expiry
                                 </p>
                                 <p class="font-medium tracking-wider text-sm">

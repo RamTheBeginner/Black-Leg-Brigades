@@ -5,7 +5,7 @@ const cardSchema = new mongoose.Schema({
   token: {type: String , required: true},
   stockname: { type: String, required: true }, 
   purchase: { type: Number, required: true }, 
-  account:{type: Schema.Types.ObjectId, ref : 'Card'},
+  account:{type: mongoose.Schema.Types.ObjectId, ref : 'Card'},
   Target: { type: Number, required: true }
 });
 
