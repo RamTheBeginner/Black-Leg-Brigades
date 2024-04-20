@@ -9,6 +9,7 @@ const userschema = new mongoose.Schema({
     totalinvestment:Number,
     netprofit:Number,
     account:[{type: mongoose.Schema.Types.ObjectId, ref : 'Card'}]
+    
 });
 const model = new mongoose.model("user_data",userschema);
 module.exports = model;

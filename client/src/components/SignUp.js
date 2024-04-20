@@ -20,36 +20,21 @@ const SignUp = () => {
     if(!isRegistering) {
       
       let result = await doCreateUserWithEmailAndPassword(email, password)
-
-      /*
-      if(result && currentUser.accessToken){
-        const response = await axios.post(`http://localhost:5000/api/user`, {
-          email: email,
-          fullName: fullName,
-          token:currentUser.accessToken,
-          phoneNumber:phoneNumber,
-      }, {
-          withCredentials: true,
-      });
-      console.log(response);
-      window.location.href = '/dashboard'; 
-      }
-      else{
-        setIsRegistering(false);
-      }*/
-
+      console.log(result);
+      console.log(currentUser)
       setTimeout(async () => {
-        if(result && currentUser.accessToken){
+        
+        if(result){
             const response = await axios.post('http://localhost:5000/api/user', {
                 email: email,
                 fullName: fullName,
-                token: currentUser.accessToken,
+                token: result.user.uid,
                 phoneNumber: phoneNumber,
             }, {
                 withCredentials: true,
             });
             console.log(response);
-            window.location.href = '/dashboard'; 
+           // window.location.href = '/dashboard'; 
         }
         else{
             setIsRegistering(false);
