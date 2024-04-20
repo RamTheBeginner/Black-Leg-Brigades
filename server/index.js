@@ -14,7 +14,7 @@ app.use(
 		credentials: true,
 	})
 );
-
+app.use('/api/profile',require('./middleware/profile'));
 app.use('/api/investment',require('./middleware/investment'));
 app.use('/api',require('./middleware/signup'));
 
