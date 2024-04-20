@@ -3,7 +3,7 @@ import WalletDetails from "./WalletDetails";
 import DebitCreditCards from "./DebitCreditCards";
 import Creditcard from "./Creditcard"
 import NavBar from "./NavBar";
-
+import { useAuth } from '../contexts/auth'
 const DashBoard = () => {
   // Placeholder data for cards
   const allCards = [
