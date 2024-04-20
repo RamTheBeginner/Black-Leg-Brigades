@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'; // Assuming you are using React Router 
 import { useAuth } from '../contexts/auth'
 import { doCreateUserWithEmailAndPassword } from '../../src/config/auth'
 import axios from 'axios';
-import axios from 'axios';
 const SignUp = () => {
   // State variables to store user input
  
