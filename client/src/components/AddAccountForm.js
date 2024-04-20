@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 
+import { useAuth } from '../contexts/auth';
+
+import axios from 'axios';
 const AddAccountForm = () => {
   const [type, setType] = useState('');
   const [holderName, setHolderName] = useState('');
   const [issuerName, setIssuerName] = useState('');
   const [balance, setBalance] = useState('');
-
+  const {currentUser} = useAuth();
+const [username,setusername] = useState('');
   const handleTypeChange = (e) => {
     setType(e.target.value);
   };
-
+  const handleusernameChange =(e) =>{
+    setusername(e.target.value)
+  }
   const handleHolderNameChange = (e) => {
     setHolderName(e.target.value);
   };
@@ -22,8 +28,20 @@ const AddAccountForm = () => {
     setBalance(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const response = await axios.post('http://localhost:5000/api/transcaution/addaccount', {
+                type: type,
+                fullname:username,
+                holderName: holderName,
+                issuerName: issuerName,
+                token: currentUser.uid,
+                balance: balance
+            }, {
+                withCredentials: true,
+            });
+      console.log(response);
+    
     // Perform actions like submitting the account details
   };
 
@@ -44,7 +62,7 @@ const AddAccountForm = () => {
             onChange={handleTypeChange}
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
-            <option value="">Select Type</option>
+           
             <option value="credit">Credit</option>
             <option value="debit">Debit</option>
           </select>
@@ -61,6 +79,22 @@ const AddAccountForm = () => {
             id="holderName"
             value={holderName}
             onChange={handleHolderNameChange}
+            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter holder name"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="holder"
+            className="block text-gray-700 font-bold mb-2"
+          >
+            Display name:
+          </label>
+          <input
+            type="text"
+            id="holder"
+            value={username}
+            onChange={handleusernameChange}
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter holder name"
           />
