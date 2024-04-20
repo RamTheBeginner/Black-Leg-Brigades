@@ -1,39 +1,54 @@
 import React from "react";
-import WalletDetails from "./WalletDetails"; // Create this component to display wallet details
-import DebitCreditCards from "./DebitCreditCards"; // Create this component to display debit and credit cards
+import WalletDetails from "./WalletDetails";
+import DebitCreditCards from "./DebitCreditCards";
 import NavBar from "./NavBar";
 import { useAuth } from '../contexts/auth'
 const DashBoard = () => {
+  // Placeholder data for cards
+  const allCards = [
+    { id: 1, type: 'Debit', cardNumber: '1234 5678 9012 3456', holderName: 'Vishal', issuer: 'SBI', cardName: 'vishal-sbi', cardBalance: '1234' },
+    { id: 2, type: 'Credit', cardNumber: '9876 5432 1098 7654', holderName: 'Vishal', issuer: 'HDFC', cardName: 'vishal-hdfc', cardBalance: '6789' },
+    // Add more cards as needed
+  ];
 
+  // Filter debit cards
+  const debitCards = allCards.filter((card) => card.type === "Debit");
 
-  const { userLoggedIn ,currentUser} = useAuth();
-  console.log(currentUser)
+  // Filter credit cards
+  const creditCards = allCards.filter((card) => card.type === "Credit");
+
   return (
     <>
       <NavBar />
       <div
-        className="bg-cover h-screen"
+        className="bg-cover h-screen flex flex-col items-center"
         style={{
           backgroundImage: "url('/Coins.jpg')",
           backgroundSize: "cover",
         }}
       >
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 text-center">
           <h1 className="text-3xl font-bold text-white mb-8">
             Financial Dashboard
           </h1>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
+          <div className="mb-8 max-w-lg mx-auto">
+            <h2 className="text-2xl font-semibold text-white mb-4">
+              Wallet Details
+            </h2>
+            <WalletDetails />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
+            <div className="lg:order-1">
               <h2 className="text-2xl font-semibold text-white mb-4">
-                Wallet Details
+                Debit Cards
               </h2>
-              <WalletDetails />
+              <DebitCreditCards cards={debitCards} />
             </div>
-            <div>
+            <div className="lg:order-2">
               <h2 className="text-2xl font-semibold text-white mb-4">
-                Debit & Credit Cards
+                Credit Cards
               </h2>
-              <DebitCreditCards />
+              <DebitCreditCards cards={creditCards} />
             </div>
           </div>
         </div>
