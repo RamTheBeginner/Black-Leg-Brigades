@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const cardSchema = new mongoose.Schema({
   token: {type: String , required: true},
   category : { type: String, required: true }, 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Assuming you are using React Router for navigation
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -7,7 +7,7 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
+      const currentScrollPos = window.scrollY;
       setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
       setPrevScrollPos(currentScrollPos);
     };
@@ -21,9 +21,12 @@ const NavBar = () => {
       <div>
         <span className="font-bold text-xl">YourFinance</span>
       </div>
-      <div>
-        <Link to="/login" className="text-white hover:text-gray-500 mr-4  font-bold transition duration-300">Login</Link>
-        <Link to="/signup" className="text-white hover:text-gray-500 transition font-bold duration-300">Sign Up</Link>
+
+      <div className="flex justify-between items-center">
+        <Link to="/investment" className="text-gray-300 hover:text-gray-200 mx-2 sm:mx-4 transition duration-300">Investment</Link>
+        <Link to="/analysis" className="text-gray-300 hover:text-gray-200 mx-2 sm:mx-4 transition duration-300">Analysis</Link>
+        <Link to="/profile" className="text-gray-300 hover:text-gray-200 mx-2 sm:mx-4 transition duration-300">Profile</Link>
+
       </div>
       
     </div>
