@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you are using React Router for navigation
 import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../config/auth'
-import { useAuth } from '../contexts/auth'
+import { useAuth } from '../contexts/auth';
+import Lottie from 'lottie-react';
+
 const Login = () => {
   // State variables to store user input
   const [email, setEmail] = useState('');
