@@ -17,15 +17,15 @@ const NavBar = () => {
   }, [prevScrollPos]);
 
   return (
-    <div className={`bg-yellow-400 border-b-5 bordor-white text-white p-4 flex justify-between items-center transition-all duration-300 ${visible ? '' : 'transform -translate-y-full'}`}>
+    <div className={`bg-yellow-600  rounded-lg text-white p-4 flex justify-between items-center transition-all duration-300 ${visible ? '' : 'transform -translate-y-full'}`}>
       <div>
         <span className="font-bold text-xl">YourFinance</span>
       </div>
 
-      <div className="flex justify-between items-center">
-        <Link to="/investment" className="text-gray-300 hover:text-gray-200 mx-2 sm:mx-4 transition duration-300">Investment</Link>
-        <Link to="/analysis" className="text-gray-300 hover:text-gray-200 mx-2 sm:mx-4 transition duration-300">Analysis</Link>
-        <Link to="/profile" className="text-gray-300 hover:text-gray-200 mx-2 sm:mx-4 transition duration-300">Profile</Link>
+      <div className="font-bold flex justify-between items-center">
+        <Link to="/investment" className="text-white-300 hover:text-gray-600 mx-2 sm:mx-4 transition duration-300">Investment</Link>
+        <Link to="/analysis" className="text-white-300 hover:text-gray-600 mx-2 sm:mx-4 transition duration-300">Analysis</Link>
+        <Link to="/profile" className="text-white-300 hover:text-gray-600 mx-2 sm:mx-4 transition duration-300">Profile</Link>
 
       </div>
       

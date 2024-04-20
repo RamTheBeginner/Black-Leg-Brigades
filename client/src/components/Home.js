@@ -7,10 +7,14 @@ import NavBar from './NavBar';
 const Home = () => {
   return (
     <div>
-      <div className="content h-full bg-gradient-to-b from-yellow-400 via-white-500 to-yellow-600 text-white py-24 text-center h-screen flex flex-col justify-center">
-        <NavBar />
+      <div className="content h-full bg-gradient-to-b from-yellow-400 via-white-500 to-yellow-700 text-white py-24 text-center flex flex-col justify-center">
+        <div className='w-full h-10 bg-green-700 text-white font-bold text-center font-size[12px]'>
+          <marquee>
+            <h1>Your ultimate solution for financial management</h1>
+          </marquee>
+        </div>
         <div className=" z-10 px-2">
-          <h1 className="text-5xl font-bold mb-4">Welcome to YourFinance</h1>
+          <h1 className="text-5xl py-4 font-bold mb-4">Welcome to YourFinance</h1>
           <Lottie animationData = {animationData}/> 
           <div className='text-left font-bold'>
             <p className="text-lg mb-4 ">Sign up now to start managing your finances like a pro!</p>
