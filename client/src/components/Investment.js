@@ -49,6 +49,7 @@ const Investment = () => {
 
   const calculateNetProfit = () => {
     // Logic to calculate net profit
+    //In the near future
   };
 
   return (
