@@ -15,13 +15,13 @@ router.post('/addtransation',(req,res)=>{
       const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // January is 0!
 const year = currentDate.getFullYear();
 
-const formattedDate = `${day}/${month}/${year}`;
+const formattedDate = `${year}-${month}-${day}`;
 
 console.log(formattedDate); // Output: e.g., 20/04/2024
     if(req.body.type == 1){
         transationdata.create({
             token: req.body.token,
-            category : req.body.category, 
+            source:req.body.source,
             amount: req.body.amount, 
             account: req.body.deductedFrom, 
             date:formattedDate,
@@ -52,9 +52,11 @@ console.log(formattedDate); // Output: e.g., 20/04/2024
             account: req.body.deductedFrom, 
             date: formattedDate,
             source:req.body.source,
+            category:req.body.category,
             type:'debit'
         })
         .then(doc =>{
+            console.log(doc);
             res.status(202).send(doc);
         })
         .catch((error)=>{
