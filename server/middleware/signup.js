@@ -14,7 +14,7 @@ router.post('/user',(req,res)=>{
 
 })
 .then((doc)=>{
-    console.log(doc);
+    
     res.status(200).json(doc)
 })
 .catch((error)=>{
