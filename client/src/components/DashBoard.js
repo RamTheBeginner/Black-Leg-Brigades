@@ -2,8 +2,12 @@ import React from "react";
 import WalletDetails from "./WalletDetails"; // Create this component to display wallet details
 import DebitCreditCards from "./DebitCreditCards"; // Create this component to display debit and credit cards
 import NavBar from "./NavBar";
-
+import { useAuth } from '../contexts/auth'
 const DashBoard = () => {
+
+
+  const { userLoggedIn ,currentUser} = useAuth();
+  console.log(currentUser)
   return (
     <>
       <NavBar />
