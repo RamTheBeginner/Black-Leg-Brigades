@@ -1,7 +1,8 @@
-import React, { useState,useEffect } from 'react';
-import NavBar from "./NavBar";
+import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar';
 import { useAuth } from '../contexts/auth';
 import axios from 'axios';
+
 const Investment = () => {
   const [buyStocks, setBuyStocks] = useState([]);
   const [sellStocks, setSellStocks] = useState([]);
@@ -15,26 +16,31 @@ const Investment = () => {
   const [sellStockPrice, setSellStockPrice] = useState('');
   const [sellBankAccountName, setSellBankAccountName] = useState('');
   const [totalNetProfit, setTotalNetProfit] = useState(0);
-  const { userLoggedIn ,currentUser} = useAuth();
 
-  
- useEffect( () => {
-  const fetchdata = async () =>{
-  const response = await axios.get(`http://localhost:5000/api/investment/carddata/?token=`+currentUser.uid, {
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/investment/carddata/${currentUser.uid}`, {
           withCredentials: true,
-      });
+        });
+        setTotalNetProfit(response.data.netprofit);
+        console.log(response);
+      } catch (error) {
+        console.error('Error fetching investment data:', error);
+      }
+    };
+    fetchData();
+  }, [currentUser.uid]);
 
-      setTotalNetProfit(response.data.netprofit)
-
- console.log(response);
-    }
-    fetchdata();
- }, [])
- 
   const handleAddBuyStock = () => {
-    const newStock = { name: buyStockName, price: parseFloat(buyStockPrice), numberOfStocks: parseInt(buyNumberOfStocks), bankAccount: buyBankAccountName };
-
-
+    const newStock = {
+      name: buyStockName,
+      price: parseFloat(buyStockPrice),
+      numberOfStocks: parseInt(buyNumberOfStocks),
+      bankAccount: buyBankAccountName,
+    };
     setBuyStocks([...buyStocks, newStock]);
     setBuyStockName('');
     setBuyStockPrice('');
@@ -43,12 +49,12 @@ const Investment = () => {
   };
 
   const handleAddSellStock = () => {
-    const newStock = { 
-      name: sellStockName, 
-      totalStocks: parseInt(sellTotalStocks), 
-      numberOfStocks: parseInt(sellNumberOfStocks), 
-      sellPrice: parseFloat(sellStockPrice), 
-      bankAccount: sellBankAccountName 
+    const newStock = {
+      name: sellStockName,
+      totalStocks: parseInt(sellTotalStocks),
+      numberOfStocks: parseInt(sellNumberOfStocks),
+      sellPrice: parseFloat(sellStockPrice),
+      bankAccount: sellBankAccountName,
     };
     setSellStocks([...sellStocks, newStock]);
     setSellStockName('');
@@ -67,7 +73,6 @@ const Investment = () => {
 
   const calculateNetProfit = () => {
     // Logic to calculate net profit
-    //In the near future
   };
 
   return (
@@ -81,7 +86,6 @@ const Investment = () => {
             <div>
               <p>Total Amount Invested: {}</p>
               <p>Total Returns: {totalNetProfit}</p>
-              
             </div>
           </div>
         </div>
