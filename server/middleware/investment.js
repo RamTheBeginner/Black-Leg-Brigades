@@ -1,6 +1,8 @@
 const express = require("express");
 const userdata = require('../database/userdata');
-require('../database/investment');
+require('../database/emi')
+require('../database/cardData');
+require('../database/investment')
 const router = express.Router();
 router.get('/carddata',(req,res)=>{
     console.log('hello guys')
