@@ -15,8 +15,9 @@ app.use(
 	})
 );
 
-
+app.use('/api/investment',require('./middleware/investment'));
 app.use('/api',require('./middleware/signup'));
+
 
 app.listen(port, () => {
 	console.log(`server is running on port ${port}`);

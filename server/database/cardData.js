@@ -8,7 +8,7 @@ const cardSchema = new mongoose.Schema({
   issuer: { type: String, required: true }, 
   name: { type: String, required: true },
   balance: { type: Number, required: true },
-  emi: [{type: Schema.Types.ObjectId, ref : 'emi'}]
+  emi: [{type: mongoose.Schema.Types.ObjectId, ref : 'emi'}]
 });
 
 const Card = mongoose.model('Card', cardSchema);

@@ -8,7 +8,10 @@ router.post('/user',(req,res)=>{
     email:req.body.email,
     nickname:req.body.fullName,
     contactNumber:req.body.phoneNumber,
-    walletamount:0
+    walletamount:0,
+    totalinvestment:0,
+    netprofit:0,
+
 })
 res.status(200).send('user is added to data base successfully')
 })
