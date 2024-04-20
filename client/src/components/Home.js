@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <div>
       <div className="content h-full bg-gradient-to-b from-yellow-400 via-white-500 to-yellow-700 text-white py-24 text-center flex flex-col justify-center">
-        <div className='w-full h-10 bg-green-700 text-white font-bold text-center font-size[12px]'>
+        <div className='w-full h-10 bg-green-700 text-white font-bold '>
           <marquee>
             <h1>Your ultimate solution for financial management</h1>
           </marquee>
