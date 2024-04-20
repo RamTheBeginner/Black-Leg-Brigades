@@ -16,6 +16,12 @@ const Investment = () => {
   const [sellStockPrice, setSellStockPrice] = useState('');
   const [sellBankAccountName, setSellBankAccountName] = useState('');
   const [totalNetProfit, setTotalNetProfit] = useState(0);
+<<<<<<< HEAD
+=======
+
+
+  const { currentUser} = useAuth();
+>>>>>>> 39b3339 (	modified:   client/src/components/AddAccountForm.js)
 
   const { currentUser } = useAuth();
 
