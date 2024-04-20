@@ -13,12 +13,13 @@ const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isRegistering, setIsRegistering] = useState(false)
   const { userLoggedIn ,currentUser} = useAuth();
-  console.log(currentUser);
+ 
   // Function to handle form submission
   const handleSignUp = async (e) => {
     e.preventDefault(); 
    
     if(!isRegistering) {
+      
       
       let result = await doCreateUserWithEmailAndPassword(email, password)
       console.log(result);
