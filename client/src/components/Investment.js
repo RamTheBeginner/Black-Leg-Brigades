@@ -20,12 +20,9 @@ const Investment = () => {
   
  useEffect( () => {
   const fetchdata = async () =>{
-  const response = await axios.get(`http://localhost:5000/api/investment/carddata/?token=`+currentUser.uid, {
+  const response = await axios.get(`http://localhost:5000/api/investment/carddata/?token=`+currentUser.accessToken, {
           withCredentials: true,
       });
-
-      setTotalNetProfit(response.data.netprofit)
-
  console.log(response);
     }
     fetchdata();
@@ -80,8 +77,8 @@ const Investment = () => {
           <div className="flex justify-between">
             <div>
               <p>Total Amount Invested: {}</p>
-              <p>Total Returns: {totalNetProfit}</p>
-              
+              <p>Total Returns: {}</p>
+              <p>Net Profit: {}</p>
             </div>
           </div>
         </div>
