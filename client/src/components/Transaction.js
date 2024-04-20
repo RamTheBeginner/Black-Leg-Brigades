@@ -117,14 +117,17 @@ const Transaction = () => {
               >
                 Category:
               </label>
-              <input
-                type="text"
+              <select
                 id="category"
                 value={category}
                 onChange={handleCategoryChange}
                 className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter category"
-              />
+              >
+                <option value="entertainment">Entertainment</option>
+                <option value="food">Food</option>
+                <option value="shopping">Shopping</option>
+                <option value="others">Others</option>
+              </select>
             </div>
           )}
           <div className="flex items-center justify-center">
@@ -136,15 +139,15 @@ const Transaction = () => {
             </button>
           </div>
         </form>
-        
       </div>
-      <AddAccountForm />
-      <Emi />
-      
+      <div className="max-w-md w-full lg:w-1/2 mx-auto mb-4">
+        <AddAccountForm />
+      </div>
+      <div className="max-w-md w-full lg:w-1/2 mx-auto mb-4">
+        <Emi />
+      </div>
     </>
   );
 };
-
-
 
 export default Transaction;
