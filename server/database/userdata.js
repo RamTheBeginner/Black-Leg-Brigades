@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { default: Investment } = require("../../client/src/components/Investment");
+
 const userschema = new mongoose.Schema({
     token:String,
     email:String,
