@@ -55,7 +55,8 @@ const Investment = () => {
   return (
     <>
       <NavBar />
-      <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-md">
+      <div style={{backgroundImage: "url('/Business.jpg')", backgroundSize: "cover", minHeight: "100vh"}}>
+      <div className="max-w-3xl mx-auto p-6  bg-opacity-50 ">
         <h2 className="text-3xl font-semibold text-gray-800 mb-4">Stock Investment</h2>
         <div className="mb-4 bg-slate-300 p-4 rounded-md">
           <h3 className="text-xl font-semibold mb-2">Investment Summary</h3>
@@ -159,6 +160,8 @@ const Investment = () => {
         </div>
         {/* Add your calculation and display logic for total net profit here */}
       </div>
+      </div>
+      
     </>
   );
 };
