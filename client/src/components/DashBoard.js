@@ -51,8 +51,7 @@ const DashBoard = () => {
               <h2 className="text-2xl font-semibold text-white mb-4">
                 Credit Cards
               </h2>
-              
-              <DebitCreditCards cards={creditCards} />
+              <Creditcard cards={creditCards} />
             </div>
           </div>
         </div>
