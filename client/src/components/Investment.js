@@ -15,12 +15,14 @@ const Investment = () => {
   const [sellStockPrice, setSellStockPrice] = useState('');
   const [sellBankAccountName, setSellBankAccountName] = useState('');
   const [totalNetProfit, setTotalNetProfit] = useState(0);
-  const { userLoggedIn ,currentUser} = useAuth();
+
+
+  const { currentUser} = useAuth();
 
   
  useEffect( () => {
   const fetchdata = async () =>{
-  const response = await axios.get(`http://localhost:5000/api/investment/carddata/?token=`+currentUser.uid, {
+  const response = await axios.get(`http://localhost:5000/api/investment/carddata/`+currentUser.uid, {
           withCredentials: true,
       });
 

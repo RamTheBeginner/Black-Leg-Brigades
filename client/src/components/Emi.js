@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-
-const Emi = () => {
+import { useAuth } from '../contexts/auth'
+import axios from 'axios';
+const Emi = ({accounts}) => {
   const [emiAmount, setEmiAmount] = useState('');
   const [fromAccount, setFromAccount] = useState('');
   const [penalty, setPenalty] = useState('');
@@ -12,6 +13,7 @@ const Emi = () => {
 
   const handleFromAccountChange = (e) => {
     setFromAccount(e.target.value);
+    
   };
 
   const handlePenaltyChange = (e) => {
@@ -24,6 +26,27 @@ const Emi = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const requests = async () =>{
+      const response = await axios.post('http://localhost:5000/api/transcaution/addemi', {
+        emiAmount: emiAmount,
+        fromAccount:accounts[fromAccount]._id,
+        penalty: penalty,
+        totalTurns:totalTurns
+
+    }, {
+        withCredentials: true,
+    });
+
+    }
+
+    if(accounts[fromAccount].type === 'credit'){
+     if(accounts[fromAccount].balance >= emiAmount){
+      requests();
+     }
+    }else{
+      requests();
+    }
     // Perform actions like submitting the EMI form
   };
 
@@ -54,9 +77,11 @@ const Emi = () => {
             onChange={handleFromAccountChange}
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           >
-            <option value="" disabled hidden>Select Account</option>
-            <option value="account1">Account 1</option>
-            <option value="account2">Account 2</option>
+            <option value='select from my above'>select the option</option>
+            {accounts.map((account,index)=>(
+              <option key={index} value={index}>{account.name}</option>
+            ))}
+            
           </select>
         </div>
         <div>
