@@ -7,6 +7,7 @@ import Login from './components/Login';
 import DashBoard from './components/DashBoard';
 import Investment from './components/Investment';
 import { AuthProvider } from "./contexts/auth";
+import Analysis from './components/Analysis';
 function App() {
  
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/dashboard" element={<DashBoard />} />
           <Route exact path="/investment" element={<Investment />} />
+          <Route exact path="/analysis" element={<Analysis />} />
         </Routes>
     </Router>
     </AuthProvider>
