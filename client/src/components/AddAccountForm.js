@@ -46,7 +46,7 @@ const [username,setusername] = useState('');
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white bg-opacity-50 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div className="max-w-md mx-auto  bg-gradient-to-br from-blue-700 to-red-500 bg-opacity-50 shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl mb-4 font-semibold text-center">Add Account</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>

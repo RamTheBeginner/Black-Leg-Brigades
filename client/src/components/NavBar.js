@@ -79,6 +79,12 @@ const NavBar = () => {
         >
           Transactions
         </Link>
+        <Link
+          to="/calculator"
+          className="text-gray-300 hover:text-gray-200 mx-2 sm:mx-4 transition duration-300"
+        >
+          Calculator
+        </Link>
       </div>
     </div>
   );

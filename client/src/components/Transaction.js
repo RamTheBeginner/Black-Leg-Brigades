@@ -90,7 +90,7 @@ const Transaction = () => {
       <div className="flex justify-center">
         <div className="flex">
           <div className="mx-2 my-4 w-96">
-            <div className="bg-white rounded-lg shadow-md p-4">
+            <div className="mt-5 bg-gradient-to-br from-blue-700 to-red-500 rounded-lg shadow-md p-4">
               <h2 className="text-2xl mb-4 font-semibold text-center">
                 Transaction
               </h2>
@@ -226,12 +226,12 @@ const Transaction = () => {
             </div>
           </div>
           <div className="mx-2 my-4 w-96">
-            <div className="bg-white rounded-lg shadow-md p-4">
+            <div className="rounded-lg shadow-md p-4">
               <AddAccountForm />
             </div>
           </div>
           <div className="mx-2 my-4 w-96">
-            <div className="bg-white rounded-lg shadow-md p-4">
+            <div className="rounded-lg shadow-md p-4">
               <Emi accounts={accounts} />
             </div>
           </div>
