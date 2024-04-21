@@ -51,15 +51,15 @@ const Home = () => {
                 <div>
                   <div className="text-xl mb-4 flex items-center">
                      <div className="w-3 h-3 bg-gray-300 rounded-full mr-3"></div>
-                    <p className="mr-5">Tools for mastering financial management.</p>
+                    <p className="mr-5 text-yellow-400 text-bold ">Tools for mastering financial management.</p>
                   </div>
                   <div className="text-xl mb-4 flex items-center">
                      <div className="w-3 h-3 bg-gray-300 rounded-full mr-3"></div>
-                    <p className="mr-5">It is your one-stop solution for your financial goals</p>
+                    <p className="mr-5 text-yellow-400 text-bold">It is your one-stop solution for your financial goals</p>
                   </div>
                   <div className="text-xl mb-4 flex items-center">
                      <div className="w-3 h-3 bg-gray-300 rounded-full mr-3"></div>
-                    <p className="mr-5">Sign up now to start managing your finances like a pro!</p>
+                    <p className="mr-5 text-yellow-400 text-bold">Sign up now to start managing your finances like a pro!</p>
                   </div>
                 </div>
               </div>
