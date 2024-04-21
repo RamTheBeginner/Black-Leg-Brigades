@@ -1,4 +1,4 @@
-<h1 align="center">Hack36 Template Readme</h1>
+<h1 align="center">Black Leg Brigades</h1>
 <p align="center">
 </p>
 
@@ -29,9 +29,9 @@
 
 Team Name: Code_Pirates
 
-* [Venkata Krishna Polisetty ](https://github.com/shank03)
-* [Vasanth Kumar Dacheaplli](https://github.com/sanskaromar)
-* [Sai Vishal Bellamkonda](https://github.com/priyavkaneria)
+* [Venkata Krishna Polisetty ](https://github.com/RamTheBeginner)
+* [Vasanth Kumar Dacheaplli](https://github.com/vasanthdachepalli)
+* [Sai Vishal Bellamkonda](https://github.com/saivishal87)
 
 
 ### Made at:
