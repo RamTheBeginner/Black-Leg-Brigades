@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import NavBar from "./NavBar";
-
+import { useAuth } from '../contexts/auth';
+import axios from 'axios';
+import { Chart as ChartJS, defaults } from "chart.js/auto";
+import { Bar,Line,Pie } from 'react-chartjs-2';
 const Analysis = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [chartType, setChartType] = useState("");
   const [category, setCategory] = useState("");
-
+  const [transaction,settransaction] = useState([]);
+  const [chartData, setChartData] = useState(null);
+  const [prizes,setprizes]= useState(null);
+  const { currentUser,userLoggedIn} = useAuth();
+  useEffect(() => {
+    if(!userLoggedIn){
+      console.log('you should logout')
+    window.location.href = '/'
+    }
+  
+    
+  }, [])
+  
   const handleStartDateChange = (e) => {
     setStartDate(e.target.value);
   };
@@ -22,12 +37,52 @@ const Analysis = () => {
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('here')
+    let res = async () =>{
+      const response = await axios.post('http://localhost:5000/api/analysis/getdata', {
+                startDate: startDate,
+                endDate:endDate,
+                token: currentUser.uid,
+                category:category
+            }, {
+                withCredentials: true,
+            });
+            settransaction(response.data)
+            const aggregatedTransactions = {};
+            response.data.forEach(transaction => {
+              const { date, amount } = transaction;
+              if (aggregatedTransactions[date]) {
+                aggregatedTransactions[date] += amount;
+              } else {
+                aggregatedTransactions[date] = amount;
+              }
+            });
+            
+            // Convert aggregated data into array format
+            const resultArray = Object.keys(aggregatedTransactions).map(date => ({
+              date,
+              totalAmount: aggregatedTransactions[date]
+            }));
+            
+          
+            settransaction(resultArray)
+            const dates = resultArray.map(item => item.date);
+            const amounts =resultArray.map(item => item.totalAmount);
+           setChartData(dates);
+           setprizes(amounts);
+          
+            
+    }
+    res();
+
+    
+    
+    
     // Perform actions like fetching data or rendering chart based on selected options
   };
-
+console.log(chartData)
   return (
     <>
       <NavBar />
@@ -103,10 +158,11 @@ const Analysis = () => {
                 value={category}
                 onChange={handleCategoryChange}
               >
-                <option value="">Select Category</option>
-                <option value="category1">Category 1</option>
-                <option value="category2">Category 2</option>
-                <option value="category3">Category 3</option>
+                  <option hidden value="">Select Category</option>
+                  <option value="entertainment">Entertainment</option>
+                  <option value="shopping">Shopping</option>
+                  <option value="food">Food</option>
+                  <option value="others">Others</option>
               </select>
             </div>
             <div className="w-full px-4 mb-4">
@@ -118,6 +174,107 @@ const Analysis = () => {
               </button>
             </div>
           </form>
+
+          <div>
+      
+      {chartData && (
+        <div>
+          <h2>Chart</h2>
+          {
+          ( chartType === 'bar' &&(
+          <Bar
+          data={{
+            labels: chartData,
+            datasets: [
+              {
+                label: "Count",
+                data: prizes,
+                backgroundColor: [
+                  "rgba(43, 63, 229, 0.8)",
+                  "rgba(250, 192, 19, 0.8)",
+                  "rgba(253, 135, 135, 0.8)",
+                ],
+                borderRadius: 5,
+              },
+            ],
+          }}
+          options={{
+            plugins: {
+              title: {
+                text: "Revenue Source",
+              },
+            },
+          }}
+        />))
+      }
+{
+        ( chartType=== 'line' && (
+      <Line
+       data={{
+        labels: chartData,
+        datasets: [
+          {
+            label: "Count",
+            data: prizes,
+            backgroundColor: [
+              "rgba(43, 63, 229, 0.8)",
+              "rgba(250, 192, 19, 0.8)",
+              "rgba(253, 135, 135, 0.8)",
+            ],
+            borderRadius: 5,
+          },
+        ],
+      }}
+      options={{
+        plugins: {
+          title: {
+            text: "Revenue Source",
+          },
+        },
+      }}
+      
+      
+      
+      
+      />
+
+      
+      
+
+        ))
+      }
+     {
+        ( chartType === 'pie' && ((
+          <Pie 
+           data={{
+            labels: chartData,
+            datasets: [
+              {
+                label: "Count",
+                data: prizes,
+                backgroundColor: [
+                  "rgba(43, 63, 229, 0.8)",
+                  "rgba(250, 192, 19, 0.8)",
+                  "rgba(253, 135, 135, 0.8)",
+                ],
+                borderRadius: 5,
+              },
+            ],
+          }}
+          options={{
+            plugins: {
+              title: {
+                text: "Revenue Source",
+              },
+            },
+          }}
+          
+          />
+        )))
+      }
+        </div>
+      )}
+    </div>
           {/* Render chart or analysis results here */}
         </div>
       </div>

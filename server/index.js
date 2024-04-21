@@ -14,6 +14,8 @@ app.use(
 		credentials: true,
 	})
 );
+app.use('/api/analysis',require('./middleware/analysis'))
+app.use('/api/dashboard',require('./middleware/dashboard'));
 app.use('/api/transcaution',require('./middleware/transaution'))
 app.use('/api/investment',require('./middleware/investment'));
 app.use('/api',require('./middleware/signup'));

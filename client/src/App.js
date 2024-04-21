@@ -9,8 +9,10 @@ import Investment from './components/Investment';
 import { AuthProvider } from "./contexts/auth";
 import Analysis from './components/Analysis';
 import Transaction from './components/Transaction';
+import Groups from './components/Groups';
+import Profile from './components/Profile';
+import InvestmentCalculator from './components/InvestmentCalculator';
 function App() {
- 
   return (
     <>
     <AuthProvider>
@@ -23,6 +25,9 @@ function App() {
           <Route exact path="/investment" element={<Investment />} />
           <Route exact path="/analysis" element={<Analysis />} />
           <Route exact path="/transaction" element={<Transaction />} />
+          <Route exact path="/groups" element={<Groups />} />
+          <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/calculator" element={<InvestmentCalculator/>} />
         </Routes>
     </Router>
     </AuthProvider>

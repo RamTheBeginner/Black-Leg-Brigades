@@ -5,7 +5,8 @@ const cardSchema = new mongoose.Schema({
   balance: { type: Number, required: true }, 
   turnsleft: { type: Number, required: true }, 
   penality: { type: Number, required: true }, 
-
+  thismonthdue: {type:Number,required:true},
+  monthid:{type:Number,required:true}
 });
 
 const Emi = mongoose.model('emi', cardSchema);

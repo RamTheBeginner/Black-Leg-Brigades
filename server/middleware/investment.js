@@ -4,12 +4,12 @@ require('../database/investment');
 require('../database/cardData');
 require('../database/emi');
 const router = express.Router();
-router.get('/carddata',(req,res)=>{
-    console.log('hello guys')
-userdata.find({token:req.query.token})
+router.get('/carddata/:token',(req,res)=>{
+  
+userdata.find({token:req.params.token})
 .populate('account')
 .then(doc =>{
-    console.log(doc);
+  
    
     res.status(200).json(doc);
 })
