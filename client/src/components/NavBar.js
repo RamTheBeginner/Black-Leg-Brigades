@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import {doSignOut} from "../config/auth";
 const NavBar = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -20,6 +20,10 @@ const NavBar = () => {
   const toggleProfileDropdown = () => {
     setShowProfileDropdown(!showProfileDropdown);
   };
+  const handlesignout = async () =>{
+ doSignOut();
+ window.location.href = '/';
+  }
 
   return (
     <div
@@ -45,7 +49,7 @@ const NavBar = () => {
               <Link to="/profile" className="block px-4 py-2 hover:bg-gray-700">
                 Your Profile
               </Link>
-              <Link to="/logout" className="block px-4 py-2 hover:bg-gray-700">
+              <Link onClick={handlesignout} className="block px-4 py-2 hover:bg-gray-700">
                 Logout
               </Link>
             </div>

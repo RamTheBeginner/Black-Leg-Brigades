@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you are using React Router for navigation
 import { useAuth } from '../contexts/auth'
 import { doCreateUserWithEmailAndPassword } from '../../src/config/auth'
@@ -12,7 +12,14 @@ const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isRegistering, setIsRegistering] = useState(false)
   const { userLoggedIn ,currentUser} = useAuth();
- 
+  useEffect(() => {
+    if(userLoggedIn){
+      console.log('you should logout')
+    window.location.href = '/dashboard'
+    }
+  
+    
+  }, [])
   // Function to handle form submission
   const handleSignUp = async (e) => {
     e.preventDefault(); 
@@ -46,13 +53,13 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen" style={{backgroundImage: "url('/konUtBV6RuyGBNJwURt5dQ.webp')", backgroundSize: "cover"}}>
-      <div className="w-full max-w-lg bg-slate-300 bg-opacity-90 shadow-md rounded px-8 py-6">
-        <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
+    <div className="flex items-center justify-center h-screen" style={{backgroundImage: "url('/Login.jpg')", backgroundSize: "cover"}}>
+      <div className="w-full max-w-lg bg-slate-300 bg-opacity-40 shadow-md rounded px-8 py-6">
+        <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
         {/* Sign Up form asking for email, password, full name, and phone number */}
         <form onSubmit={handleSignUp} className="space-y-4">
           <div>
-            <label className="block mb-1">Email:</label>
+            <label className="block mb-1 font-bold">Email:</label>
             <input
               type="email"
               value={email}
@@ -62,7 +69,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <label className="block mb-1">Password:</label>
+            <label className="block mb-1 font-bold">Password:</label>
             <input
               type="password"
               value={password}
@@ -72,7 +79,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <label className="block mb-1">Full Name:</label>
+            <label className="block mb-1 font-bold">Full Name:</label>
             <input
               type="text"
               value={fullName}
@@ -82,7 +89,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <label className="block mb-1">Phone Number:</label>
+            <label className="block mb-1 font-bold">Phone Number:</label>
             <input
               type="tel"
               value={phoneNumber}
@@ -93,7 +100,7 @@ const SignUp = () => {
           </div>
           <button type="submit" onClick={handleSignUp} className="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition duration-300">Sign Up</button>
         </form>
-        <p className="mt-4 text-gray-600">Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Login</Link></p>
+        <p className="mt-4 text-black">Already have an account? <Link to="/login" className="text-blue-500 hover:underline">Login</Link></p>
       </div>
     </div>
   );

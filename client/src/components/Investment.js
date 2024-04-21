@@ -17,10 +17,14 @@ const Investment = () => {
   const [totalNetProfit, setTotalNetProfit] = useState(0);
 
 
-  const { currentUser} = useAuth();
-
+  const { currentUser,userLoggedIn} = useAuth();
+  
   
  useEffect( () => {
+  if(!userLoggedIn){
+    console.log('you should logout')
+  window.location.href = '/'
+  }
   const fetchdata = async () =>{
   const response = await axios.get(`http://localhost:5000/api/investment/carddata/`+currentUser.uid, {
           withCredentials: true,

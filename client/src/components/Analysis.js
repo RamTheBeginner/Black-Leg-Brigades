@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import NavBar from "./NavBar";
 import { useAuth } from '../contexts/auth';
 import axios from 'axios';
@@ -12,7 +12,16 @@ const Analysis = () => {
   const [transaction,settransaction] = useState([]);
   const [chartData, setChartData] = useState(null);
   const [prizes,setprizes]= useState(null);
-  const { currentUser} = useAuth();
+  const { currentUser,userLoggedIn} = useAuth();
+  useEffect(() => {
+    if(!userLoggedIn){
+      console.log('you should logout')
+    window.location.href = '/'
+    }
+  
+    
+  }, [])
+  
   const handleStartDateChange = (e) => {
     setStartDate(e.target.value);
   };
@@ -28,12 +37,6 @@ const Analysis = () => {
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
-  const render = () =>{
-    const dates = transaction.map(item => item.date);
-    const amounts = transaction.map(item => item.totalAmount);
-   setChartData(dates);
-   setprizes(amounts);
-  }
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('here')
@@ -65,10 +68,16 @@ const Analysis = () => {
             
           
             settransaction(resultArray)
-            console.log(resultArray)
-            render();
+            const dates = resultArray.map(item => item.date);
+            const amounts =resultArray.map(item => item.totalAmount);
+           setChartData(dates);
+           setprizes(amounts);
+          
+            
     }
     res();
+
+    
     
     
     // Perform actions like fetching data or rendering chart based on selected options

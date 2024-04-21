@@ -12,7 +12,7 @@ const Transaction = () => {
   const [deductedFrom, setDeductedFrom] = useState("wallet");
   const [category, setCategory] = useState("");
   const [accounts, setAccounts] = useState([]);
-  const { currentUser } = useAuth();
+  const { currentUser,userLoggedIn} = useAuth();
 
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
@@ -55,9 +55,15 @@ const Transaction = () => {
       console.error("Error submitting transaction:", error);
     }
   };
-
+  
   useEffect(() => {
+
+    if(!userLoggedIn){
+        console.log('you should logout')
+      window.location.href = '/'
+      }
     const fetchData = async () => {
+        
       try {
         const response = await axios.get(
           `http://localhost:5000/api/investment/carddata/${currentUser.uid}`,

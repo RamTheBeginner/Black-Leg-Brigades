@@ -1,9 +1,19 @@
 
-import React from "react";
+import React, { useState ,useEffect} from 'react';
 import { Link } from "react-router-dom";
  // Import the CSS file here
-
+ import { useAuth } from '../contexts/auth'
 const Home = () => {
+
+  const { currentUser,userLoggedIn} = useAuth();
+  useEffect(() => {
+    if(userLoggedIn){
+      console.log('you should logout')
+    window.location.href = '/dashboard'
+    }
+  
+    
+  }, [])
   return (
     <>
       <div>
