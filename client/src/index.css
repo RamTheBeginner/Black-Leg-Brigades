@@ -81,5 +81,5 @@
 
 /* Apply the animation */
 .animate-slide-up {
-  animation: slideUp 1s ease-out;
+  animation: slideUp 0s ease-out;
 }
