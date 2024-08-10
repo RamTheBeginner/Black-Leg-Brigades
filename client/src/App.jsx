@@ -2,7 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Nav from "./pages/nav";
 import About from "./pages/about";
-import Auth from "./pages/auth";
+import Auth from "./pages/authentication";
+
 const App = () => {
   return (
     <Router>

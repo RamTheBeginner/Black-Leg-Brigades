@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Assuming you are using React Router for navigation
+import { Link, useNavigate } from "react-router-dom"; // Assuming you are using React Router for navigation
 import {
   doSignInWithEmailAndPassword,
   doSignInWithGoogle,
 } from "../../config/auth";
 import { useAuth } from "../../contexts/auth";
-const Login = () => {
+const Auth = () => {
   // State variables to store user input1
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +13,7 @@ const Login = () => {
 
   const [isRegistering, setIsRegistering] = useState(false);
   const { userLoggedIn } = useAuth();
+  const navigate = useNavigate();
   // Function to handle form submission
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ const Login = () => {
       setIsSigningIn(true);
       let result = await doSignInWithEmailAndPassword(email, password);
       console.log(result);
-      if (result) window.location.href = "/dashboard";
+      if (result) navigate("/dashboard");
       else {
         setIsSigningIn(false);
       }
@@ -35,7 +36,7 @@ const Login = () => {
     if (!isRegistering) {
       setIsRegistering(true);
       let result = await doCreateUserWithEmailAndPassword(email, password);
-      if (result) window.location.href = "/dashboard";
+      if (result) navigate("/dashboard");
     }
     // console.log('Signing up with:', email, fullName, phoneNumber);
   };
@@ -90,4 +91,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Auth;
