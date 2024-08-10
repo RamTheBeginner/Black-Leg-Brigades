@@ -180,19 +180,24 @@ const Transaction = () => {
                ))}
               </select>
               <label
-                htmlFor="category"
-                className="block text-gray-700 font-bold mb-2"
-              >
-                Category:
-              </label>
-              <input
-                type="text"
-                id="category"
-                value={category}
-                onChange={handleCategoryChange}
-                className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                placeholder="Enter category"
-              />
+                  htmlFor="category"
+                  className="block text-gray-700 font-bold mb-2"
+                >
+                  Category:
+                </label>
+                <select
+                  id="category"
+                  value={category}
+                  onChange={handleCategoryChange}
+                  className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                >
+                  <option hidden value="">Select Category</option>
+                  <option value="entertainment">Entertainment</option>
+                  <option value="shopping">Shopping</option>
+                  <option value="food">Food</option>
+                  <option value="others">Others</option>
+                </select>
+
             </div>
           )}
           <div className="flex items-center justify-center">
