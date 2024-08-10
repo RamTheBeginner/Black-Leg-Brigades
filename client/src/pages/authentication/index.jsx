@@ -1,70 +1,77 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Assuming you are using React Router for navigation
+import { Link, useNavigate } from "react-router-dom";
 import {
   doSignInWithEmailAndPassword,
-  doSignInWithGoogle,
   doCreateUserWithEmailAndPassword
 } from "../../config/auth";
-
-import {SIGNUP_ROUTE} from "../../utils/constants"
+import { SIGNUP_ROUTE } from "../../utils/constants";
 import { useAuth } from "../../contexts/auth";
 import { apiClient } from "@/lib/api-client";
+import { toast } from 'sonner'; // Import toast from sonner
+
 const Auth = () => {
-  // State variables to store user input1
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
-
   const [isRegistering, setIsRegistering] = useState(false);
   const { userLoggedIn } = useAuth();
   const navigate = useNavigate();
-  // Function to handle form submission
+
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!isSigningIn) {
       setIsSigningIn(true);
-      let result = await doSignInWithEmailAndPassword(email, password);
-      console.log(result);
-      if (result) navigate("/dashboard");
-      else {
+      toast.loading("Signing in...");
+      try {
+        let result = await doSignInWithEmailAndPassword(email, password);
+        toast.dismiss();
+        console.log(result)
+        toast.success("Logged in successfully!");
+        navigate("/dashboard");
+      } catch (error) {
+        console.log(error)
+        toast.dismiss();
+        toast.error("Incorrect credentials. Please try again.");
         setIsSigningIn(false);
       }
-      // doSendEmailVerification()s
+     
     }
-    // console.log('Logging in with:', email);
   };
-
-  
 
   const handleSignUp = async (e) => {
-    e.preventDefault(); 
-   
-    if(!isRegistering) {
-      
-      
-      let result = await doCreateUserWithEmailAndPassword(email, password)
-     // console.log(result);
-     // console.log(currentUser)
-      setTimeout(async () => {
-        
-        if(result){
-            const response = await apiClient.post(SIGNUP_ROUTE, {
-                email: email,
-                
-                token: result.user.uid,
-               
-            } );
-            console.log(response);
-            navigate("/dashboard");
-        }
-        else{
-            setIsRegistering(false);
-        }
-    }, 1000);
-  }
-   // console.log('Signing up with:', email, fullName, phoneNumber);
-  };
+    e.preventDefault();
+    if (!isRegistering) {
+      setIsRegistering(true);
+      toast.loading("Registering...");
 
+      try {
+
+        let result = await doCreateUserWithEmailAndPassword(email, password);
+
+      setTimeout(async () => {
+        toast.dismiss();
+
+        if (result) {
+          const response = await apiClient.post(SIGNUP_ROUTE, {
+            email: email,
+            token: result.user.uid,
+          });
+          toast.success("Registered successfully!");
+          console.log(response);
+          navigate("/dashboard");
+        } 
+      }, 1000);
+        
+      } catch (error) {
+        toast.dismiss();
+        console.log(error.message)
+        toast.error(error.message);
+          setIsRegistering(false);
+        
+      }
+     
+    }
+  };
 
   return (
     <div
@@ -76,7 +83,6 @@ const Auth = () => {
     >
       <div className="w-full max-w-lg bg-slate-300 bg-opacity-90 shadow-md rounded px-8 py-6">
         <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
-        {/* Login form */}
         <form className="space-y-4">
           <div>
             <label className="block mb-1">Email:</label>
@@ -112,13 +118,7 @@ const Auth = () => {
           >
             SignUp
           </button>
-        </form> 
-        <div className="text-center mt-4">
-          {/* Signup link/button */}
-          { /*   <Link to="/signup" className="text-blue-500 hover:underline">
-            Sign Up
-          </Link> */}
-        </div>
+        </form>
       </div>
     </div>
   );
