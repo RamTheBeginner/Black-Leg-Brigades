@@ -3,19 +3,13 @@ import { Link } from 'react-router-dom'; // Assuming you are using React Router 
 import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../../config/auth'
 import { useAuth } from '../../contexts/auth'
 const Login = () => {
-  // State variables to store user input
+  // State variables to store user input1
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSigningIn, setIsSigningIn] = useState(false)
 
   const [isRegistering, setIsRegistering] = useState(false)
   const { userLoggedIn } = useAuth();
-
-
-
-
-
-
   // Function to handle form submission
   const handleLogin = async (e) => {
     e.preventDefault();
