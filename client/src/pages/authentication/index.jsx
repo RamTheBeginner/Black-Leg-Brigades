@@ -3,8 +3,12 @@ import { Link, useNavigate } from "react-router-dom"; // Assuming you are using 
 import {
   doSignInWithEmailAndPassword,
   doSignInWithGoogle,
+  doCreateUserWithEmailAndPassword
 } from "../../config/auth";
+
+import {SIGNUP_ROUTE} from "../../utils/constants"
 import { useAuth } from "../../contexts/auth";
+import { apiClient } from "@/lib/api-client";
 const Auth = () => {
   // State variables to store user input1
   const [email, setEmail] = useState("");
@@ -30,16 +34,37 @@ const Auth = () => {
     // console.log('Logging in with:', email);
   };
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
+  
 
-    if (!isRegistering) {
-      setIsRegistering(true);
-      let result = await doCreateUserWithEmailAndPassword(email, password);
-      if (result) navigate("/dashboard");
-    }
-    // console.log('Signing up with:', email, fullName, phoneNumber);
+  const handleSignUp = async (e) => {
+    e.preventDefault(); 
+   
+    if(!isRegistering) {
+      
+      
+      let result = await doCreateUserWithEmailAndPassword(email, password)
+     // console.log(result);
+     // console.log(currentUser)
+      setTimeout(async () => {
+        
+        if(result){
+            const response = await apiClient.post(SIGNUP_ROUTE, {
+                email: email,
+                
+                token: result.user.uid,
+               
+            } );
+            console.log(response);
+            navigate("/dashboard");
+        }
+        else{
+            setIsRegistering(false);
+        }
+    }, 1000);
+  }
+   // console.log('Signing up with:', email, fullName, phoneNumber);
   };
+
 
   return (
     <div
@@ -52,7 +77,7 @@ const Auth = () => {
       <div className="w-full max-w-lg bg-slate-300 bg-opacity-90 shadow-md rounded px-8 py-6">
         <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
         {/* Login form */}
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form className="space-y-4">
           <div>
             <label className="block mb-1">Email:</label>
             <input
@@ -76,15 +101,23 @@ const Auth = () => {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition duration-300"
+            onClick={handleLogin}
           >
             Login
           </button>
-        </form>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition duration-300"
+            onClick={handleSignUp}
+          >
+            SignUp
+          </button>
+        </form> 
         <div className="text-center mt-4">
           {/* Signup link/button */}
-          <Link to="/signup" className="text-blue-500 hover:underline">
+          { /*   <Link to="/signup" className="text-blue-500 hover:underline">
             Sign Up
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

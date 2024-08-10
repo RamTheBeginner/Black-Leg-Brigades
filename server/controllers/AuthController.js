@@ -1,4 +1,4 @@
-import { compare } from "bcrypt";
+
 import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import { rename, renameSync, unlinkSync } from "fs";
@@ -12,15 +12,16 @@ const createToken = (email, userId) => {
 };
 export const signup = async (request, response, next) => {
   try {
-    const { email, password } = request.body;
-    if (!email || !password) {
+    const { email, token } = request.body;
+    if (!email ) {
       return response.status(400).send("Email and Password are required");
     }
     const user = await User.create({
       email,
-      password,
+      token
+      
     }); /* As the email and password are required fields*/
-    response.cookie("jwt", createToken(email, user.id), {
+    response.cookie("jwt", token, {
       maxAge,
       secure: true,
       sameSite: "None",
@@ -29,7 +30,7 @@ export const signup = async (request, response, next) => {
       user: {
         id: user.id,
         email: user.email,
-        profileSetup: user.profileSetup,
+        token: user.token,
       },
     });
   } catch (err) {
@@ -38,7 +39,7 @@ export const signup = async (request, response, next) => {
   }
 };
 /* For Login */
-export const login = async (request, response, next) => {
+/*export const login = async (request, response, next) => {
   try {
     const { email, password } = request.body;
     if (!email || !password) {
@@ -46,16 +47,16 @@ export const login = async (request, response, next) => {
     }
     const user = await User.findOne({
       email,
-    }); /* As the email is Unique we are using findone function*/
+    }); 
     if (!user) return response.status(404).send("User Not Found");
-    const auth = await compare(password, user.password); /* Returns a Boolean Value*/
+    const auth = await compare(password, user.password); 
     if (!auth) return response.status(400).send("Password is Incorrect");
     response.cookie("jwt", createToken(email, user.id), {
       maxAge,
       secure: true,
       sameSite: "None",
     });
-    /* 201 for creating and 200 for fetching */
+    
     return response.status(200).json({
       user: {
         id: user.id,
@@ -72,7 +73,7 @@ export const login = async (request, response, next) => {
     return response.status(500).send("Internal server Error");
   }
 };
-
+*/
 // export const getUserInfo = async (request, response, next) => {
 //   try {
 //     const userData = await User.findById(request.userId);

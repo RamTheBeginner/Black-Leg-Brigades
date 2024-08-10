@@ -4,8 +4,11 @@ import Nav from "./pages/nav";
 import About from "./pages/about";
 import Auth from "./pages/authentication";
 
+import { AuthProvider } from "./contexts/auth";
+
 const App = () => {
   return (
+    <AuthProvider>
     <Router>
       <Nav />
       <Routes>
@@ -14,6 +17,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 };
 
