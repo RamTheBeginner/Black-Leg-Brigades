@@ -1,28 +1,18 @@
-import { Button } from '@/components/ui/button'
-import React from 'react'
+import { Button } from "@/components/ui/button";
+import React from "react";
 
-import {
-  doSignOut
-} from "../../config/auth";
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import { doSignOut } from "../../config/auth";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import Nav from "../nav";
 const Home = () => {
   const navigate = useNavigate();
-  const handleLogout = () => {
-    doSignOut();
-    toast.info("Logged Out Successfully")
-  }
   return (
     <>
-    <div>Home</div>
-    <Button
-    className = "bg-red-600"
-    onClick = {handleLogout}
-    >
-      Logout
-    </Button>
+      <Nav />
+      <div>Home</div>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
