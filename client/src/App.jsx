@@ -5,6 +5,7 @@ import About from './pages/about';
 import Auth from './pages/authentication';
 import Home from './pages/home'; // Ensure you have this component
 import { AuthProvider, useAuth } from './contexts/auth';
+import LandingPage from './pages/landing';
 
 const App = () => {
   const PrivateRoute = ({ children }) => {
@@ -21,6 +22,7 @@ const App = () => {
     <AuthProvider>
       <Router>
         <Nav />
+        <LandingPage />
         <Routes>
           {/* Auth page or Home page based on login status */}
           <Route path="/" element={<AuthRoute><Auth /></AuthRoute>} />
