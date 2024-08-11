@@ -33,6 +33,9 @@ const Nav = () => {
       >
         About
       </NavLink>
+      <NavLink to={"/dashboard"}>
+        Dashboard
+      </NavLink>
       <NavLink to={"/"} onClick={handleLogout}>
         Logout
       </NavLink>

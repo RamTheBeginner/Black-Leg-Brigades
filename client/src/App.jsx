@@ -6,6 +6,7 @@ import Auth from './pages/authentication';
 import Home from './pages/home';
 import LandingPage from './pages/landing';
 import { AuthProvider, useAuth } from './contexts/auth';
+import Dashboard from './pages/dashboard';
 
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
           <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
           <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
+          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
