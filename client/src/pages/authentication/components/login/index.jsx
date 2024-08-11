@@ -4,6 +4,7 @@ import { doSignInWithEmailAndPassword,doSendEmailVerification ,doSignOut} from "
 import { toast } from "sonner";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { apiClient } from "@/lib/api-client";
+import { useAppStore } from "@/store";
 
 
 const Login = ({ setView }) => {
@@ -11,6 +12,7 @@ const Login = ({ setView }) => {
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
+  const {setUserInfo} = useAppStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,7 +26,10 @@ const Login = ({ setView }) => {
             email: email,
             token: result.user.uid,
           });
-          console.log(response);
+          setUserInfo(response);
+          
+
+          
         toast.dismiss();
         toast.success("Logged in successfully!");
         navigate("/home");}
