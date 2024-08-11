@@ -54,6 +54,7 @@ export function AuthProvider({ children }) {
     isGoogleUser,
     currentUser,
     setCurrentUser,
+    isverifyed
   };
 
   return (
