@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   doSignInWithEmailAndPassword,
-  doCreateUserWithEmailAndPassword
+  doCreateUserWithEmailAndPassword,
+  resetpassword
+  
 } from "../../config/auth";
 import { SIGNUP_ROUTE } from "../../utils/constants";
 import { useAuth } from "../../contexts/auth";
@@ -73,6 +75,17 @@ const Auth = () => {
     }
   };
 
+
+  const handleReset = async (e) => {
+    e.preventDefault();
+    try{
+    let result = await resetpassword(email);
+    }catch(error){
+        console.log(error);
+
+    }
+    };
+
   return (
     <div
       className="flex items-center justify-center h-screen"
@@ -117,6 +130,14 @@ const Auth = () => {
             onClick={handleSignUp}
           >
             SignUp
+          </button>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition duration-300"
+            onClick={handleReset}
+          >
+            Reset password
           </button>
         </form>
       </div>
