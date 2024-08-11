@@ -3,33 +3,39 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Nav from './pages/nav';
 import About from './pages/about';
 import Auth from './pages/authentication';
-import Home from './pages/home'; // Ensure you have this component
-import { AuthProvider, useAuth } from './contexts/auth';
+import Home from './pages/home';
 import LandingPage from './pages/landing';
+import { AuthProvider, useAuth } from './contexts/auth';
 
-const App = () => {
+const AppRoutes = () => {
+  const { userLoggedIn } = useAuth();
+
   const PrivateRoute = ({ children }) => {
-    const { userLoggedIn } = useAuth();
     return userLoggedIn ? children : <Navigate to="/authentication" />;
   };
 
   const AuthRoute = ({ children }) => {
-    const { userLoggedIn } = useAuth();
     return userLoggedIn ? <Navigate to="/home" /> : children;
   };
 
   return (
+    <>
+      {!userLoggedIn ? <LandingPage /> : <Nav />}
+      <Routes>
+        <Route path="/" element={<AuthRoute><Auth /></AuthRoute>} />
+        <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
+        <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </>
+  );
+};
+
+const App = () => {
+  return (
     <AuthProvider>
       <Router>
-        <Nav />
-        <LandingPage />
-        <Routes>
-          {/* Auth page or Home page based on login status */}
-          <Route path="/" element={<AuthRoute><Auth /></AuthRoute>} />
-          <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
-          <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+        <AppRoutes />
       </Router>
     </AuthProvider>
   );
