@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { doCreateUserWithEmailAndPassword } from "../../../../config/auth";
+import { doCreateUserWithEmailAndPassword ,doSendEmailVerification} from "../../../../config/auth";
 import { SIGNUP_ROUTE } from "@/utils/constants";
 import { apiClient } from "@/lib/api-client";
 import { toast } from "sonner";
@@ -16,6 +16,7 @@ const SignUp = ({ setView }) => {
       toast.loading("Registering...");
       try {
         let result = await doCreateUserWithEmailAndPassword(email, password);
+        await doSendEmailVerification();
         setTimeout(async () => {
           toast.dismiss();
           if (result) {

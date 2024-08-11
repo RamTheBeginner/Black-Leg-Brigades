@@ -43,6 +43,7 @@ export function AuthProvider({ children }) {
     } else {
       setCurrentUser(null);
       setUserLoggedIn(false);
+      setverifyed(false)
     }
 
     setLoading(false);

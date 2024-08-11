@@ -11,13 +11,13 @@ import { AuthProvider, useAuth } from './contexts/auth';
 const App = () => {
   
   const PrivateRoute = ({ children }) => {
-    const { userLoggedIn } = useAuth();
-    return userLoggedIn ? children : <Navigate to="/auth" />;
+    const { userLoggedIn,isverifyed} = useAuth();
+    return isverifyed ? children : <Navigate to="/auth" />;
   };
   
   const AuthRoute = ({ children }) => {
-    const { userLoggedIn } = useAuth();
-    return userLoggedIn ? <Navigate to="/home" /> : children;
+    const { userLoggedIn,isverifyed } = useAuth();
+    return isverifyed? <Navigate to="/home" /> : children;
   };
 
   return (

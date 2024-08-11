@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { doSignInWithEmailAndPassword } from "../../../../config/auth";
+import { doSignInWithEmailAndPassword,doSendEmailVerification ,doSignOut} from "../../../../config/auth";
 import { toast } from "sonner";
 
 const Login = ({ setView }) => {
@@ -16,9 +16,18 @@ const Login = ({ setView }) => {
       toast.loading("Signing in...");
       try {
         let result = await doSignInWithEmailAndPassword(email, password);
+        if(result.user.emailVerified){
         toast.dismiss();
         toast.success("Logged in successfully!");
-        navigate("/home");
+        navigate("/home");}
+        else{
+          doSendEmailVerification();
+          toast.dismiss();
+          toast.success("please verify your email");
+         
+          setIsSigningIn(false);
+
+        }
       } catch (error) {
         toast.dismiss();
         toast.error("Incorrect credentials. Please try again.");
