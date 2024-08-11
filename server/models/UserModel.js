@@ -11,6 +11,19 @@ const userSchema = new mongoose.Schema({
     required: [true, "Email is Required"],
     unique: true,
   },
+  profileSetup:{
+    type:Boolean,
+    default: false
+  },
+  firstName:{
+    type:String,
+  },
+  lastName:{
+    type:String
+  },
+  image:{
+    type:String
+  }
 });
 
 const User = mongoose.model("Users", userSchema);

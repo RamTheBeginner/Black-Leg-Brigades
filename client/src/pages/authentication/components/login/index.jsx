@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { doSignInWithEmailAndPassword,doSendEmailVerification ,doSignOut} from "../../../../config/auth";
 import { toast } from "sonner";
+import { LOGIN_ROUTE } from "@/utils/constants";
+import { apiClient } from "@/lib/api-client";
+
 
 const Login = ({ setView }) => {
   const [email, setEmail] = useState("");
@@ -17,6 +20,11 @@ const Login = ({ setView }) => {
       try {
         let result = await doSignInWithEmailAndPassword(email, password);
         if(result.user.emailVerified){
+          let response = await apiClient.post(LOGIN_ROUTE, {
+            email: email,
+            token: result.user.uid,
+          });
+          console.log(response);
         toast.dismiss();
         toast.success("Logged in successfully!");
         navigate("/home");}

@@ -38,20 +38,19 @@ export const signup = async (request, response, next) => {
     return response.status(500).send("Internal server Error");
   }
 };
-/* For Login */
-/*export const login = async (request, response, next) => {
+
+export const login = async (request, response, next) => {
   try {
-    const { email, password } = request.body;
-    if (!email || !password) {
+    const { email,token} = request.body;
+    if (!email || !token) {
       return response.status(400).send("Email and Password are required");
     }
     const user = await User.findOne({
       email,
     }); 
     if (!user) return response.status(404).send("User Not Found");
-    const auth = await compare(password, user.password); 
-    if (!auth) return response.status(400).send("Password is Incorrect");
-    response.cookie("jwt", createToken(email, user.id), {
+   
+    response.cookie("jwt", token, {
       maxAge,
       secure: true,
       sameSite: "None",
@@ -64,8 +63,7 @@ export const signup = async (request, response, next) => {
         profileSetup: user.profileSetup,
         firstName: user.firstName,
         lastName: user.lastName,
-        image: user.image,
-        color: user.color,
+        image: user.image  
       },
     });
   } catch (err) {
@@ -73,63 +71,67 @@ export const signup = async (request, response, next) => {
     return response.status(500).send("Internal server Error");
   }
 };
-*/
-// export const getUserInfo = async (request, response, next) => {
-//   try {
-//     const userData = await User.findById(request.userId);
-//     if (!userData) {
-//       return response.status(404).send("User With Given Id not found");
-//     }
-//     return response.status(200).json({
-//       id: userData.id,
-//       email: userData.email,
-//       profileSetup: userData.profileSetup,
-//       firstName: userData.firstName,
-//       lastName: userData.lastName,
-//       image: userData.image,
-//       color: userData.color,
-//     });
-//   } catch (err) {
-//     console.log({ err });
-//     return response.status(500).send("Internal server Error");
-//   }
-// };
 
-// export const updateProfile = async (request, response, next) => {
-//   try {
-//     const { userId } = request;
-//     const { firstName, lastName, color } = request.body;
-//     if (!firstName || !lastName) {
-//       return response
-//         .status(400)
-//         .send("FirstName , LastName , and color is required");
-//     }
+export const getUserInfo = async (request, response, next) => {
+  try {
+    const userData = await User.findById(request.userId);
+    if (!userData) {
+      return response.status(404).send("User With Given Id not found");
+    }
+    return response.status(200).json({
+      id: userData.id,
+      email: userData.email,
+      profileSetup: userData.profileSetup,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      image: userData.image,
+      color: userData.color,
+    });
+  } catch (err) {
+    console.log({ err });
+    return response.status(500).send("Internal server Error");
+  }
+};
 
-//     const userData = await User.findByIdAndUpdate(
-//       userId,
-//       {
-//         firstName,
-//         lastName,
-//         color,
-//         profileSetup: true,
-//       },
-//       { new: true, runValidators: true }
-//     );
+export const updateProfile = async (request, response, next) => {
+  try {
+    const { userId } = request;
+    const { firstName, lastName, image } = request.body;
+    if (!firstName || !lastName) {
+      return response
+        .status(400)
+        .send("FirstName , LastName , and color is required");
+    }
 
-//     return response.status(200).json({
-//       id: userData.id,
-//       email: userData.email,
-//       profileSetup: userData.profileSetup,
-//       firstName: userData.firstName,
-//       lastName: userData.lastName,
-//       image: userData.image,
-//       color: userData.color,
-//     });
-//   } catch (err) {
-//     console.log({ err });
-//     return response.status(500).send("Internal server Error");
-//   }
-// };
+    const userData = await User.findByIdAndUpdate(
+      userId,
+      {
+        firstName,
+        lastName,
+        image,
+        profileSetup: true,
+      },
+      { new: true, runValidators: true }
+    );
+
+    return response.status(200).json({
+      id: userData.id,
+      email: userData.email,
+      profileSetup: userData.profileSetup,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      image: userData.image,
+    });
+  } catch (err) {
+    console.log({ err });
+    return response.status(500).send("Internal server Error");
+  }
+};
+
+
+
+
+
 
 // export const addProfileImage = async (request, response, next) => {
 //   if (!request.file) {
@@ -177,18 +179,4 @@ export const signup = async (request, response, next) => {
 //   }
 // };
 
-// export const logout = async (request, response, next) => {
-//   try {
-//     response.cookie("jwt", "", {
-//       maxAge: 1,
-//       secure: true,
-//       sameSite: 'None',
-//       httpOnly: true, // Ensures the cookie is only accessible via HTTP(S) requests
-//     });
 
-//     return response.status(200).json({ message: "Logout Successful" });
-//   } catch (err) {
-//     console.log({ err });
-//     return response.status(500).json({ message: "Unable to Logout" });
-//   }
-// };
