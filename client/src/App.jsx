@@ -7,38 +7,36 @@ import Home from './pages/home';
 import LandingPage from './pages/landing';
 import { AuthProvider, useAuth } from './contexts/auth';
 
-const AppRoutes = () => {
-  const { userLoggedIn } = useAuth();
 
+const App = () => {
+  
   const PrivateRoute = ({ children }) => {
-    return userLoggedIn ? children : <Navigate to="/authentication" />;
+    const { userLoggedIn } = useAuth();
+    return userLoggedIn ? children : <Navigate to="/auth" />;
   };
-
+  
   const AuthRoute = ({ children }) => {
+    const { userLoggedIn } = useAuth();
     return userLoggedIn ? <Navigate to="/home" /> : children;
   };
 
   return (
     <>
-      {!userLoggedIn ? <LandingPage /> : <Nav />}
-      <Routes>
-        <Route path="/" element={<AuthRoute><Auth /></AuthRoute>} />
-        <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
-        <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<AuthRoute><LandingPage /></AuthRoute>} />
+          <Route path="/auth" element={<AuthRoute><Auth /></AuthRoute>} />
+          <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
+          <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
     </>
   );
 };
 
-const App = () => {
-  return (
-    <AuthProvider>
-      <Router>
-        <AppRoutes />
-      </Router>
-    </AuthProvider>
-  );
-};
+
 
 export default App;
