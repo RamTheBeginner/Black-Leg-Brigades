@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { doSignInWithEmailAndPassword,doSendEmailVerification ,doSignOut} from "../../../../config/auth";
+import {
+  doSignInWithEmailAndPassword,
+  doSendEmailVerification,
+  doSignOut,
+} from "../../../../config/auth";
 import { toast } from "sonner";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { apiClient } from "@/lib/api-client";
 import { useAppStore } from "@/store";
-
+import { useAuth } from "@/contexts/auth";
 
 const Login = ({ setView }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
-  const {setUserInfo} = useAppStore();
+  const { users,setUsers} = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,25 +25,29 @@ const Login = ({ setView }) => {
       toast.loading("Signing in...");
       try {
         let result = await doSignInWithEmailAndPassword(email, password);
-        if(result.user.emailVerified){
+        if (result.user.emailVerified) {
           let response = await apiClient.post(LOGIN_ROUTE, {
             email: email,
             token: result.user.uid,
           });
-          setUserInfo(response);
-          
 
-          
-        toast.dismiss();
-        toast.success("Logged in successfully!");
-        navigate("/home");}
-        else{
+          if (response.data.user) {
+            
+            setUsers(response.data.user);
+            if (response.data.user.profileSetup) {
+              navigate("/home");
+            } else {
+              navigate("/profile");
+            }
+          }
+          toast.dismiss();
+          toast.success("Logged in successfully!");
+        } else {
           doSendEmailVerification();
           toast.dismiss();
           toast.success("please verify your email");
-         
-          setIsSigningIn(false);
 
+          setIsSigningIn(false);
         }
       } catch (error) {
         toast.dismiss();

@@ -20,7 +20,7 @@ export const signup = async (request, response, next) => {
       email,
       token
       
-    }); /* As the email and password are required fields*/
+    });
     response.cookie("jwt", token, {
       maxAge,
       secure: true,
@@ -95,20 +95,19 @@ export const getUserInfo = async (request, response, next) => {
 
 export const updateProfile = async (request, response, next) => {
   try {
-    const { userId } = request;
-    const { firstName, lastName, image } = request.body;
+    
+    const { firstName, lastName,userInfo } = request.body;
     if (!firstName || !lastName) {
       return response
         .status(400)
-        .send("FirstName , LastName , and color is required");
+        .send("FirstName , LastName is required");
     }
 
     const userData = await User.findByIdAndUpdate(
-      userId,
+      userInfo.id,
       {
         firstName,
         lastName,
-        image,
         profileSetup: true,
       },
       { new: true, runValidators: true }

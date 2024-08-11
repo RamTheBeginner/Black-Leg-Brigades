@@ -7,17 +7,18 @@ import Home from './pages/home';
 import LandingPage from './pages/landing';
 import { AuthProvider, useAuth } from './contexts/auth';
 import Dashboard from './pages/dashboard';
+import Profile from './pages/profile';
 
 
 const App = () => {
   
   const PrivateRoute = ({ children }) => {
-    const { userLoggedIn,isverifyed} = useAuth();
+    const {isverifyed} = useAuth();
     return isverifyed ? children : <Navigate to="/auth" />;
   };
   
   const AuthRoute = ({ children }) => {
-    const { userLoggedIn,isverifyed } = useAuth();
+    const { isverifyed } = useAuth();
     return isverifyed? <Navigate to="/home" /> : children;
   };
 
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
           <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+          <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>

@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
   const [isGoogleUser, setIsGoogleUser] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isverifyed,setverifyed] = useState(true);
+  const [users,setUsers] = useState({})
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, initializeUser);
@@ -55,7 +56,10 @@ export function AuthProvider({ children }) {
     isGoogleUser,
     currentUser,
     setCurrentUser,
-    isverifyed
+    isverifyed,
+    users,
+    setUsers
+
   };
 
   return (
