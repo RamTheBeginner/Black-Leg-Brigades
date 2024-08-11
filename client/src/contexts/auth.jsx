@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
   const [isEmailUser, setIsEmailUser] = useState(false);
   const [isGoogleUser, setIsGoogleUser] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isverifyed,setverifyed] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, initializeUser);
@@ -29,6 +30,8 @@ export function AuthProvider({ children }) {
       // check if provider is email and password login
 
       setIsEmailUser(user.email);
+
+      setverifyed(user.emailVerified);
 
       // check if the auth provider is google or not
       //   const isGoogle = user.providerData.some(
