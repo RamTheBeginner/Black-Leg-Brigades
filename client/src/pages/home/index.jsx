@@ -20,6 +20,7 @@ const Home = () => {
   return (
     <>
       <Nav />
+    
       <div>Home</div>
     </>
   );
