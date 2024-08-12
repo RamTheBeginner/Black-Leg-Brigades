@@ -18,25 +18,33 @@ import { colors } from "@/lib/utils";
 import { useAuth } from "@/contexts/auth";
 const Profile = () => {
   const navigate = useNavigate();
-  const { users, setUsers } = useAuth();
+  const { users} = useAuth();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [image, setImage] = useState(null);
   const [hovered, setHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const fileInputRef = useRef(null);
-  const [userInfo,setUserinfo] = useState({})
-  useEffect(() => {
-    setUserinfo(users);
-    console.log(userInfo);
+  const [userInfo,setUserInfo] = useState(null)
 
+
+  useEffect(()=>{
+     setUserInfo(users);
+  },[])
+  useEffect(() => {
+    console.log(users)
+    
+    
+
+
+    if(userInfo){
     if (userInfo.profileSetup) {
       setFirstName(userInfo.firstName);
       setLastName(userInfo.lastName);
     }
     if (userInfo.image) {
       setImage(`${HOST}/${userInfo.image}`);
-    }
+    }}
   }, [userInfo]);
 
   const validateProfile = () => {

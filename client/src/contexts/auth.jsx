@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../config/firebase";
 // import { GoogleAuthProvider } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+import { apiClient } from "@/lib/api-client";
+import { LOGIN_ROUTE } from "@/utils/constants";
 
 const AuthContext = React.createContext();
 
@@ -16,7 +18,7 @@ export function AuthProvider({ children }) {
   const [isGoogleUser, setIsGoogleUser] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isverifyed,setverifyed] = useState(true);
-  const [users,setUsers] = useState({})
+  const [users,setUsers] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, initializeUser);
@@ -25,8 +27,9 @@ export function AuthProvider({ children }) {
 
   async function initializeUser(user) {
     if (user) {
-      console.log(user.email);
+      
       setCurrentUser({ ...user });
+      
 
       // check if provider is email and password login
 
@@ -39,6 +42,18 @@ export function AuthProvider({ children }) {
       //     (provider) => provider.providerId === GoogleAuthProvider.PROVIDER_ID
       //   );
       //   setIsGoogleUser(isGoogle);
+      let response = await apiClient.post(LOGIN_ROUTE, {
+        email: user.email,
+        token: user.uid,
+      });
+
+      let user1 = response.data.user;
+      await setprofile(user1)
+
+
+
+
+
 
       setUserLoggedIn(true);
     } else {
@@ -50,6 +65,21 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }
 
+  async function setprofile(params) {
+    if(params){
+      //console.log(params.email)
+      
+      
+
+      setUsers(params)
+      
+    }else{
+      
+      setUsers(null);
+    }
+    
+  }
+
   const value = {
     userLoggedIn,
     isEmailUser,
@@ -58,7 +88,7 @@ export function AuthProvider({ children }) {
     setCurrentUser,
     isverifyed,
     users,
-    setUsers
+    setprofile
 
   };
 

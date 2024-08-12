@@ -16,7 +16,7 @@ const Login = ({ setView }) => {
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
-  const { users,setUsers} = useAuth();
+  const { users,setprofile} = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,8 +32,12 @@ const Login = ({ setView }) => {
           });
 
           if (response.data.user) {
+            let user = response.data.user;
+            console.log(users)
+           
+             
+           
             
-            setUsers(response.data.user);
             if (response.data.user.profileSetup) {
               navigate("/home");
             } else {
