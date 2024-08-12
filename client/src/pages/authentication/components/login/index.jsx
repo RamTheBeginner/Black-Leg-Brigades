@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import {
   doSignInWithEmailAndPassword,
   doSendEmailVerification,
-  doSignOut,
 } from "../../../../config/auth";
 import { toast } from "sonner";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { apiClient } from "@/lib/api-client";
-import { useAppStore } from "@/store";
 import { useAuth } from "@/contexts/auth";
 
 const Login = ({ setView }) => {
@@ -16,7 +14,7 @@ const Login = ({ setView }) => {
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
-  const { users,setUsers} = useAuth();
+  const { setUserInfo } = useAuth(); // Assuming this is the correct function
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,8 +30,13 @@ const Login = ({ setView }) => {
           });
 
           if (response.data.user) {
-            
-            setUsers(response.data.user);
+            try {
+              console.log("Setting user info:", response.data.user);
+              setUserInfo(response.data.user); // Ensure this matches your slice method
+            } catch (error) {
+              console.log("Error setting user info:", error);
+            }
+
             if (response.data.user.profileSetup) {
               navigate("/home");
             } else {
@@ -45,7 +48,7 @@ const Login = ({ setView }) => {
         } else {
           doSendEmailVerification();
           toast.dismiss();
-          toast.success("please verify your email");
+          toast.success("Please verify your email");
 
           setIsSigningIn(false);
         }

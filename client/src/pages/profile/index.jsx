@@ -14,25 +14,23 @@ import {
 } from "@/utils/constants";
 import { useAppStore } from "@/store";
 import { IoArrowBack } from "react-icons/io5";
-import { colors } from "@/lib/utils";
-import { useAuth } from "@/contexts/auth";
+import { colors, getColor } from "@/lib/utils";
+
 const Profile = () => {
   const navigate = useNavigate();
-  const { users, setUsers } = useAuth();
+  const { userInfo, setUserInfo } = useAppStore();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [image, setImage] = useState(null);
   const [hovered, setHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const fileInputRef = useRef(null);
-  const [userInfo,setUserinfo] = useState({})
-  useEffect(() => {
-    setUserinfo(users);
-    console.log(userInfo);
 
+  useEffect(() => {
     if (userInfo.profileSetup) {
       setFirstName(userInfo.firstName);
       setLastName(userInfo.lastName);
+      setSelectedColor(userInfo.color);
     }
     if (userInfo.image) {
       setImage(`${HOST}/${userInfo.image}`);
@@ -56,13 +54,12 @@ const Profile = () => {
       try {
         const response = await apiClient.post(UPDATE_PROFILE_ROUTE, {
           firstName,
-          lastName,
-          userInfo
+          lastName
         });
         if (response.status === 200 && response.data) {
           setUserInfo({ ...response.data });
           toast.success("Profile Updated Successfully");
-          navigate("/home");
+          navigate("/chat");
         }
       } catch (error) {
         console.log(error);
@@ -125,13 +122,13 @@ const Profile = () => {
         <div onClick={() => navigate(-1)}>
           <IoArrowBack className="text-4xl lg:text-6xl text-white/90 cursor-pointer" />
         </div>
-        <div className="grid grid-cols-2 items-center">
+        <div className="grid grid-cols-2">
           <div
-            className="relative flex items-center justify-center w-32 md:w-48 h-32 md:h-48 mb-14"
+            className="h-full w-32 md:w-48 md:h-48 relative flex items-center justify-center"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >
-            <Avatar className="h-full w-full rounded-full overflow-hidden">
+            <Avatar className="h-32 w-32 md:w-48 md:h-48 rounded-full overflow-hidden">
               {image ? (
                 <AvatarImage
                   src={image}
@@ -140,7 +137,9 @@ const Profile = () => {
                 />
               ) : (
                 <div
-                  className={`uppercase text-5xl border-[1px] flex items-center justify-center rounded-full ${colors[selectedColor]} h-full w-full`}
+                  className={`uppercase h-32 w-32 md:w-48 md:h-48 text-5xl border-[1px] flex items-center justify-center rounded-full ${getColor(
+                    selectedColor
+                  )}`}
                 >
                   {firstName ? firstName.charAt(0) : userInfo.email.charAt(0)}
                 </div>
