@@ -32,11 +32,6 @@ const Profile = () => {
      setUserInfo(users);
   },[])
   useEffect(() => {
-    console.log(users)
-    
-    
-
-
     if(userInfo){
     if (userInfo.profileSetup) {
       setFirstName(userInfo.firstName);
