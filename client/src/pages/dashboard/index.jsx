@@ -80,7 +80,6 @@ const Dashboard = () => {
     <>
       <Nav />
       <div className="flex min-h-screen bg-gray-100">
-        {/* Sidebar */}
         <aside className="w-64 bg-[#396b89] text-white shadow-lg flex flex-col justify-between">
           <div className="h-full p-4 flex flex-col justify-between">
             <div>
@@ -88,60 +87,60 @@ const Dashboard = () => {
               <nav>
                 <ul className="space-y-4 flex flex-col justify-between h-full">
                   <li>
-                    <a
-                      href="#"
+                    <NavLink
+                      href="/savings"
                       className="block py-2 px-4 rounded hover:bg-zinc-800"
                     >
                       Savings
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      to="/dashboard"
+                      to="/transactions"
                       className="block py-2 px-4 rounded hover:bg-zinc-800"
                     >
                       Overall Transactions
                     </NavLink>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <NavLink
+                      to="/credit"
                       className="block py-2 px-4 rounded hover:bg-zinc-800"
                     >
                       Credit Transactions
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <NavLink
+                      to="/debit"
                       className="block py-2 px-4 rounded hover:bg-zinc-800"
                     >
                       Debit Transactions
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <NavLink
+                      to="/daily"
                       className="block py-2 px-4 rounded hover:bg-zinc-800"
                     >
                       Daily Transactions
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <NavLink
+                      to="/monthly"
                       className="block py-2 px-4 rounded hover:bg-zinc-800"
                     >
                       Monthly Transactions
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
-                    <a
-                      href="#"
+                    <NavLink
+                      to="/yearly"
                       className="block py-2 px-4 rounded hover:bg-zinc-800"
                     >
                       Yearly Transactions
-                    </a>
+                    </NavLink>
                   </li>
                 </ul>
               </nav>
@@ -153,7 +152,6 @@ const Dashboard = () => {
           <h1 className="text-3xl font-semibold mb-6">Financial Dashboard</h1>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {/* Example of cards or data sections */}
             <div className="p-4 bg-[#dde7ee] rounded shadow">
               <h2 className="text-xl font-semibold">Balance</h2>
               <p className="mt-2 text-gray-600">$12,345.67</p>
@@ -167,16 +165,12 @@ const Dashboard = () => {
               <p className="mt-2 text-gray-600">$5,678.90</p>
             </div>
           </div>
-
-          {/* Line Chart */}
           <div className="mt-6 h-1/3 w-full">
             <h2 className="text-2xl font-semibold mb-4">
               Income vs Expenditure
             </h2>
             <Line data={dataLine} options={chartOptions} />
           </div>
-
-          {/* Pie Chart */}
           <div className="mt-6 h-1/3 w-full items-center">
             <h2 className="text-2xl font-semibold mb-4 mt-8">
               Expenditure Breakdown

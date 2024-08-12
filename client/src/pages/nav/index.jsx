@@ -2,10 +2,20 @@ import { doSignOut } from "@/config/auth";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar } from "@radix-ui/react-avatar";
+import { useAuth } from "@/contexts/auth";
 
 const Nav = () => {
   const navigate = useNavigate();
-
+  const { users } = useAuth();
   const handleLogout = async () => {
     toast.loading("Logging out...");
     try {
@@ -48,18 +58,36 @@ const Nav = () => {
           >
             Services
           </NavLink>
-          <NavLink
-            className="font-medium hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-            to="/profile"
-          >
-            Profile
-          </NavLink>
-          <button
-            onClick={handleLogout}
-            className="font-medium hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
-          >
-            Logout
-          </button>
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="border-0">
+                <Avatar className="rounded-full p-2 overflow-hidden bg-blue-400">
+                  {users.image ? (
+                    <img
+                      src={users.image}
+                      alt="User Avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-white font-semibold">
+                      {users.firstName.charAt(0)}
+                    </span>
+                  )}
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/profile")}>Edit Profile</DropdownMenuItem>
+                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </nav>
     </header>

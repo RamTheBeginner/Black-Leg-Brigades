@@ -3,11 +3,9 @@ import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../index.css";
 import { useNavigate } from "react-router-dom";
-
 const slides = [
   {
-    bgImage:
-      "/slide-1",
+    bgImage: "../../../../public/slide-1.webp",
     title1: "Simplify And Secure",
     title2: "Your Payments with",
     highlight: "Our Solution",
