@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const slides = [
   {
     bgImage:
-      "https://finatex-next.vercel.app/_next/image?url=%2Fimages%2Fslider%2Fslider1-2.png&w=3840&q=75",
+      "/slide-1",
     title1: "Simplify And Secure",
     title2: "Your Payments with",
     highlight: "Our Solution",
