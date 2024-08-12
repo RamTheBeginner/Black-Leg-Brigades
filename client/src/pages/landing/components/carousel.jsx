@@ -2,6 +2,7 @@ import React from "react";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../index.css"; // Import the CSS file with the animation
+import { useNavigate } from "react-router-dom"; // Ensure useNavigate is imported
 
 const slides = [
   {
@@ -37,6 +38,8 @@ const slides = [
 ];
 
 const FullWidthCarousel = () => {
+  const navigate = useNavigate(); // Declare the navigate function
+
   return (
     <Carousel
       interval={3000} // Auto-play interval in milliseconds
@@ -67,8 +70,14 @@ const FullWidthCarousel = () => {
                   <p key={idx}>{line}</p>
                 ))}
               </div>
-              <div className="py-8 animate-slide-up">
-                <button className="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded">
+              <div
+                className="absolute bottom-0 left-0 right-0 py-8 flex justify-center"
+                style={{ zIndex: 9999 }}
+              >
+                <button
+                  className="bg-blue-500 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => navigate("/auth")} // Ensure navigate is called correctly
+                >
                   Get Started with Us
                 </button>
               </div>
