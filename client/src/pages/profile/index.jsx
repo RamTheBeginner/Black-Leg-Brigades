@@ -27,7 +27,7 @@ const Profile = () => {
   const fileInputRef = useRef(null);
   const [userInfo,setUserInfo] = useState(null)
 
-
+//nochanges
   useEffect(()=>{
      setUserInfo(users);
   },[])
