@@ -8,40 +8,32 @@ import { toast } from "sonner";
 import { apiClient } from "@/lib/api-client";
 import {
   ADD_PROFILE_IMAGE_ROUTE,
-  HOST,
   REMOVE_PROFILE_IMAGE_ROUTE,
   UPDATE_PROFILE_ROUTE,
 } from "@/utils/constants";
-import { useAppStore } from "@/store";
 import { IoArrowBack } from "react-icons/io5";
 import { colors } from "@/lib/utils";
-import { useAuth } from "@/contexts/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { userChange } from "@/store/reducers/userSlice";
+
 const Profile = () => {
+  const user = useSelector((state) => state.user.value); 
+  console.log(user)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { users} = useAuth();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [image, setImage] = useState(null);
+  
+  const [firstName, setFirstName] = useState(user.firstName || "");
+  const [lastName, setLastName] = useState(user.lastName || "");
+  const [image, setImage] = useState(user.image || null);
   const [hovered, setHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const fileInputRef = useRef(null);
-  const [userInfo,setUserInfo] = useState(null)
 
-//nochanges
-  useEffect(()=>{
-     setUserInfo(users);
-  },[])
   useEffect(() => {
-    console.log(userInfo)
-    if(userInfo){
-    if (userInfo.profileSetup) {
-      setFirstName(userInfo.firstName);
-      setLastName(userInfo.lastName);
-    }
-    if (userInfo.image) {
-      setImage(userInfo.image);
-    }}
-  }, [userInfo]);
+    setFirstName(user.firstName || "");
+    setLastName(user.lastName || "");
+    setImage(user.image || null);
+  }, [user]);
 
   const validateProfile = () => {
     if (!firstName) {
@@ -64,7 +56,8 @@ const Profile = () => {
           userInfo
         });
         if (response.status === 200 && response.data) {
-          setUserInfo({ ...response.data });
+          const updatedUser = { ...user, ...response.data };
+          dispatch(userChange(updatedUser));
           toast.success("Profile Updated Successfully");
           navigate("/home");
         }
@@ -75,10 +68,6 @@ const Profile = () => {
     }
   };
 
-  if (!userInfo) {
-    return <div>Loading...</div>;
-  }
-
   const handleFileInputClick = () => {
     fileInputRef.current.click();
   };
@@ -86,11 +75,8 @@ const Profile = () => {
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log("File selected: ", file); // Add this line to log the selected file
       const formData = new FormData();
       formData.append("profile-image", file);
-      formData.append("userInfo",userInfo.id);
-      console.log(formData)
       try {
         const response = await apiClient.post(ADD_PROFILE_IMAGE_ROUTE, formData, {
           headers: {
@@ -98,10 +84,10 @@ const Profile = () => {
           },
         });
         if (response.status === 200 && response.data.image) {
-          setUserInfo({ ...userInfo, image: response.data.image });
-          toast.success("Image Updated Successfully");
-          console.log(response)
+          const updatedUser = { ...user, image: response.data.image };
+          dispatch(userChange(updatedUser));  // Update Redux store
           setImage(response.data.image);
+          toast.success("Image Updated Successfully");
         }
       } catch (error) {
         console.log(error);
@@ -112,12 +98,10 @@ const Profile = () => {
 
   const handleDeleteImage = async () => {
     try {
-      const response = await apiClient.post(REMOVE_PROFILE_IMAGE_ROUTE,{
-        userInfo,
-        image
-      });
+      const response = await apiClient.post(REMOVE_PROFILE_IMAGE_ROUTE, { image });
       if (response.status === 200) {
-        setUserInfo({ ...userInfo, image: null });
+        const updatedUser = { ...user, image: null };
+        dispatch(userChange(updatedUser));
         setImage(null);
         toast.success("Image removed successfully");
       } else {
@@ -152,7 +136,7 @@ const Profile = () => {
                 <div
                   className={`uppercase text-5xl border-[1px] flex items-center justify-center rounded-full ${colors[selectedColor]} h-full w-full`}
                 >
-                  {firstName ? firstName.charAt(0) : userInfo.email.charAt(0)}
+                  {firstName ? firstName.charAt(0) : user.email.charAt(0)}
                 </div>
               )}
             </Avatar>
@@ -183,7 +167,7 @@ const Profile = () => {
                 placeholder="Email"
                 type="email"
                 disabled
-                value={userInfo.email}
+                value={user.email}
                 className="rounded-lg p-6 bg-[#2c2e3b] border-none"
               />
             </div>

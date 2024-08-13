@@ -11,12 +11,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar } from "@radix-ui/react-avatar";
-import { useAuth } from "@/contexts/auth";
 import { FiMenu } from "react-icons/fi";
-
+import { useSelector } from "react-redux";
 const Nav = () => {
+  const users = useSelector((state) => state.user.value);
+
   const navigate = useNavigate();
-  const { users } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -33,7 +33,6 @@ const Nav = () => {
     }
   };
 
-  // Close the dropdown if clicking outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {

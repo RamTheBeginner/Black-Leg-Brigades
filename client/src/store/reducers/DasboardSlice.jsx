@@ -12,8 +12,5 @@ export const dashboardSlice = createSlice({
   },
 });
 
-// Export the action creator
 export const { change } = dashboardSlice.actions;
-
-// Export the reducer to be used in the store
 export default dashboardSlice.reducer;
