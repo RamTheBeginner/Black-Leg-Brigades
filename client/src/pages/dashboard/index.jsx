@@ -14,7 +14,7 @@ const Dashboard = () => {
     switch (num.switcher.value) {
       case 0:
         return <Stats />;
-      case 1:
+      case 5:
         return <Daily />;
       case 6:
         return <Monthly />;
