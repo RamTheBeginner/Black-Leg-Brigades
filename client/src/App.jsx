@@ -9,6 +9,9 @@ import { AuthProvider, useAuth } from './contexts/auth';
 import Dashboard from './pages/dashboard';
 import Profile from './pages/profile';
 import { useAppStore } from './store';
+import { Provider } from 'react-redux'
+import store from './store/store';
+import Yearly from './pages/dashboard/yearly';
 
 
 const App = () => {
@@ -56,6 +59,7 @@ const App = () => {
 
   return (
     <>
+    <Provider store={store}>
     <AuthProvider>
       <Router>
         <Routes>
@@ -65,10 +69,11 @@ const App = () => {
           <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
     </AuthProvider>
+    </Provider>
+    
     </>
   );
 };

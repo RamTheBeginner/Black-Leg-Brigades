@@ -183,8 +183,8 @@ export const addProfileImage = async (request, response, next) => {
 export const removeProfileImage = async (request, response, next) => {
   try {
     const {userInfo,image} = request.body
-    console.log(userInfo)
-    console.log(request.body)
+   // console.log(userInfo)
+  //  console.log(request.body)
     const user = await User.findById(userInfo.id);
     
 
