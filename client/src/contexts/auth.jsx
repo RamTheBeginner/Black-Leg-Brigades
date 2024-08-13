@@ -25,6 +25,7 @@ export function AuthProvider({ children }) {
  // console.log(dispatch)
  useEffect(()=>{
   if(currentUser){
+    //console.log(users);
   dispatch(userChange(users));
   }
  },[users])

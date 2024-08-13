@@ -107,15 +107,16 @@ export const getUserInfo = async (request, response, next) => {
 export const updateProfile = async (request, response, next) => {
   try {
     
-    const { firstName, lastName , userInfo} = request.body;
+    const { firstName, lastName , user} = request.body;
     if (!firstName || !lastName) {
       return response
         .status(400)
         .send("FirstName , LastName is required");
     }
+   // console.log(request.body)
 
     const userData = await User.findByIdAndUpdate(
-      userInfo,
+      user.id,
       {
         firstName,
         lastName,
@@ -186,18 +187,18 @@ export const addProfileImage = async (request, response, next) => {
 
 export const removeProfileImage = async (request, response, next) => {
   try {
-    const {userInfo,image} = request.body
+    const {user,image} = request.body
    // console.log(userInfo)
   //  console.log(request.body)
-    const user = await User.findById(userInfo.id);
+    const user1 = await User.findById(user.id);
     
 
-    if (!user) {
+    if (!user1) {
       return response.status(404).send("User Not Found");
     }
    
-    user.image = null;
-    await user.save();
+    user1.image = null;
+    await user1.save();
 
     const desertRef = ref(storage, image);
 

@@ -18,7 +18,7 @@ import { userChange } from "@/store/reducers/userSlice";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.value); 
-  console.log(user)
+ // console.log(user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
@@ -53,7 +53,7 @@ const Profile = () => {
         const response = await apiClient.post(UPDATE_PROFILE_ROUTE, {
           firstName,
           lastName,
-          userInfo
+          user
         });
         if (response.status === 200 && response.data) {
           const updatedUser = { ...user, ...response.data };
@@ -77,6 +77,7 @@ const Profile = () => {
     if (file) {
       const formData = new FormData();
       formData.append("profile-image", file);
+      formData.append("userInfo",user.id)
       try {
         const response = await apiClient.post(ADD_PROFILE_IMAGE_ROUTE, formData, {
           headers: {
@@ -98,7 +99,7 @@ const Profile = () => {
 
   const handleDeleteImage = async () => {
     try {
-      const response = await apiClient.post(REMOVE_PROFILE_IMAGE_ROUTE, { image });
+      const response = await apiClient.post(REMOVE_PROFILE_IMAGE_ROUTE, { image ,user});
       if (response.status === 200) {
         const updatedUser = { ...user, image: null };
         dispatch(userChange(updatedUser));

@@ -4,16 +4,21 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     value: {
+      id:'',
       email: '',
+      profileSetup:false,
       firstName: '',
       lastName: '',
       image: 'https://unsplash.com/photos/a-woman-standing-next-to-a-street-light-uOqWyCHitns',
+      
+      
+
     },
   },
   reducers: {
     userChange: (state, action) => {
-      const { email, firstName, lastName, image } = action.payload;
-      state.value = { email, firstName, lastName, image };
+      const { id,email,profileSetup, firstName, lastName, image } = action.payload;
+      state.value = { id,email,profileSetup, firstName, lastName, image };
     },
   },
 });
