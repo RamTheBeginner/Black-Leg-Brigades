@@ -22,7 +22,7 @@ const Card = ({ cards }) => {
           <div className="w-full px-8 absolute top-8">
             <div className="flex justify-between">
               <div>
-                <p className="font-medium tracking-widest">Debit</p>
+                <p className="font-medium tracking-widest">Credit</p>
               </div>
               <img className="w-14 h-14" src={mastercardImg} alt="Mastercard" />
             </div>

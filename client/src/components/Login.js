@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Link } from 'react-router-dom'; // Assuming you are using React Router for navigation
 import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../config/auth'
 import { useAuth } from '../contexts/auth'
@@ -7,6 +7,16 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSigningIn, setIsSigningIn] = useState(false)
+
+  const { currentUser,userLoggedIn} = useAuth();
+  useEffect(() => {
+    if(userLoggedIn){
+      console.log('you should logout')
+    window.location.href = '/dashboard'
+    }
+  
+    
+  }, [])
   // Function to handle form submission
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,13 +38,13 @@ const Login = () => {
 
 
   return (
-    <div className="flex items-center justify-center h-screen" style={{backgroundImage: "url('/konUtBV6RuyGBNJwURt5dQ.webp')", backgroundSize: "cover"}}>
-      <div className="w-full max-w-lg bg-slate-300 bg-opacity-90 shadow-md rounded px-8 py-6">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
+    <div className="flex items-center justify-center h-screen" style={{backgroundImage: "url('/Login.jpg')", backgroundSize: "cover"}}>
+      <div className="w-full max-w-lg bg-slate-300 bg-opacity-40 shadow-md rounded px-8 py-6">
+        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
         {/* Login form */}
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block mb-1">Email:</label>
+            <label className="block mb-1 font-bold">Email:</label>
             <input
               type="email"
               value={email}
@@ -44,7 +54,7 @@ const Login = () => {
             />
           </div>
           <div>
-            <label className="block mb-1">Password:</label>
+            <label className="block mb-1 font-bold">Password:</label>
             <input
               type="password"
               value={password}
@@ -57,7 +67,7 @@ const Login = () => {
         </form>
         <div className="text-center mt-4">
           {/* Signup link/button */}
-          <Link to="/signup" className="text-blue-500 hover:underline">Sign Up</Link>
+          <Link to="/signup" className="text-blue-500 hover:underline font-bold">Sign Up</Link>
 
         </div>
       </div>
