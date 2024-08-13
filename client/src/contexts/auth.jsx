@@ -4,7 +4,8 @@ import { auth } from "../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { apiClient } from "@/lib/api-client";
 import { LOGIN_ROUTE } from "@/utils/constants";
-
+import { useSelector , useDispatch } from "react-redux";
+import { userChange } from "@/store/reducers/UserSlice";
 const AuthContext = React.createContext();
 
 export function useAuth() {
@@ -19,6 +20,14 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [isverifyed,setverifyed] = useState(true);
   const [users,setUsers] = useState(null);
+  const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+ // console.log(dispatch)
+ useEffect(()=>{
+  if(currentUser){
+  dispatch(userChange(users));
+  }
+ },[users])
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, initializeUser);
@@ -48,12 +57,9 @@ export function AuthProvider({ children }) {
       });
 
       let user1 = response.data.user;
-      await setprofile(user1)
+      setUsers(user1);
 
-
-
-
-
+     
 
       setUserLoggedIn(true);
     } else {

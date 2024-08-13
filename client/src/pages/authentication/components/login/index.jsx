@@ -7,14 +7,17 @@ import {
 import { toast } from "sonner";
 import { LOGIN_ROUTE } from "@/utils/constants";
 import { apiClient } from "@/lib/api-client";
-import { useAuth } from "@/contexts/auth";
-
+import { userChange } from "@/store/reducers/UserSlice";
+import { useSelector , useDispatch } from "react-redux";
 const Login = ({ setView }) => {
+  const user = useSelector((state) => state.user.value);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
-  const { setUserInfo } = useAuth(); // Assuming this is the correct function
+  const dispatch = useDispatch();
+  //console.log(user)
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,11 +31,12 @@ const Login = ({ setView }) => {
             email: email,
             token: result.user.uid,
           });
-
+          
           if (response.data.user) {
             try {
               console.log("Setting user info:", response.data.user);
-             // setUserInfo(response.data.user); // Ensure this matches your slice method
+              dispatch(userChange(response.data.user));
+              console.log(user);
             } catch (error) {
               console.log("Error setting user info:", error);
             }
@@ -49,7 +53,6 @@ const Login = ({ setView }) => {
           doSendEmailVerification();
           toast.dismiss();
           toast.success("Please verify your email");
-
           setIsSigningIn(false);
         }
       } catch (error) {

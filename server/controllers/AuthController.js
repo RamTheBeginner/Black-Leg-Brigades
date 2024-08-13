@@ -107,7 +107,7 @@ export const getUserInfo = async (request, response, next) => {
 export const updateProfile = async (request, response, next) => {
   try {
     
-    const { firstName, lastName,userInfo } = request.body;
+    const { firstName, lastName , userInfo} = request.body;
     if (!firstName || !lastName) {
       return response
         .status(400)
@@ -115,7 +115,7 @@ export const updateProfile = async (request, response, next) => {
     }
 
     const userData = await User.findByIdAndUpdate(
-      userInfo.id,
+      userInfo,
       {
         firstName,
         lastName,

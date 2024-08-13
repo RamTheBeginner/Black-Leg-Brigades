@@ -8,15 +8,12 @@ import Nav from "../nav";
 import { useAuth } from "@/contexts/auth";
 import { useSelector } from "react-redux";
 const Home = () => {
- const num = useSelector((state) => state)
+ const num = useSelector((state) => state.user.value)
   const navigate = useNavigate();
   
   const { users,setprofile,currentUser} = useAuth();
 
-  useEffect(()=>{
-    //console.log(users);
-    console.log(num)
-  },[])
+  
   return (
     <>
       <Nav />

@@ -12,41 +12,57 @@ import { useAppStore } from './store';
 import { Provider } from 'react-redux'
 import store from './store/store';
 import Yearly from './pages/dashboard/yearly';
+import { LOGIN_ROUTE } from './utils/constants';
+import { useSelector , useDispatch } from "react-redux";
 
 
 const App = () => {
-  const {userInfo , setUserInfo} = useAppStore();
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const response = await apiClient.get(GET_USER_INFO);
-        console.log({response});
-        if(response.status === 200 && response.data.id){
-          setUserInfo(response.data)
-        }
-        else{
-          setUserInfo(undefined)
-        }
-      }
-      catch(error){
-          setUserInfo(undefined)
-      }
-      finally{
-          setLoading(false);
-      }
-    }
-    if(!userInfo){
-      getUserData();
-    }
-    else{
-      setLoading(false);
-    }
-  },[userInfo , setUserInfo]);
+  const user = useSelector((state) => state.user.value);
 
+  
+ // const {userInfo , setUserInfo} = useAppStore();
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   setTimeout(async () =>{
+  //      getUserData();
+
+  //   },1000)
+
+  // },[]);
+
+
+  // const getUserData = async () => {
+    
+    
+  //   try {
+  //     const {isverifyed,currentUser} = useAuth();
+  //     console.log(isverifyed,currentUser)
+  //     if(isverifyed){
+  //     const response = await apiClient.post(LOGIN_ROUTE,{
+  //       email:currentUser.email,
+  //       token: currentUser.uid
+  //     });
+  //     console.log({response});
+      
+  //     if(response.status === 200 && response.data.id){
+  //       dispatch(userChange(response.data.user));
+        
+  //     }
+  //   }
+
+  //   }
+  //   catch(error){
+  //       console.log(error)
+  //   }
+  //   finally{
+  //       setLoading(false);
+  //   }
+  // }
+/*
   if(loading){
     return <div>Loading...</div>;
-  }
+  }*/
   const PrivateRoute = ({ children }) => {
     const {isverifyed} = useAuth();
     return isverifyed ? children : <Navigate to="/auth" />;
@@ -59,7 +75,6 @@ const App = () => {
 
   return (
     <>
-    <Provider store={store}>
     <AuthProvider>
       <Router>
         <Routes>
@@ -69,10 +84,10 @@ const App = () => {
           <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="*" element={<PrivateRoute><About /></PrivateRoute>} />
         </Routes>
       </Router>
     </AuthProvider>
-    </Provider>
     
     </>
   );
