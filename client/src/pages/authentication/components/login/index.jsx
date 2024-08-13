@@ -32,7 +32,7 @@ const Login = ({ setView }) => {
           if (response.data.user) {
             try {
               console.log("Setting user info:", response.data.user);
-              setUserInfo(response.data.user); // Ensure this matches your slice method
+             // setUserInfo(response.data.user); // Ensure this matches your slice method
             } catch (error) {
               console.log("Error setting user info:", error);
             }

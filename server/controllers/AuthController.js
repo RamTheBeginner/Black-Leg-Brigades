@@ -38,6 +38,10 @@ export const signup = async (request, response, next) => {
         id: user.id,
         email: user.email,
         token: user.token,
+        image:null,
+        firstName:"New User",
+        lastName:"New User"
+
       },
     });
   } catch (err) {
