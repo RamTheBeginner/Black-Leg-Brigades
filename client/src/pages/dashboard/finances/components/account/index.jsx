@@ -1,113 +1,38 @@
 import { change } from "@/store/reducers/DasboardSlice";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-dropdown-menu";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import DialogBox from "../dialog";
 
 const Account = () => {
   const dispatch = useDispatch();
-  const [position, setPosition] = React.useState("Select");
-
+  
   return (
-    <>
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button variant="outline">Add an account</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Add an account</DialogTitle>
-            <DialogDescription>
-              Make changes to your account here. Click save when you're done.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Bank Name
-              </Label>
-              <Input
-                id="name"
-                defaultValue="Pedro Duarte"
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
-                Account Number
-              </Label>
-              <Input
-                id="username"
-                defaultValue="@peduarte"
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="expiry-date" className="text-right">
-                Expiry Date
-              </Label>
-              <Input
-                id="expiry-date"
-                className="col-span-3"
-                placeholder="mm/yy"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="type" className="text-right">
-                Type
-              </Label>
-              <div className="col-span-3 flex items-center space-x-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline ">{position}</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56">
-                    <DropdownMenuLabel>Choose Type</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuRadioGroup
-                      value={position}
-                      onValueChange={setPosition}
-                    >
-                      <DropdownMenuRadioItem value="Credit">
-                        Credit
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem value="Debit">
-                        Debit
-                      </DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      <button className="p-4 bg-yellow-300" onClick={() => dispatch(change(8))}>
-        Go back
+    <div className="relative p-4 bg-[#dde7ee] min-h-dvh">
+      <button
+        className="absolute top-4 right-4 p-2 bg-lime-400 text-white rounded-lg shadow-md hover:bg-lime-300 transition duration-200"
+        onClick={() => dispatch(change(8))}
+      >
+        Go Back
       </button>
-    </>
+      
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">Manage Your Account</h1>
+        <p className="text-lg text-gray-600 mb-4">
+          Here you can add or update your account details. Use the form below to enter or modify information as needed.
+        </p>
+        
+        <DialogBox />
+        
+        <div className="mt-8 p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-gray-700 mb-3">Quick Tips</h2>
+          <ul className="list-disc list-inside text-gray-600">
+            <li>Ensure all details are accurate to avoid issues.</li>
+            <li>Use the form to add or update your information.</li>
+            <li>If you encounter any problems, contact support.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 

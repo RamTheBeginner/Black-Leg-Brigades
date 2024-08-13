@@ -39,8 +39,10 @@ const Dashboard = () => {
       <div className="flex flex-col h-screen">
         <Nav className="h-16 flex-none" />
         <div className="flex flex-1 overflow-hidden">
-          <SideNav className="w-72 flex-none h-full " />
-          <div className="flex-1 overflow-y-auto">{renderContent()}</div>
+          <SideNav className="w-72 flex-none h-full" />
+          <div className="flex-1 flex flex-col">
+            <div className="flex-1 overflow-y-auto">{renderContent()}</div>
+          </div>
         </div>
       </div>
     </>
