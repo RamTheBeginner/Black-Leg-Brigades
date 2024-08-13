@@ -67,10 +67,7 @@ export function AuthProvider({ children }) {
 
   async function setprofile(params) {
     if(params){
-      //console.log(params.email)
       
-      
-
       setUsers(params)
       
     }else{

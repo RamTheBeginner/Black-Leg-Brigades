@@ -2,6 +2,11 @@
 import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import { rename, renameSync, unlinkSync } from "fs";
+import { initializeApp } from "firebase/app";
+import { getStorage, ref, getDownloadURL, uploadBytesResumable ,deleteObject} from "firebase/storage";
+
+import config from "../config/firebase.js";
+initializeApp(config.firebaseConfig);
 import path from "path";
 const maxAge = 3 * 24 * 60 * 60 * 1000; /* Token Valid for 3 days */
 const createToken = (email, userId) => {
@@ -10,6 +15,8 @@ const createToken = (email, userId) => {
     expiresIn: maxAge,
   }); /* JWT_KEY is encryption key */
 };
+
+const storage = getStorage();
 export const signup = async (request, response, next) => {
   try {
     const { email, token } = request.body;
@@ -132,50 +139,76 @@ export const updateProfile = async (request, response, next) => {
 
 
 
-// export const addProfileImage = async (request, response, next) => {
-//   if (!request.file) {
-//     return response.status(400).send("File is Required");
-//   }
+export const addProfileImage = async (request, response, next) => {
+  if (!request.file) {
+    return response.status(400).send("File is Required");
+  }
+  const { userInfo } = request.body;
+ // console.log(request.body);
+  const dateTime = Date.now();
 
-//   const date = Date.now();
-//   let fileName = "uploads/profiles/" + date + request.file.originalname;
-//   renameSync(request.file.path, fileName);
+  const fileName = ref(storage, `files/${request.file.originalname + "       " + dateTime}`);
+  
 
-//   try {
-//     const updatedUser = await User.findByIdAndUpdate(
-//       request.userId,
-//       { image: fileName },
-//       { new: true, runValidators: true }
-//     );
+  // Create file metadata including the content type
+  const metadata = {
+      contentType: request.file.mimetype,
+  };
+ // renameSync(request.file.path, fileName);
+  const snapshot = await uploadBytesResumable(fileName, request.file.buffer, metadata);
+  // By using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
 
-//     return response.status(200).json({
-//       image: updatedUser.image,
-//     });
-//   } catch (err) {
-//     console.log({ err });
-//     return response.status(500).send("Internal server Error");
-//   }
-// };
+  // Grab the public url
+  const downloadURL = await getDownloadURL(snapshot.ref);
+  //console.log(downloadURL)
 
-// export const removeProfileImage = async (request, response, next) => {
-//   try {
-//     const { userId } = request;
-//     const user = await User.findById(userId);
 
-//     if (!user) {
-//       return response.status(404).send("User Not Found");
-//     }
-//     if (user.image) {
-//       unlinkSync(user.image);
-//     }
-//     user.image = null;
-//     await user.save();
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userInfo,
+      { image: downloadURL},
+      { new: true, runValidators: true }
+    );
+   //console.log(updatedUser)
+  // console.log(userInfo)
+    return response.status(200).json({
+      image: updatedUser.image,
+    });
+  } catch (err) {
+    console.log({ err });
+    return response.status(500).send("Internal server Error");
+  }
+};
 
-//     return response.status(200).send("Profile Image Removed Successfully");
-//   } catch (err) {
-//     console.log({ err });
-//     return response.status(500).send("Internal server Error");
-//   }
-// };
+export const removeProfileImage = async (request, response, next) => {
+  try {
+    const {userInfo,image} = request.body
+   // console.log(userInfo)
+  //  console.log(request.body)
+    const user = await User.findById(userInfo.id);
+    
+
+    if (!user) {
+      return response.status(404).send("User Not Found");
+    }
+   
+    user.image = null;
+    await user.save();
+
+    const desertRef = ref(storage, image);
+
+    deleteObject(desertRef).then(() => {
+      // File deleted successfully
+      return response.status(200).send("Profile Image Removed Successfully");
+    }).catch((error) => {
+      // Uh-oh, an error occurred!
+      return response.status(500).send("Internal server Error");
+    });
+
+  } catch (err) {
+    console.log({ err });
+    return response.status(500).send("Internal server Error");
+  }
+};
 
 
