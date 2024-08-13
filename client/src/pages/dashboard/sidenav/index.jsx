@@ -24,7 +24,7 @@ const SideNav = () => {
             ].map((item, index) => (
               <li key={index}>
                 <Button
-                  className="block w-auto rounded bg-transparent text-left ml-6 font-bold text-amber-500 hover:bg-zinc-800 hover:px-4 hover:py-2 transition-all duration-300"
+                  className="block w-auto rounded bg-transparent text-left ml-2 text-lg font-bold text-amber-500 hover:bg-zinc-800 hover:px-4 hover:py-2 transition-all duration-300"
                   onClick={() => dispatch(change(item.value))}
                 >
                   {item.label}
