@@ -36,7 +36,7 @@ const AccountSchema = new mongoose.Schema({
   perviousmonthpayment:{
     type: Number
   },
-  cerditLimit:{
+  creditLimit:{
     type: Number
   }
 });
