@@ -1,10 +1,23 @@
 import { change } from '@/store/reducers/DasboardSlice';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { ComboboxPopover } from '../comboBox';
 
 const Transactions = () => {
   const dispatch = useDispatch();
-  
+  const [amount, setAmount] = useState('');
+  const [transactionType, setTransactionType] = useState('');
+  const [category, setCategory] = useState('');
+  const [accountId, setAccountId] = useState("")
+
+  const handleTransactionTypeChange = (e) => {
+    setTransactionType(e.target.value);
+  };
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+  };
+
   return (
     <div className="relative p-4 bg-[#dde7ee] min-h-dvh">
       <button
@@ -19,6 +32,53 @@ const Transactions = () => {
         <p className="text-lg text-gray-600 mb-4">
           Here you can view and manage your transactions. Use the features provided to keep track of your financial activities.
         </p>
+
+        {/* Form Fields Side by Side */}
+        <div className="flex justify-center space-x-4 mb-8">
+          {/* Account Selection Dropdown */}
+          <div className='mt-2'>
+            <ComboboxPopover/>
+          </div>
+
+          {/* Amount Input */}
+          <div>
+            <label className="block text-gray-700 mb-2">Amount</label>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="p-2 rounded-lg shadow-md w-52"
+              placeholder="Enter amount"
+            />
+          </div>
+
+          {/* Transaction Type Dropdown */}
+          <div>
+            <label className="block text-gray-700 mb-2">Transaction Type</label>
+            <select
+              value={transactionType}
+              onChange={handleTransactionTypeChange}
+              className="p-2 rounded-lg shadow-md w-52"
+            >
+              <option value="">Select Type</option>
+              <option value="credit">Credit</option>
+              <option value="debit">Debit</option>
+            </select>
+          </div>
+
+          {/* Category Input */}
+          <div>
+            <label className="block text-gray-700 mb-2">Category</label>
+            <input
+              type="text"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="p-2 rounded-lg shadow-md w-52"
+              placeholder="Enter category"
+            />
+          </div>
+        </div>
+
         <div className="mt-8 p-4 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-700 mb-3 items-start">Transaction Tips</h2>
           <ul className="list-disc list-inside text-gray-600">

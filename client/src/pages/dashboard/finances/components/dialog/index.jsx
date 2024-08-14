@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -33,8 +33,11 @@ const DialogBox = () => {
   const [date, setDate] = React.useState("");
   const [creditLimit, setCreditLimit] = React.useState(0);
   const [bankName, setBankName] = React.useState("");
+  const [loading, setLoading] = useState(true);
 
   const handleSubmit = async () => {
+    if(loading){
+      setLoading(false);
     if (position !== "Select") {
       const formData = new FormData();
       formData.append("bankName", bankName);
@@ -44,11 +47,11 @@ const DialogBox = () => {
       formData.append("type", position);
       formData.append("userData", user.id);
       const response = await apiClient.post(ADD_ACCOUNT, formData);
-
       if (response.status === 200 && response.data) {
         dispatch(userChange(response.data.user));
       }
     }
+  }
   };
 
   return (
