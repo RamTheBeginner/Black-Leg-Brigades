@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector} from "react-redux";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,11 +21,42 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { apiClient } from "@/lib/api-client";
+import { ADD_ACCOUNT } from "@/utils/constants";
 
 
 const DialogBox = () => {
+  const user = useSelector((state) => state.user.value); 
   const dispatch = useDispatch();
   const [position, setPosition] = React.useState("Select");
+  const [accountNumber, setAccountNumber] = React.useState(0);
+  const [date, setDate] = React.useState("");
+  const [creditLimit, setCreditLimit] = React.useState(0);
+  const [bankName, setBankName] = React.useState("")
+  console.log(user);
+
+  const handleSubmit = async () =>{
+    if(position !== 'Select'){
+      const formData = new FormData();
+      formData.append("bankName",bankName);
+      formData.append("accountNumber",accountNumber);
+      formData.append("creditLimit",creditLimit);
+      formData.append("date",date);
+      formData.append("type",position);
+      formData.append("userData",user.id);
+      console.log(user);
+      const result = await apiClient.post(ADD_ACCOUNT,formData);
+
+      if (response.status === 200 && response.data){
+        dispatch(userChange(result.data.user));
+      }
+
+
+      
+
+    }
+
+  }
 
   return (
     <>
@@ -47,8 +78,9 @@ const DialogBox = () => {
               </Label>
               <Input
                 id="name"
-                defaultValue="Pedro Duarte"
+                onChange={(e) => setBankName(e.target.value)}
                 className="col-span-3"
+                value={bankName}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -57,8 +89,10 @@ const DialogBox = () => {
               </Label>
               <Input
                 id="username"
-                defaultValue="@peduarte"
+                
                 className="col-span-3"
+                value ={accountNumber}
+                onChange={(e) => setAccountNumber(e.target.value)}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -69,8 +103,26 @@ const DialogBox = () => {
                 id="expiry-date"
                 className="col-span-3"
                 placeholder="mm/yy"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
               />
             </div>
+
+            {position === "Credit" && (
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="Cerbit_limit" className="text-right">
+              Credit Limit
+            </Label>
+            <Input
+              id="Cerbit_limit"
+              className="col-span-3"
+              placeholder="0"
+              value={creditLimit}
+              onChange={(e) => setCreditLimit(e.target.value)}
+            />
+          </div>
+        )}
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="type" className="text-right">
                 Type
@@ -97,10 +149,16 @@ const DialogBox = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
+
+              
+
+              
             </div>
+
+
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button onClick={handleSubmit}>Save changes</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -109,3 +167,4 @@ const DialogBox = () => {
 };
 
 export default DialogBox;
+

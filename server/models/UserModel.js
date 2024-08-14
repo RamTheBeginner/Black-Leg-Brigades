@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -23,6 +24,10 @@ const userSchema = new mongoose.Schema({
   },
   image:{
     type:String
+  },
+  Accounts:{
+        type: [Schema.Types.ObjectId],
+        ref: 'Accounts'
   }
 });
 

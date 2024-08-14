@@ -1,9 +1,10 @@
-
+import Account from "../models/AccountModel.js";
 import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import { rename, renameSync, unlinkSync } from "fs";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, getDownloadURL, uploadBytesResumable ,deleteObject} from "firebase/storage";
+
 
 import config from "../config/firebase.js";
 initializeApp(config.firebaseConfig);
@@ -58,7 +59,7 @@ export const login = async (request, response, next) => {
     }
     const user = await User.findOne({
       email,
-    }); 
+    }).populate('Accounts'); 
     if (!user) return response.status(404).send("User Not Found");
    
     response.cookie("jwt", token, {
@@ -66,6 +67,8 @@ export const login = async (request, response, next) => {
       secure: true,
       sameSite: "None",
     });
+
+   // console.log(user);
     
     return response.status(200).json({
       user: {
@@ -74,7 +77,8 @@ export const login = async (request, response, next) => {
         profileSetup: user.profileSetup,
         firstName: user.firstName,
         lastName: user.lastName,
-        image: user.image  
+        image: user.image,
+        Accounts:user.Accounts
       },
     });
   } catch (err) {
@@ -85,7 +89,7 @@ export const login = async (request, response, next) => {
 
 export const getUserInfo = async (request, response, next) => {
   try {
-    const userData = await User.findById(request.userId);
+    const userData = await User.findById(request.userId).populate('Accounts');
     if (!userData) {
       return response.status(404).send("User With Given Id not found");
     }
@@ -97,6 +101,7 @@ export const getUserInfo = async (request, response, next) => {
       lastName: userData.lastName,
       image: userData.image,
       color: userData.color,
+      Accounts:userData.Accounts
     });
   } catch (err) {
     console.log({ err });
@@ -123,7 +128,7 @@ export const updateProfile = async (request, response, next) => {
         profileSetup: true,
       },
       { new: true, runValidators: true }
-    );
+    ).populate('Accounts');
 
     return response.status(200).json({
       id: userData.id,
@@ -132,6 +137,7 @@ export const updateProfile = async (request, response, next) => {
       firstName: userData.firstName,
       lastName: userData.lastName,
       image: userData.image,
+      Accounts:userData.Accounts
     });
   } catch (err) {
     console.log({ err });
@@ -173,7 +179,7 @@ export const addProfileImage = async (request, response, next) => {
       userInfo,
       { image: downloadURL},
       { new: true, runValidators: true }
-    );
+    ).populate('Accounts');
    //console.log(updatedUser)
   // console.log(userInfo)
     return response.status(200).json({
@@ -190,7 +196,8 @@ export const removeProfileImage = async (request, response, next) => {
     const {user,image} = request.body
    // console.log(userInfo)
   //  console.log(request.body)
-    const user1 = await User.findById(user.id);
+    const user1 = await User.findById(user.id).populate('Accounts');
+
     
 
     if (!user1) {
