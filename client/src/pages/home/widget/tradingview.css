@@ -1,0 +1,5 @@
+/* Hide the TradingView button */
+.tradingview-widget-copyright {
+    display: none;
+  }
+  
