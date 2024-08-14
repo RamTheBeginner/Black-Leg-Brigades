@@ -33,8 +33,7 @@ const DialogBox = () => {
   const [date, setDate] = React.useState("");
   const [creditLimit, setCreditLimit] = React.useState(0);
   const [bankName, setBankName] = React.useState("")
-  console.log(user);
-
+ 
   const handleSubmit = async () =>{
     if(position !== 'Select'){
       const formData = new FormData();
@@ -44,11 +43,11 @@ const DialogBox = () => {
       formData.append("date",date);
       formData.append("type",position);
       formData.append("userData",user.id);
-      console.log(user);
-      const result = await apiClient.post(ADD_ACCOUNT,formData);
+     
+      const response = await apiClient.post(ADD_ACCOUNT,formData);
 
       if (response.status === 200 && response.data){
-        dispatch(userChange(result.data.user));
+        dispatch(userChange(response.data.user));
       }
 
 
