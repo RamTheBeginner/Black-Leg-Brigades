@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch ,useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,40 +23,33 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { apiClient } from "@/lib/api-client";
 import { ADD_ACCOUNT } from "@/utils/constants";
-
+import { userChange } from "@/store/reducers/UserSlice";
 
 const DialogBox = () => {
-  const user = useSelector((state) => state.user.value); 
+  const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
   const [position, setPosition] = React.useState("Select");
   const [accountNumber, setAccountNumber] = React.useState(0);
   const [date, setDate] = React.useState("");
   const [creditLimit, setCreditLimit] = React.useState(0);
-  const [bankName, setBankName] = React.useState("")
-  console.log(user);
+  const [bankName, setBankName] = React.useState("");
 
-  const handleSubmit = async () =>{
-    if(position !== 'Select'){
+  const handleSubmit = async () => {
+    if (position !== "Select") {
       const formData = new FormData();
-      formData.append("bankName",bankName);
-      formData.append("accountNumber",accountNumber);
-      formData.append("creditLimit",creditLimit);
-      formData.append("date",date);
-      formData.append("type",position);
-      formData.append("userData",user.id);
-      console.log(user);
-      const result = await apiClient.post(ADD_ACCOUNT,formData);
+      formData.append("bankName", bankName);
+      formData.append("accountNumber", accountNumber);
+      formData.append("creditLimit", creditLimit);
+      formData.append("date", date);
+      formData.append("type", position);
+      formData.append("userData", user.id);
+      const response = await apiClient.post(ADD_ACCOUNT, formData);
 
-      if (response.status === 200 && response.data){
-        dispatch(userChange(result.data.user));
+      if (response.status === 200 && response.data) {
+        dispatch(userChange(response.data.user));
       }
-
-
-      
-
     }
-
-  }
+  };
 
   return (
     <>
@@ -89,9 +82,8 @@ const DialogBox = () => {
               </Label>
               <Input
                 id="username"
-                
                 className="col-span-3"
-                value ={accountNumber}
+                value={accountNumber}
                 onChange={(e) => setAccountNumber(e.target.value)}
               />
             </div>
@@ -109,19 +101,19 @@ const DialogBox = () => {
             </div>
 
             {position === "Credit" && (
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="Cerbit_limit" className="text-right">
-              Credit Limit
-            </Label>
-            <Input
-              id="Cerbit_limit"
-              className="col-span-3"
-              placeholder="0"
-              value={creditLimit}
-              onChange={(e) => setCreditLimit(e.target.value)}
-            />
-          </div>
-        )}
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="Cerbit_limit" className="text-right">
+                  Credit Limit
+                </Label>
+                <Input
+                  id="Cerbit_limit"
+                  className="col-span-3"
+                  placeholder="0"
+                  value={creditLimit}
+                  onChange={(e) => setCreditLimit(e.target.value)}
+                />
+              </div>
+            )}
 
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="type" className="text-right">
@@ -149,13 +141,7 @@ const DialogBox = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-
-              
-
-              
             </div>
-
-
           </div>
           <DialogFooter>
             <Button onClick={handleSubmit}>Save changes</Button>
@@ -167,4 +153,3 @@ const DialogBox = () => {
 };
 
 export default DialogBox;
-
