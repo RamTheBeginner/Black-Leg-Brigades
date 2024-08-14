@@ -23,10 +23,10 @@ const Home = () => {
       <Nav />
       <TradingViewTickersWidget />
    
-      <div className="flex w-full h-screen">
+      <div className="flex w-full">
        
         <div className="flex-grow bg-gray-100">
-          
+
         </div>
 
         {/* Right side - TradingView Widget */}

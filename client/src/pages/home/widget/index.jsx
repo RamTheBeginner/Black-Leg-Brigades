@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import './tradingview.css'; // Import your CSS file
 
 const TradingViewTickerTape = () => {
   const widgetRef = useRef(null);
@@ -10,32 +9,27 @@ const TradingViewTickerTape = () => {
     script.async = true;
     script.innerHTML = JSON.stringify({
       symbols: [
-        {
-          proName: "FOREXCOM:SPXUSD",
-          title: "S&P 500 Index",
-        },
-        {
-          proName: "FOREXCOM:NSXUSD",
-          title: "US 100 Cash CFD",
-        },
-        {
-          proName: "FX_IDC:EURUSD",
-          title: "EUR to USD",
-        },
-        {
-          proName: "BITSTAMP:BTCUSD",
-          title: "Bitcoin",
-        },
-        {
-          proName: "BITSTAMP:ETHUSD",
-          title: "Ethereum",
-        },
+        { description: "Tesla", proName: "NASDAQ:TSLA" },
+        { description: "Apple Inc", proName: "NASDAQ:AAPL" },
+        { description: "Nvidia", proName: "NASDAQ:NVDA" },
+        { description: "Microsoft", proName: "NASDAQ:MSFT" },
+        { description: "Advanced Micro Devices", proName: "NASDAQ:AMD" },
+        { description: "Meta", proName: "NASDAQ:META" },
+        { description: "Netflix", proName: "NASDAQ:NFLX" },
+        { description: "Bitcoin", proName: "BINANCE:BTCUSDT" },
+        { description: "Ethereum", proName: "BINANCE:ETHUSDT" },
+        { description: "Cardano", proName: "BINANCE:ADAUSDT" },
+        { description: "Ripple", proName: "BINANCE:XRPUSDT" },
+        { description: "Polkadot", proName: "BINANCE:DOTUSDT" },
+        { description: "Litecoin", proName: "BINANCE:LTCUSDT" },
+        { description: "Chainlink", proName: "BINANCE:LINKUSDT" },
+        { description: "Stellar", proName: "BINANCE:XLMUSDT" }
       ],
       showSymbolLogo: true,
-      isTransparent: false,
-      displayMode: "adaptive",
       colorTheme: "light",
-      locale: "en",
+      isTransparent: false,
+      displayMode: "compact",
+      locale: "en"
     });
 
     if (widgetRef.current) {
