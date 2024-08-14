@@ -9,7 +9,7 @@ const AccountSchema = new mongoose.Schema({
     enum:["Credit","Debit"],
     default:"Debit"
   },
-  BackName:{
+  bankName:{
     type:String
   },
   month: {

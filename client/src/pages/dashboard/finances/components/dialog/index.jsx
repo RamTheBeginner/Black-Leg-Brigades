@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector} from "react-redux";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,9 +21,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { apiClient } from "@/lib/api-client";
+import { ADD_ACCOUNT } from "@/utils/constants";
 
 
 const DialogBox = () => {
+  const user = useSelector((state) => state.user.value); 
   const dispatch = useDispatch();
   const [position, setPosition] = React.useState("Select");
   const [accountNumber, setAccountNumber] = React.useState(0);
@@ -32,6 +35,22 @@ const DialogBox = () => {
   const [bankName, setBankName] = React.useState("")
   console.log(position);
 
+  const handleSubmit = async () =>{
+    if(position != Select){
+      const formData = new FormData();
+      formData.append("bankName",bankName);
+      formData.append("accountNumber",accountNumber);
+      formData.append("creditLimit",creditLimit);
+      formData.append("date",date);
+      formData.append("type",position);
+      formData.append("userData",user);
+      const result = await apiClient.post(ADD_ACCOUNT,formData);
+      
+      
+
+    }
+
+  }
 
   return (
     <>
@@ -97,7 +116,7 @@ const DialogBox = () => {
             />
           </div>
         )}
-        
+
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="type" className="text-right">
                 Type
@@ -133,7 +152,7 @@ const DialogBox = () => {
 
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button onClick={handleSubmit}>Save changes</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
