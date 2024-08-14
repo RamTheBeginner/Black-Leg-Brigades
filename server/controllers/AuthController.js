@@ -1,9 +1,10 @@
-
+import Account from "../models/AccountModel.js";
 import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 import { rename, renameSync, unlinkSync } from "fs";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, getDownloadURL, uploadBytesResumable ,deleteObject} from "firebase/storage";
+
 
 import config from "../config/firebase.js";
 initializeApp(config.firebaseConfig);
@@ -66,6 +67,8 @@ export const login = async (request, response, next) => {
       secure: true,
       sameSite: "None",
     });
+
+   // console.log(user);
     
     return response.status(200).json({
       user: {

@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 
 const AccountSchema = new mongoose.Schema({
-  AccountNumber:{
+  accountNumber:{
     type:Number,
   },
   type:{
     type:String,
     enum:["Credit","Debit"],
     default:"Debit"
+  },
+  BackName:{
+    type:String
   },
   month: {
     type: String,
@@ -33,7 +36,7 @@ const AccountSchema = new mongoose.Schema({
   perviousmonthpayment:{
     type: Number
   },
-  cerbitlimit:{
+  cerditLimit:{
     type: Number
   }
 });
