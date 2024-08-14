@@ -59,7 +59,12 @@ export const login = async (request, response, next) => {
     }
     const user = await User.findOne({
       email,
-    }).populate('Accounts'); 
+    }).populate('Accounts').populate({
+      path: 'Transactions',
+      populate: { 
+        path: 'Account', 
+      }
+    });
     if (!user) return response.status(404).send("User Not Found");
    
     response.cookie("jwt", token, {
@@ -78,7 +83,8 @@ export const login = async (request, response, next) => {
         firstName: user.firstName,
         lastName: user.lastName,
         image: user.image,
-        Accounts:user.Accounts
+        Accounts:user.Accounts,
+        Transactions:user.Transactions
       },
     });
   } catch (err) {
@@ -89,7 +95,12 @@ export const login = async (request, response, next) => {
 
 export const getUserInfo = async (request, response, next) => {
   try {
-    const userData = await User.findById(request.userId).populate('Accounts');
+    const userData = await User.findById(request.userId).populate('Accounts').populate({
+      path: 'Transactions',
+      populate: { 
+        path: 'Account', 
+      }
+    });
     if (!userData) {
       return response.status(404).send("User With Given Id not found");
     }
@@ -101,7 +112,9 @@ export const getUserInfo = async (request, response, next) => {
       lastName: userData.lastName,
       image: userData.image,
       color: userData.color,
-      Accounts:userData.Accounts
+      Accounts:userData.Accounts,
+      Transactions:userData.Transactions
+
     });
   } catch (err) {
     console.log({ err });
@@ -128,8 +141,12 @@ export const updateProfile = async (request, response, next) => {
         profileSetup: true,
       },
       { new: true, runValidators: true }
-    ).populate('Accounts');
-
+    ).populate('Accounts').populate({
+      path: 'Transactions',
+      populate: { 
+        path: 'Account', 
+      }
+    });
     return response.status(200).json({
       id: userData.id,
       email: userData.email,
@@ -137,7 +154,9 @@ export const updateProfile = async (request, response, next) => {
       firstName: userData.firstName,
       lastName: userData.lastName,
       image: userData.image,
-      Accounts:userData.Accounts
+      Accounts:userData.Accounts,
+      Transactions:userData.Transactions
+
     });
   } catch (err) {
     console.log({ err });
