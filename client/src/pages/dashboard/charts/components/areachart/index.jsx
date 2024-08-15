@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     AreaChart,
     Area,
@@ -10,7 +10,7 @@ import {
     Legend,
   } from 'recharts';
   
-  const productSales = [
+  const productSales1 = [
     {
       name: 'Jan',
       product1: 4000,
@@ -43,7 +43,16 @@ import {
     },
   ];
   
-  const AreaChartComponent = () => {
+  const AreaChartComponent = (props) => {
+    
+
+    const [productSales, setproductSales] = useState(productSales1)
+
+    useEffect(()=>{
+      setproductSales(props.data);
+    },[props.data])
+
+
     return (
       <ResponsiveContainer width="100%" height={400}>
         <AreaChart

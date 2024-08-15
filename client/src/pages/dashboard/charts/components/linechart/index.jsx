@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   LineChart,
   Line,
@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const salesData = [
+const salesData1 = [
   {
     name: 'Jan',
     revenue: 4000,
@@ -43,7 +43,13 @@ const salesData = [
   },
 ];
 
-const LineChartComponent = () => {
+const LineChartComponent = (props) => {
+
+  const [salesData, setproductSales] = useState(salesData1)
+
+    useEffect(()=>{
+      setproductSales(props.data);
+    },[props.data])
   return (
     <div style={{ width: '100%', height: '400px' }}> {/* Ensure parent container has height */}
       <ResponsiveContainer width="100%" height="100%">
