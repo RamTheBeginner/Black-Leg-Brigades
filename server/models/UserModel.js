@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema({
@@ -28,6 +29,11 @@ const userSchema = new mongoose.Schema({
   Accounts:{
         type: [Schema.Types.ObjectId],
         ref: 'Accounts'
+  },
+  Transactions:{
+    type: [Schema.Types.ObjectId],
+        ref: 'Transation'
+
   }
 });
 

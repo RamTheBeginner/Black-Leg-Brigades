@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   LineChart,
   Line,
@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const salesData = [
+const salesData1 = [
   {
     name: 'Jan',
     revenue: 4000,
@@ -43,7 +43,13 @@ const salesData = [
   },
 ];
 
-const LineChartComponent = () => {
+const LineChartComponent = (props) => {
+
+  const [salesData, setproductSales] = useState(salesData1)
+
+    useEffect(()=>{
+      setproductSales(props.data);
+    },[props.data])
   return (
     <div style={{ width: '100%', height: '400px' }}> {/* Ensure parent container has height */}
       <ResponsiveContainer width="100%" height="100%">
@@ -58,8 +64,8 @@ const LineChartComponent = () => {
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Line type="monotone" dataKey="revenue" stroke="#3b82f6" />
-          <Line type="monotone" dataKey="profit" stroke="#8b5cf6" />
+          <Line type="monotone" dataKey="Credit" stroke="#3b82f6" />
+          <Line type="monotone" dataKey="Debit" stroke="#8b5cf6" />
         </LineChart>
       </ResponsiveContainer>
     </div>
@@ -72,11 +78,11 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="p-4 bg-[#aed0e8] flex flex-col gap-4 rounded-md">
         <p className="text-medium text-lg">{label}</p>
         <p className="text-sm text-blue-400">
-          Revenue:
+          Credit:
           <span className="ml-2">${payload[0].value}</span>
         </p>
         <p className="text-sm text-indigo-400">
-          Profit:
+          Debit:
           <span className="ml-2">${payload[1].value}</span>
         </p>
       </div>

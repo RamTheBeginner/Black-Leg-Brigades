@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     AreaChart,
     Area,
@@ -10,7 +10,7 @@ import {
     Legend,
   } from 'recharts';
   
-  const productSales = [
+  const productSales1 = [
     {
       name: 'Jan',
       product1: 4000,
@@ -43,7 +43,16 @@ import {
     },
   ];
   
-  const AreaChartComponent = () => {
+  const AreaChartComponent = (props) => {
+    
+
+    const [productSales, setproductSales] = useState(productSales1)
+
+    useEffect(()=>{
+      setproductSales(props.data);
+    },[props.data])
+
+
     return (
       <ResponsiveContainer width="100%" height={400}>
         <AreaChart
@@ -57,14 +66,14 @@ import {
           <Legend />
           <Area
             type="monotone"
-            dataKey="product1"
+            dataKey="Credit"
             stroke="#2563eb"
             fill="#3b82f6"
             stackId="1"
           />
           <Area
             type="monotone"
-            dataKey="product2"
+            dataKey="Debit"
             stroke="#7c3aed"
             fill="#8b5cf6"
             stackId="1"
@@ -81,11 +90,11 @@ import {
         <div className="p-4 bg-[#aed0e8] flex flex-col gap-4 rounded-md">
           <p className="text-medium text-lg">{label}</p>
           <p className="text-sm text-blue-400">
-            Product 1:
+            Credit:
             <span className="ml-2">${payload[0].value}</span>
           </p>
           <p className="text-sm text-indigo-400">
-            Product 2:
+            Debit:
             <span className="ml-2">${payload[1].value}</span>
           </p>
         </div>
