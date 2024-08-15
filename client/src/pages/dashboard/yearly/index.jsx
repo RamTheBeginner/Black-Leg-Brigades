@@ -11,47 +11,119 @@ const Yearly = () => {
   const dispatch = useDispatch();
   const num = useSelector((state) => state.chart.value);
   const user = useSelector((state) => state.user.value);
-  const [Categorylist, setCategorylist] = useState([]);
-  const [YearList, setYearList] = useState([])
-  const [userdata, setuserdata] = useState(null)
+  const transaction = useSelector((state) => state.transaction.value);
 
+  const [Categorylist, setCategorylist] = useState([]);
+  const [YearList, setYearList] = useState([]);
+  const [userdata, setuserdata] = useState(null);
+  const [selectedCategaty, setselectedCategaty] = useState("defaultCategory");
+  const [selectedYear, setselectedYear] = useState(null);
+  const [selecteddata, setselecteddata] = useState(null);
+  const [passedData, setpassedData] = useState(null);
+  const [changer, setchanger] = useState(0);
   useEffect(() => {
     dispatch(transactionChange(-1));
     setuserdata(user.Transactions);
-  }, [])
+    setselecteddata(user.Transactions);
+  }, []);
 
-  useEffect(() =>{
+  useEffect(() => {
     generatelist();
-  },[userdata])
+  }, [userdata]);
 
   const generatelist = () => {
-    if(userdata){
-    let CategoryHash = {};
-    let yearHash = {};
-    let categary = [];
-    let year = [];
+    if (userdata) {
+      let CategoryHash = {};
+      let yearHash = {};
+      let categary = [];
+      let year = [];
 
-    userdata.map((entry) => {
-      if(!CategoryHash[entry.Category]){
-        categary.push(entry.Category);
-        CategoryHash[entry.Category] = 2;
+      userdata.map((entry) => {
+        if (!CategoryHash[entry.Category]) {
+          categary.push(entry.Category);
+          CategoryHash[entry.Category] = 2;
+        }
 
+        if (!yearHash[entry.Date.substring(6)]) {
+          year.push(entry.Date.substring(6));
+          yearHash[entry.Date.substring(6)] = 2;
+        }
+      });
+      setCategorylist(categary);
+      setYearList(year);
+      if (year[0]) setselectedYear(year[0]);
+    }
+  };
 
-      }
+  useEffect(() => {
+    filterData();
+  }, [selectedCategaty, selectedYear, transaction]);
 
-      if(!yearHash[entry.Date.substring(7)]){
-        year.push("20" + entry.Date.substring(7));
-        yearHash[entry.Date.substring(7)]= 2;
-      }
-    })
+  const filterData = () => {
+    let data = user.Transactions;
 
-    setCategorylist(categary);
-    setYearList(year);
-  }
-  }
+    if (transaction != -1)
+      data = data.filter(
+        (transaction1) =>
+          transaction1.Account._id === user.Accounts[transaction]._id
+      );
+    if (selectedCategaty != "defaultCategory")
+      data = data.filter((trans) => trans.Category === selectedCategaty);
+    data = data.filter((trans) => trans.Date.substring(6) == selectedYear);
+    setselecteddata(data);
+    setchanger(changer + 1);
+  };
 
+  const getMonthName = (monthNumber) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
-  
+    // Subtract 1 because months are zero-indexed in JavaScript
+    return months[monthNumber - 1];
+  };
+
+  useEffect(() => {
+    getpasseddata();
+  }, [changer]);
+  const getpasseddata = () => {
+    let Hashmonth = {};
+    let Data = [];
+    let index = 0;
+    if (selecteddata) {
+      selecteddata.map((entry) => {
+        let month = getMonthName(entry.Date.substring(3, 5));
+
+        if (Hashmonth[month] == undefined) {
+          let newdata = {
+            name: month,
+            Credit: 0,
+            Debit: 0,
+          };
+
+          newdata[entry.Type] = entry.Amount;
+          Data.push(newdata);
+          Hashmonth[month] = index;
+          index++;
+        } else {
+          Data[Hashmonth[month]][entry.Type] += entry.Amount;
+        }
+      });
+    }
+    console.log(Data);
+    setpassedData(Data);
+  };
 
   const renderContent = () => {
     switch (num) {
@@ -95,7 +167,10 @@ const Yearly = () => {
 
             <select
               className="ml-4 p-2 border rounded-md mt-7"
-              defaultValue="defaultCategory"
+              value={selectedCategaty}
+              onChange={(e) => {
+                setselectedCategaty(e.target.value);
+              }}
             >
               <option value="defaultCategory" disabled>
                 Select Category
@@ -107,6 +182,10 @@ const Yearly = () => {
 
             <select
               className="ml-4 p-2 border rounded-md mt-7"
+              value={selectedYear}
+              onChange={(e) => {
+                setselectedYear(e.target.value);
+              }}
             >
               {YearList.map((year) => (
                 <option value={year}>{year}</option>
