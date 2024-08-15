@@ -65,6 +65,111 @@ export const Add_account = async (request, response) => {
   }
 };
 
+export const edit_account = async (request,response) =>{
+
+  try {
+    let { bankName, accountNumber, creditLimit, date, type, userData,account_id } = request.body;
+    let month = date.substring(0, 2);
+    let year = date.substring(3, 5);
+ 
+    let newAccount = await Account.findByIdAndUpdate(account_id,{
+      bankName,
+      accountNumber,
+      creditLimit,
+      month,
+      year,
+      type: type,
+    });
+
+    //console.log(newAccount)
+
+    let user = await User.findById(userData)
+      .populate("Accounts")
+      .populate({
+        path: "Transactions",
+        populate: {
+          path: "Account",
+        },
+      });
+
+    //console.log(user);
+    if (user)
+      return response.status(200).json({
+        user: {
+          id: user.id,
+          email: user.email,
+          profileSetup: user.profileSetup,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          image: user.image,
+          Accounts: user.Accounts,
+          Transactions: user.Transactions,
+        },
+      });
+    else {
+      response.status(401);
+    }
+  } catch (err) {
+    console.log({ err });
+    return response.status(500).send("Internal server Error");
+  }
+
+
+
+}
+
+export const Delete_Account = async (request,response) => {
+
+  try {
+    let { bankName, accountNumber, creditLimit, date, type, userData,account_id } = request.body;
+    let month = date.substring(0, 2);
+    let year = date.substring(3, 5);
+ 
+    let newAccount = await Account.findByIdAndDelete(account_id);
+
+    //console.log(newAccount)
+    let user1 = await Transaction.deleteMany({Account:account_id});
+
+    //console.log(user1);
+
+    let user = await User.findById(userData)
+      .populate("Accounts")
+      .populate({
+        path: "Transactions",
+        populate: {
+          path: "Account",
+        },
+      });
+
+
+      
+
+    //console.log(user);
+    if (user)
+      return response.status(200).json({
+        user: {
+          id: user.id,
+          email: user.email,
+          profileSetup: user.profileSetup,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          image: user.image,
+          Accounts: user.Accounts,
+          Transactions: user.Transactions,
+        },
+      });
+    else {
+      response.status(401);
+    }
+  } catch (err) {
+    console.log({ err });
+    return response.status(500).send("Internal server Error");
+  }
+
+
+}
+
+
 export const Add_transaction = async (request, response) => {
   try {
     let { Amount, Type, Category, userData } = request.body;

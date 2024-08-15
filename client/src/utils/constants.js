@@ -9,4 +9,6 @@ export const ADD_PROFILE_IMAGE_ROUTE = `${AUTH_ROUTES}/add-profile-image`;
 export const REMOVE_PROFILE_IMAGE_ROUTE = `${AUTH_ROUTES}/remove-profile-image`;
 export const LOGOUT_ROUTE = `${AUTH_ROUTES}/logout`;
 export const ADD_ACCOUNT =  `${ACCOUNT_ROUTES}/add_account`
+export const DELETE_ACCOUNT =  `${ACCOUNT_ROUTES}/delete_account`
+export const EDIT_ACCOUNT =  `${ACCOUNT_ROUTES}/edit_account`
 export const ADD_TRANSATION =  `${ACCOUNT_ROUTES}/add_transation`
