@@ -121,22 +121,20 @@ const Yearly = () => {
         }
       });
     }
-    console.log(Data);
+    
     setpassedData(Data);
   };
 
   const renderContent = () => {
     switch (num) {
       case 2:
-        return <AreaChartComponent />;
+        return <AreaChartComponent data={passedData}/>;
       case 1:
-        console.log("It's 1");
-        return <BarChartComponent />;
+        return <BarChartComponent data={passedData}/>;
       case 3:
-        console.log("It's 3");
-        return <LineChartComponent />;
+        return <LineChartComponent data={passedData}/>;
       default:
-        return <LineChartComponent />;
+        return <LineChartComponent data={passedData}/>;
     }
   };
 
