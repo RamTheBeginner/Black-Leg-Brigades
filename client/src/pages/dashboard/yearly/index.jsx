@@ -1,14 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AreaChartComponent from "../charts/components/areachart";
 import BarChartComponent from "../charts/components/barchart";
 import LineChartComponent from "../charts/components/linechart";
 import Charts from "../charts";
 import { ComboboxPopover } from "../finances/components/comboBox";
+import { transactionChange } from "@/store/reducers/AccountSlice";
 
 const Yearly = () => {
   const dispatch = useDispatch();
   const num = useSelector((state) => state.chart.value);
+  const user = useSelector((state) => state.user.value);
+  const [Categorylist, setCategorylist] = useState([]);
+  const [YearList, setYearList] = useState([])
+  const [userdata, setuserdata] = useState(null)
+
+  useEffect(() => {
+    dispatch(transactionChange(-1));
+    setuserdata(user.Transactions);
+  }, [])
+
+  useEffect(() =>{
+    generatelist();
+  },[userdata])
+
+  const generatelist = () => {
+    if(userdata){
+    let CategoryHash = {};
+    let yearHash = {};
+    let categary = [];
+    let year = [];
+
+    userdata.map((entry) => {
+      if(!CategoryHash[entry.Category]){
+        categary.push(entry.Category);
+        CategoryHash[entry.Category] = 2;
+
+
+      }
+
+      if(!yearHash[entry.Date.substring(7)]){
+        year.push("20" + entry.Date.substring(7));
+        yearHash[entry.Date.substring(7)]= 2;
+      }
+    })
+
+    setCategorylist(categary);
+    setYearList(year);
+  }
+  }
+
+
+  
 
   const renderContent = () => {
     switch (num) {
@@ -57,18 +100,17 @@ const Yearly = () => {
               <option value="defaultCategory" disabled>
                 Select Category
               </option>
-              <option value="Food">Food</option>
-              <option value="Travel">Travel</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Utilities">Utilities</option>
+              {Categorylist.map((cat) => (
+                <option value={cat}>{cat}</option>
+              ))}
             </select>
 
             <select
               className="ml-4 p-2 border rounded-md mt-7"
             >
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
+              {YearList.map((year) => (
+                <option value={year}>{year}</option>
+              ))}
             </select>
           </div>
 
