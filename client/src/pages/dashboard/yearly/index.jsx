@@ -1,14 +1,129 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AreaChartComponent from "../charts/components/areachart";
 import BarChartComponent from "../charts/components/barchart";
 import LineChartComponent from "../charts/components/linechart";
 import Charts from "../charts";
 import { ComboboxPopover } from "../finances/components/comboBox";
+import { transactionChange } from "@/store/reducers/AccountSlice";
 
 const Yearly = () => {
   const dispatch = useDispatch();
   const num = useSelector((state) => state.chart.value);
+  const user = useSelector((state) => state.user.value);
+  const transaction = useSelector((state) => state.transaction.value);
+
+  const [Categorylist, setCategorylist] = useState([]);
+  const [YearList, setYearList] = useState([]);
+  const [userdata, setuserdata] = useState(null);
+  const [selectedCategaty, setselectedCategaty] = useState("defaultCategory");
+  const [selectedYear, setselectedYear] = useState(null);
+  const [selecteddata, setselecteddata] = useState(null);
+  const [passedData, setpassedData] = useState(null);
+  const [changer, setchanger] = useState(0);
+  useEffect(() => {
+    dispatch(transactionChange(-1));
+    setuserdata(user.Transactions);
+    setselecteddata(user.Transactions);
+  }, []);
+
+  useEffect(() => {
+    generatelist();
+  }, [userdata]);
+
+  const generatelist = () => {
+    if (userdata) {
+      let CategoryHash = {};
+      let yearHash = {};
+      let categary = [];
+      let year = [];
+
+      userdata.map((entry) => {
+        if (!CategoryHash[entry.Category]) {
+          categary.push(entry.Category);
+          CategoryHash[entry.Category] = 2;
+        }
+
+        if (!yearHash[entry.Date.substring(6)]) {
+          year.push(entry.Date.substring(6));
+          yearHash[entry.Date.substring(6)] = 2;
+        }
+      });
+      setCategorylist(categary);
+      setYearList(year);
+      if (year[0]) setselectedYear(year[0]);
+    }
+  };
+
+  useEffect(() => {
+    filterData();
+  }, [selectedCategaty, selectedYear, transaction]);
+
+  const filterData = () => {
+    let data = user.Transactions;
+
+    if (transaction != -1)
+      data = data.filter(
+        (transaction1) =>
+          transaction1.Account._id === user.Accounts[transaction]._id
+      );
+    if (selectedCategaty != "defaultCategory")
+      data = data.filter((trans) => trans.Category === selectedCategaty);
+    data = data.filter((trans) => trans.Date.substring(6) == selectedYear);
+    setselecteddata(data);
+    setchanger(changer + 1);
+  };
+
+  const getMonthName = (monthNumber) => {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    // Subtract 1 because months are zero-indexed in JavaScript
+    return months[monthNumber - 1];
+  };
+
+  useEffect(() => {
+    getpasseddata();
+  }, [changer]);
+  const getpasseddata = () => {
+    let Hashmonth = {};
+    let Data = [];
+    let index = 0;
+    if (selecteddata) {
+      selecteddata.map((entry) => {
+        let month = getMonthName(entry.Date.substring(3, 5));
+
+        if (Hashmonth[month] == undefined) {
+          let newdata = {
+            name: month,
+            Credit: 0,
+            Debit: 0,
+          };
+
+          newdata[entry.Type] = entry.Amount;
+          Data.push(newdata);
+          Hashmonth[month] = index;
+          index++;
+        } else {
+          Data[Hashmonth[month]][entry.Type] += entry.Amount;
+        }
+      });
+    }
+    console.log(Data);
+    setpassedData(Data);
+  };
 
   const renderContent = () => {
     switch (num) {
@@ -52,23 +167,29 @@ const Yearly = () => {
 
             <select
               className="ml-4 p-2 border rounded-md mt-7"
-              defaultValue="defaultCategory"
+              value={selectedCategaty}
+              onChange={(e) => {
+                setselectedCategaty(e.target.value);
+              }}
             >
               <option value="defaultCategory" disabled>
                 Select Category
               </option>
-              <option value="Food">Food</option>
-              <option value="Travel">Travel</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Utilities">Utilities</option>
+              {Categorylist.map((cat) => (
+                <option value={cat}>{cat}</option>
+              ))}
             </select>
 
             <select
               className="ml-4 p-2 border rounded-md mt-7"
+              value={selectedYear}
+              onChange={(e) => {
+                setselectedYear(e.target.value);
+              }}
             >
-              <option value="2025">2025</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
+              {YearList.map((year) => (
+                <option value={year}>{year}</option>
+              ))}
             </select>
           </div>
 
