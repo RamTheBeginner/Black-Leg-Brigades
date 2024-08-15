@@ -1,10 +1,13 @@
 import { change } from "@/store/reducers/DasboardSlice";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import DialogBox from "../dialog";
+import { transactionChange } from "@/store/reducers/AccountSlice";
 
 const Account = () => {
   const dispatch = useDispatch();
+
+  const [type, setType] = useState(1)
   
   return (
     <div className="relative p-4 bg-[#dde7ee] min-h-dvh">
@@ -21,7 +24,9 @@ const Account = () => {
           Here you can add or update your account details. Use the form below to enter or modify information as needed.
         </p>
         
-        <DialogBox />
+        <DialogBox  name={'Add a Account'} type={1}   sub ={'create Account'} des ={'Give Data for your account here. Click save create youre done.'} />
+        <DialogBox  name={'Edit a Account'} type={2}  sub ={'save changes'} des={ 'Make changes to your account here. Click save when youre done.'} />
+        <DialogBox name={'Delete a Account'} type={3}  sub={'delete Account'} des={ 'Select your account here. Click delete when youre done.'} />
         
         <div className="mt-8 p-4 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-700 mb-3">Quick Tips</h2>
