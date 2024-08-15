@@ -75,9 +75,9 @@ export const Add_transaction = async (request, response) => {
     }
     let today = new Date();
     let formattedDate =
-      today.getDate() +
+      String(today.getDate()).padStart(2, "0") +
       "/" +
-      (today.getMonth() + 1) +
+      String(today.getMonth() + 1).padStart(2, "0") +
       "/" +
       today.getFullYear();
     let newtransaction = await Transaction.create({
