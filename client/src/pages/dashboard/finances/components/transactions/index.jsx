@@ -89,6 +89,7 @@ const Transactions = () => {
               }}
               className="p-2 rounded-lg shadow-md w-52"
               placeholder="Enter amount"
+              min={0}
             />
           </div>
 
@@ -112,7 +113,7 @@ const Transactions = () => {
             <input
               type="text"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={handleCategoryChange}
               className="p-2 rounded-lg shadow-md w-52"
               placeholder="Enter category"
             />
