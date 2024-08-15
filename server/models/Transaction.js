@@ -20,7 +20,11 @@ const TransactionSchema = new mongoose.Schema({
     required:true
   },
   Date:{
-    type:String
+    type:String,
+  },
+  isDeletable:{
+    type: Number,
+    default: 1
   }
 });
 
