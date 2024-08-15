@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 import TradingViewWidget from "./ticker";
 import TradingViewTickersWidget from "./widget";
+import News from "./news";
 
 const Home = () => {
  const num = useSelector((state) => state.user.value)
@@ -25,8 +26,8 @@ const Home = () => {
    
       <div className="flex w-full">
        
-        <div className="flex-grow bg-gray-100">
-
+      <div className="flex-grow bg-gray-100 p-4">
+          <News/>
         </div>
 
         {/* Right side - TradingView Widget */}
