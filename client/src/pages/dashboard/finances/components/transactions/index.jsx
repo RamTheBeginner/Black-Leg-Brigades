@@ -27,7 +27,8 @@ const Transactions = () => {
   };
 
   const handleSubmit = async () => {
-    if (!amount || !transactionType || !category || !transaction) {
+    if (!amount || !transactionType || !category || transaction == -1) {
+      
       toast.error("All the fields are required");
     } else {
       if (

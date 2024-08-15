@@ -66,14 +66,14 @@ import {
           <Legend />
           <Area
             type="monotone"
-            dataKey="product1"
+            dataKey="Credit"
             stroke="#2563eb"
             fill="#3b82f6"
             stackId="1"
           />
           <Area
             type="monotone"
-            dataKey="product2"
+            dataKey="Debit"
             stroke="#7c3aed"
             fill="#8b5cf6"
             stackId="1"
@@ -90,11 +90,11 @@ import {
         <div className="p-4 bg-[#aed0e8] flex flex-col gap-4 rounded-md">
           <p className="text-medium text-lg">{label}</p>
           <p className="text-sm text-blue-400">
-            Product 1:
+            Credit:
             <span className="ml-2">${payload[0].value}</span>
           </p>
           <p className="text-sm text-indigo-400">
-            Product 2:
+            Debit:
             <span className="ml-2">${payload[1].value}</span>
           </p>
         </div>

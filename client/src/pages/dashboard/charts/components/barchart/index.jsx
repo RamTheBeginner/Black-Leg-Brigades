@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -8,66 +8,104 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-} from 'recharts';
+} from "recharts";
+
+const monthToNumber = {
+  January: 1,
+  February: 2,
+  March: 3,
+  April: 4,
+  May: 5,
+  June: 6,
+  July: 7,
+  August: 8,
+  September: 9,
+  October: 10,
+  November: 11,
+  December: 12,
+};
+
+const sortDataByMonth = (data) => {
+  return data.sort((a, b) => monthToNumber[a.name] - monthToNumber[b.name]);
+};
 
 const salesData1 = [
   {
-    name: 'Jan',
+    name: "Jan",
     revenue: 4000,
     profit: 2400,
   },
   {
-    name: 'Feb',
+    name: "Feb",
     revenue: 3000,
     profit: 1398,
   },
   {
-    name: 'Mar',
+    name: "Mar",
     revenue: 9800,
     profit: 2000,
   },
   {
-    name: 'Apr',
+    name: "Apr",
     revenue: 3908,
     profit: 2780,
   },
   {
-    name: 'May',
+    name: "May",
     revenue: 4800,
     profit: 1890,
   },
   {
-    name: 'Jun',
+    name: "Jun",
     revenue: 3800,
     profit: 2390,
   },
 ];
 
 const BarChartComponent = (props) => {
+  const [salesData, setproductSales] = useState(sortDataByMonth(salesData1));
 
-  const [salesData, setproductSales] = useState(salesData1)
+  useEffect(() => {
+    console.log(props.data)
+    if (props.data) {
+      const sortedData = sortDataByMonth(props.data);
+      setproductSales(sortedData);
+    }
+  }, [props.data]);
 
-    useEffect(()=>{
-      setproductSales(props.data);
-    },[props.data])
   return (
-    <div style={{ width: '100%', height: '400px' }}> {/* Ensures the parent container has a defined height */}
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={salesData}
-          margin={{
-            right: 30,
+    <div style={{ width: "100%", height: "400px" }}>
+      {salesData && salesData.length > 0 ? (
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={salesData}
+            margin={{
+              right: 30,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend />
+            <Bar dataKey="Credit" fill="#2563eb" />
+            <Bar dataKey="Debit" fill="#8b5cf6" />
+          </BarChart>
+        </ResponsiveContainer>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            fontSize: "1.5rem",
+            color: "#888",
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip content={<CustomTooltip />} />
-          <Legend />
-          <Bar dataKey="revenue" fill="#2563eb" />
-          <Bar dataKey="profit" fill="#8b5cf6" />
-        </BarChart>
-      </ResponsiveContainer>
+          NO DATA
+        </div>
+      )}
     </div>
   );
 };
@@ -78,11 +116,11 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="p-4 bg-[#aed0e8] flex flex-col gap-4 rounded-md">
         <p className="text-medium text-lg">{label}</p>
         <p className="text-sm text-blue-400">
-          Revenue:
+          Credit:
           <span className="ml-2">${payload[0].value}</span>
         </p>
         <p className="text-sm text-indigo-400">
-          Profit:
+          Debit:
           <span className="ml-2">${payload[1].value}</span>
         </p>
       </div>

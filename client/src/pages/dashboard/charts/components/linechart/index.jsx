@@ -64,8 +64,8 @@ const LineChartComponent = (props) => {
           <YAxis />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
-          <Line type="monotone" dataKey="revenue" stroke="#3b82f6" />
-          <Line type="monotone" dataKey="profit" stroke="#8b5cf6" />
+          <Line type="monotone" dataKey="Credit" stroke="#3b82f6" />
+          <Line type="monotone" dataKey="Debit" stroke="#8b5cf6" />
         </LineChart>
       </ResponsiveContainer>
     </div>
@@ -78,11 +78,11 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div className="p-4 bg-[#aed0e8] flex flex-col gap-4 rounded-md">
         <p className="text-medium text-lg">{label}</p>
         <p className="text-sm text-blue-400">
-          Revenue:
+          Credit:
           <span className="ml-2">${payload[0].value}</span>
         </p>
         <p className="text-sm text-indigo-400">
-          Profit:
+          Debit:
           <span className="ml-2">${payload[1].value}</span>
         </p>
       </div>
