@@ -1,24 +1,21 @@
 import { doSignOut } from "@/config/auth";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar } from "@radix-ui/react-avatar";
 import { FiMenu } from "react-icons/fi";
 import { useSelector } from "react-redux";
+
 const Nav = () => {
   const users = useSelector((state) => state.user.value);
-
   const navigate = useNavigate();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const dropdownRef = useRef(null);
 
   const handleLogout = async () => {
     toast.loading("Logging out...");
@@ -33,48 +30,90 @@ const Nav = () => {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [dropdownRef]);
-
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-[#81a5ba] text-xl py-3 dark:bg-neutral-800">
-      <nav className="max-w-[85rem] w-full h-12 mx-auto px-4 sm:flex sm:items-center sm:justify-between text-black">
-        <div className="flex justify-between items-center w-full sm:w-auto">
+    <header className="w-full bg-[#81a5ba] text-xl py-3 dark:bg-neutral-800">
+      <nav className="max-w-[85rem] w-full mx-auto px-4 flex items-center justify-between">
+        {/* Brand Logo */}
+        <div className="flex items-center">
           <NavLink
-            className="flex-none font-semibold text-xl focus:outline-none focus:opacity-80 dark:text-black"
+            className="font-semibold text-xl dark:text-black"
             to="/"
             aria-label="Brand"
           >
             Brand
           </NavLink>
-          <button
-            className="sm:hidden text-2xl"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <FiMenu />
-          </button>
         </div>
 
-        <div
-          className={`${
-            menuOpen ? "block" : "hidden"
-          } sm:flex flex-col sm:flex-row items-center gap-5 sm:justify-end sm:mt-0 sm:ps-5`}
-          ref={dropdownRef}
-        >
+        {/* Hamburger Menu for Mobile */}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="sm:hidden text-2xl ">
+            <FiMenu />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-[#b2daf1] dark:bg-neutral-700">
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <NavLink to="/" onClick={() => setMenuOpen(false)}>
+                Home
+              </NavLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <NavLink to="/dashboard" onClick={() => setMenuOpen(false)}>
+               Dashboard
+              </NavLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <NavLink to="/about" onClick={() => setMenuOpen(false)}>
+                About
+              </NavLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <NavLink to="/services" onClick={() => setMenuOpen(false)}>
+                Services
+              </NavLink>
+            </DropdownMenuItem>
+
+            {/* Profile Dropdown for Mobile */}
+            <DropdownMenuItem asChild>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex items-center gap-2">
+                    <Avatar className="rounded-full overflow-hidden bg-blue-400 w-8 h-8">
+                      {users.image ? (
+                        <img
+                          src={users.image}
+                          alt="User Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-white font-semibold">
+                          {users.firstName.charAt(0)}
+                        </span>
+                      )}
+                    </Avatar>
+                    <span>{users.firstName}</span>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-[#f0f0f0] dark:bg-neutral-700">
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate("/profile")}>
+                    Edit Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>Billing</DropdownMenuItem>
+                  <DropdownMenuItem>Team</DropdownMenuItem>
+                  <DropdownMenuItem>Subscription</DropdownMenuItem>
+
+                  <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Desktop Menu - Right Aligned */}
+        <div className="hidden sm:flex gap-5 ml-auto mr-3">
           <NavLink
-            className="font-medium hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+            className="font-medium hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500"
             to="/"
-            onClick={() => setMenuOpen(false)}
           >
             Home
           </NavLink>
@@ -86,20 +125,27 @@ const Nav = () => {
             Dashboard
           </NavLink>
           <NavLink
-            className="font-medium hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
+            className="font-medium hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500"
+            to="/about"
+          >
+            About
+          </NavLink>
+          <NavLink
+            className="font-medium hover:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500"
             to="/services"
-            onClick={() => setMenuOpen(false)}
           >
             Services
           </NavLink>
+
+          {/* User Account for Desktop */}
           <DropdownMenu>
-            <DropdownMenuTrigger className="border-0">
+            <DropdownMenuTrigger className="flex items-center">
               <Avatar className="rounded-full overflow-hidden bg-blue-400 w-8 h-8">
                 {users.image ? (
                   <img
                     src={users.image}
                     alt="User Avatar"
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <span className="text-white font-semibold">
@@ -108,8 +154,7 @@ const Nav = () => {
                 )}
               </Avatar>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuContent className="bg-white dark:bg-neutral-700">
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate("/profile")}>
                 Edit Profile
@@ -117,9 +162,7 @@ const Nav = () => {
               <DropdownMenuItem>Billing</DropdownMenuItem>
               <DropdownMenuItem>Team</DropdownMenuItem>
               <DropdownMenuItem>Subscription</DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogout}>
-                Logout
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
