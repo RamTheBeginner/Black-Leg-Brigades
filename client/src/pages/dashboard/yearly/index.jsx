@@ -4,6 +4,7 @@ import AreaChartComponent from "../charts/components/areachart";
 import BarChartComponent from "../charts/components/barchart";
 import LineChartComponent from "../charts/components/linechart";
 import Charts from "../charts";
+import { ComboboxPopover } from "../finances/components/comboBox";
 
 const Yearly = () => {
   const dispatch = useDispatch();
@@ -14,10 +15,10 @@ const Yearly = () => {
       case 2:
         return <AreaChartComponent />;
       case 1:
-        console.log("It's 1")
+        console.log("It's 1");
         return <BarChartComponent />;
       case 3:
-        console.log("It's 3")
+        console.log("It's 3");
         return <LineChartComponent />;
       default:
         return <LineChartComponent />;
@@ -46,8 +47,35 @@ const Yearly = () => {
             This section provides a summary of your yearly transactions. Use the
             visualization below to get detailed insights.
           </p>
+          <div className="flex items-center">
+            <ComboboxPopover />
 
-          <div className="mt-4"><Charts/></div>
+            <select
+              className="ml-4 p-2 border rounded-md mt-7"
+              defaultValue="defaultCategory"
+            >
+              <option value="defaultCategory" disabled>
+                Select Category
+              </option>
+              <option value="Food">Food</option>
+              <option value="Travel">Travel</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Utilities">Utilities</option>
+            </select>
+
+            <select
+              className="ml-4 p-2 border rounded-md mt-7"
+            >
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
+
+          <div className="mt-4">
+            <Charts />
+          </div>
+
           <div className="mt-4">{renderContent()}</div>
         </div>
       </main>
