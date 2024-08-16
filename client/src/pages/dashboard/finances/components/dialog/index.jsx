@@ -176,14 +176,17 @@ const DialogBox = (props) => {
                     <div className="col-span-3 flex items-center space-x-2">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="outline ">{position}</Button>
+                          <Button  disabled = {props.type !== 1} variant="outline ">{position}</Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-56">
-                          <DropdownMenuLabel>Choose Type</DropdownMenuLabel>
+                        <DropdownMenuContent
+                        className="w-56">
+                          <DropdownMenuLabel
+                          >Choose Type</DropdownMenuLabel>
                           <DropdownMenuSeparator />
                           <DropdownMenuRadioGroup
                             value={position}
                             onValueChange={setPosition}
+                            
                           >
                             <DropdownMenuRadioItem value="Credit">
                               Credit
