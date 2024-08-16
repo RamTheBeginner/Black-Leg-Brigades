@@ -7,6 +7,7 @@ import { ADD_TRANSATION } from "@/utils/constants";
 import { apiClient } from "@/lib/api-client";
 import { userChange } from "@/store/reducers/UserSlice";
 import { toast } from "sonner";
+import { TableDemo } from "./components/table"; // Ensure this path is correct
 
 const Transactions = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const Transactions = () => {
   const [transactionType, setTransactionType] = useState("");
   const [category, setCategory] = useState("");
   const [loading, setLoading] = useState(false);
+  const [table, setTable] = useState(false);
 
   const transaction = useSelector((state) => state.transaction.value);
   const user = useSelector((state) => state.user.value);
@@ -28,7 +30,6 @@ const Transactions = () => {
 
   const handleSubmit = async () => {
     if (!amount || !transactionType || !category || transaction == -1) {
-      
       toast.error("All the fields are required");
     } else {
       if (
@@ -119,13 +120,34 @@ const Transactions = () => {
               placeholder="Enter category"
             />
           </div>
+
+          {/* Submit Button */}
           <div>
             <Button className="mt-8" disabled={loading} onClick={handleSubmit}>
-              submit
+              Submit
             </Button>
           </div>
         </div>
 
+        {/* Edit Transaction Button */}
+        <div className="flex justify-center">
+          <Button
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200"
+            onClick={() => setTable(!table)}
+          >
+            {
+              table ? "Close" : "See Your Transactions"
+            }
+          </Button>
+        </div>
+
+        {table && (
+          <div className="mt-8">
+            <TableDemo />
+          </div>
+        )}
+
+        {/* Transaction Tips */}
         <div className="mt-8 p-4 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-700 mb-3 items-start">
             Transaction Tips
