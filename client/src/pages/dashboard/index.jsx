@@ -9,6 +9,7 @@ import Nav from "../nav";
 import Manage from "./finances";
 import Account from "./finances/components/account";
 import Transactions from "./finances/components/transactions";
+import Weekly from "./weekly";
 
 const Dashboard = () => {
   const num = useSelector((state) => state);
@@ -17,6 +18,8 @@ const Dashboard = () => {
     switch (num.switcher.value) {
       case 0:
         return <Stats />;
+      case 4:
+        return <Weekly />
       case 5:
         return <Daily />;
       case 6:
