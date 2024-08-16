@@ -102,7 +102,7 @@ const DialogBox = (props) => {
     <>
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">{props.name}</Button>
+          <Button variant="outline" style={{ backgroundColor: props.color }}>{props.name}</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -156,11 +156,11 @@ const DialogBox = (props) => {
 
                   {position === "Credit" && (
                     <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="Cerbit_limit" className="text-right">
+                      <Label htmlFor="Cerdit_limit" className="text-right">
                         Credit Limit
                       </Label>
                       <Input
-                        id="Cerbit_limit"
+                        id="Cerdit_limit"
                         className="col-span-3"
                         placeholder="0"
                         value={creditLimit}
