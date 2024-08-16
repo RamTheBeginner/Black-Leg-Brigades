@@ -8,11 +8,14 @@ import { ComboboxPopover } from "../finances/components/comboBox";
 import { transactionChange } from "@/store/reducers/AccountSlice";
 
 function getWeekNumberInMonth(dateString) {
-  
-  const [day, month, year] = dateString.split('/').map(Number);
+  const [day, month, year] = dateString.split("/").map(Number);
   const givenDate = new Date(year, month - 1, day);
   const dayOfMonth = givenDate.getDate();
-  const firstDayOfMonth = new Date(givenDate.getFullYear(), givenDate.getMonth(), 1);
+  const firstDayOfMonth = new Date(
+    givenDate.getFullYear(),
+    givenDate.getMonth(),
+    1
+  );
   const dayOfWeekFirstDay = firstDayOfMonth.getDay();
   const offset = dayOfWeekFirstDay === 0 ? 6 : dayOfWeekFirstDay - 1;
   const weekNumber = Math.ceil((dayOfMonth + offset) / 7);
@@ -43,7 +46,6 @@ const Monthly = () => {
     setselecteddata(user.Transactions);
   }, []);
 
-
   const getMonthName = (monthNumber) => {
     const months = [
       "January",
@@ -63,7 +65,6 @@ const Monthly = () => {
     // Subtract 1 because months are zero-indexed in JavaScript
     return months[monthNumber - 1];
   };
-
 
   useEffect(() => {
     generatelist();
@@ -86,8 +87,8 @@ const Monthly = () => {
 
         const entryDate = new Date(entry.Date);
         const yearString = entry.Date.substring(6);
-        
-        const monthString = getMonthName(entry.Date.substring(3,5));
+
+        const monthString = getMonthName(entry.Date.substring(3, 5));
         if (!yearHash[yearString]) {
           year.push(yearString);
           yearHash[yearString] = 2;
@@ -121,14 +122,15 @@ const Monthly = () => {
           transaction1.Account._id === user.Accounts[transaction]._id
       );
 
-
     if (selectedCategory != "defaultCategory")
       data = data.filter((trans) => trans.Category === selectedCategory);
 
-    data = data.filter((trans) => getMonthName(trans.Date.substring(3,5)) == selectedMonth)
+    data = data.filter(
+      (trans) => getMonthName(trans.Date.substring(3, 5)) == selectedMonth
+    );
     data = data.filter((trans) => trans.Date.substring(6) == selectedYear);
     setselecteddata(data);
-    
+
     setchanger(changer + 1);
   };
 
@@ -143,7 +145,6 @@ const Monthly = () => {
 
     if (selecteddata) {
       selecteddata.forEach((entry) => {
-       
         const weekNumber = getWeekNumberInMonth(entry.Date);
         const weekKey = `Week ${weekNumber}`;
 
@@ -224,30 +225,30 @@ const Monthly = () => {
 
             <select
               className="ml-4 p-2 border rounded-md mt-7"
-              value={selectedYear}
-              onChange={(e) => {
-                setselectedYear(e.target.value);
-              }}
-            >
-             
-              {YearList.map((year) => (
-                <option value={year} key={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-
-            <select
-              className="ml-4 p-2 border rounded-md mt-7"
               value={selectedMonth}
               onChange={(e) => {
                 setselectedMonth(e.target.value);
               }}
             >
-              <option value="" disabled>Select Month</option>
+              <option value="" disabled>
+                Select Month
+              </option>
               {MonthList.map((month) => (
                 <option value={month} key={month}>
                   {month}
+                </option>
+              ))}
+            </select>
+            <select
+              className="ml-4 p-2 border rounded-md mt-7"
+              value={selectedYear}
+              onChange={(e) => {
+                setselectedYear(e.target.value);
+              }}
+            >
+              {YearList.map((year) => (
+                <option value={year} key={year}>
+                  {year}
                 </option>
               ))}
             </select>
