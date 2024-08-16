@@ -12,3 +12,5 @@ export const ADD_ACCOUNT =  `${ACCOUNT_ROUTES}/add_account`
 export const DELETE_ACCOUNT =  `${ACCOUNT_ROUTES}/delete_account`
 export const EDIT_ACCOUNT =  `${ACCOUNT_ROUTES}/edit_account`
 export const ADD_TRANSATION =  `${ACCOUNT_ROUTES}/add_transation`
+export const DELETE_TRANSATION =  `${ACCOUNT_ROUTES}/delete_transation`
+export const EDIT_TRANSATION =  `${ACCOUNT_ROUTES}/edit_transation`

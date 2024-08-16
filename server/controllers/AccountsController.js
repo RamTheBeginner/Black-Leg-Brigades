@@ -233,3 +233,77 @@ export const Add_transaction = async (request, response) => {
     return response.status(500).send("Internal server Error");
   }
 };
+
+export const edit_transation = async (request, response) => {
+  try {
+    let { Amount,Type, Category, userData,perviousdata } = request.body;
+    let Amount1 = perviousdata.Amount;
+    if (perviousdata.Type === "Credit") {
+      Amount1 = -perviousdata.Amount;
+    }
+
+    let Amount2 = Amount
+
+    if(Type !== "Credit"){
+      Amount2 = -Amount
+    }
+    let today = new Date();
+    let formattedDate =
+      String(today.getDate()).padStart(2, "0") +
+      "/" +
+      String(today.getMonth() + 1).padStart(2, "0") +
+      "/" +
+      today.getFullYear();
+    let newtransaction = await Transaction.findByIdAndUpdate(perviousdata._id,{
+      Amount,
+      Category,
+      Type,
+      Date: formattedDate,
+      Account: request.body.Account
+    });
+
+
+    let udpateaccount = await Account.findByIdAndUpdate(
+      request.body.Account,
+      { $inc: { balance: Amount2 } },
+      { new: true }
+    );
+
+    await Account.findByIdAndUpdate(
+      perviousdata.Account._id,
+        {$inc : { balance: Amount1}}
+    )
+
+    let user = await User.findById(
+      userData
+    )
+      .populate("Accounts")
+      .populate({
+        path: "Transactions",
+        populate: {
+          path: "Account",
+        },
+      });
+
+    if (user)
+      return response.status(200).json({
+        user: {
+          id: user.id,
+          email: user.email,
+          profileSetup: user.profileSetup,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          image: user.image,
+          Accounts: user.Accounts,
+          Transactions: user.Transactions,
+        },
+      });
+    else {
+      response.status(401);
+    }
+  } catch (err) {
+    console.log({ err });
+    return response.status(500).send("Internal server Error");
+  }
+};
+
