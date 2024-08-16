@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const chartSlice = createSlice({
   name: 'chart',
   initialState: {
-    value: 0,
+    value: 3,
   },
   reducers: {
     vary: (state, action) => {
