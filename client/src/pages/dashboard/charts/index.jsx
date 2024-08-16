@@ -6,7 +6,6 @@ const Charts = () => {
   const num = useSelector((state) => state.chart.value);
   const dispatch = useDispatch();
 
-  // Define a common button style
   const buttonStyle = "py-2 px-4 rounded-lg text-white font-semibold transition-transform transform hover:scale-105";
 
   return (

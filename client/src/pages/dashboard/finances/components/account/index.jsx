@@ -24,9 +24,11 @@ const Account = () => {
           Here you can add or update your account details. Use the form below to enter or modify information as needed.
         </p>
         
-        <DialogBox  name={'Add a Account'} type={1}   sub ={'create Account'} des ={'Give Data for your account here. Click save create youre done.'} />
-        <DialogBox  name={'Edit a Account'} type={2}  sub ={'save changes'} des={ 'Make changes to your account here. Click save when youre done.'} />
-        <DialogBox name={'Delete a Account'} type={3}  sub={'delete Account'} des={ 'Select your account here. Click delete when youre done.'} />
+        <div className="flex items-center justify-around bg-[#dde7ee] shadow-md p-4 rounded-md">
+        <DialogBox color={'#32cd90'} name={'Add a Account'} type={1}   sub ={'create Account'} des ={'Give Data for your account here. Click save create youre done.'} />
+        <DialogBox color={'#c2d827'} name={'Edit a Account'} type={2}  sub ={'save changes'} des={ 'Make changes to your account here. Click save when youre done.'} />
+        <DialogBox color={'#cc3b33'} name={'Delete a Account'} type={3}  sub={'delete Account'} des={ "Select your account here. Click delete when your'e done."} />
+        </div>
         
         <div className="mt-8 p-4 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-700 mb-3">Quick Tips</h2>
