@@ -49,15 +49,16 @@ const Daily = () => {
           yearHash[entry.Date] = 2;
         }
       });
-      setCategorylist(categary);
+     
       setYearList(year);
       if (year[0]) setselectedYear(year[0]);
+
     }
   };
 
   useEffect(() => {
     filterData();
-  }, [selectedCategory, transaction]);
+  }, [transaction,selectedYear]);
 
   const filterData = () => {
     let data = user.Transactions;
@@ -141,20 +142,6 @@ const Daily = () => {
           <div className="flex items-center">
             <ComboboxPopover />
 
-            <select
-              className="ml-4 p-2 border rounded-md mt-7"
-              value={selectedCategory}
-              onChange={(e) => {
-                setselectedCategory(e.target.value);
-              }}
-            >
-              <option value="defaultCategory" disabled>
-                Select Category
-              </option>
-              {Categorylist.map((cat) => (
-                <option value={cat}>{cat}</option>
-              ))}
-            </select>
             <select
             className="ml-4 p-2 border rounded-md mt-7"
             value={selectedYear}
