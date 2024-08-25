@@ -67,3 +67,34 @@
     @apply bg-background text-foreground;
   }
 }
+/* Define the animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(50px); /* Start 50px below its original position */
+    opacity: 0; /* Start with opacity 0 */
+  }
+  to {
+    transform: translateY(0); /* Move to its original position */
+    opacity: 1; /* End with full opacity */
+  }
+}
+
+/* Apply the animation */
+.animate-slide-up {
+  animation: slideUp 0s ease-out;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(50px); /* Start 50px below its original position */
+    opacity: 0; /* Start with opacity 0 */
+  }
+  to {
+    transform: translateY(0); /* Move to its original position */
+    opacity: 1; /* End with full opacity */
+  }
+}
+
+/* Apply the animation */
+.animate-slide-up {
+  animation: slideUp 1s ease-out;
+}

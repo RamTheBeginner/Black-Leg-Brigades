@@ -1,26 +1,39 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const bodyParser = require("body-parser");
-mongoose.connect("mongodb+srv://polisettys3:1z4yeRhZFOsaTyCV@black-leg-brigades.tulsbpi.mongodb.net/?retryWrites=true&w=majority&appName=Black-Leg-Brigades");
+import express from "express"
+import dotenv from "dotenv"
+import cors from "cors"
+import cookieParser from "cookie-parser"
+import mongoose from "mongoose"
+import authRoutes from "./routes/AuthRoutes.js"
+import accountRoutes from "./routes/AccountRoute.js"
+
+dotenv.config();
+
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 8747;
+const databaseURL  = process.env.DATABASE_URL
 
-app.use(bodyParser.json());
-app.use(
-	cors({
-		origin: "http://localhost:3000",
-		methods: "GET,POST,PUT,DELETE",
-		credentials: true,
-	})
-);
-app.use('/api/analysis',require('./middleware/analysis'))
-app.use('/api/dashboard',require('./middleware/dashboard'));
-app.use('/api/transcaution',require('./middleware/transaution'))
-app.use('/api/investment',require('./middleware/investment'));
-app.use('/api',require('./middleware/signup'));
+app.use(cors({
+    origin: process.env.ORIGIN, 
+    methods: ["GET" , "POST" , "PUT" , "PATCH" , "DELETE"], // REST API Methods
+    credentials: true,
+}))
+
+app.use(cookieParser());
+app.use(express.json());
+
+app.use("/api/auth", authRoutes);
+app.use("/api/account",accountRoutes)
+
+const server = app.listen(port , () => {
+    console.log({port})
+    console.log(`Server is running at http://localhost:${port}`)
+})
 
 
-app.listen(port, () => {
-	console.log(`server is running on port ${port}`);
-});
+mongoose.connect(databaseURL)
+  .then(() => {
+    console.log("DB Connection successful");
+  })
+  .catch(err => {
+    console.log(err.message);
+  });
